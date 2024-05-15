@@ -1,0 +1,372 @@
+{
+  "error": {
+    "unknown": "Something went wrong. Please try again!",
+    "web": {
+      "unauthenticated": "You should be authenticated to perform this action"
+    },
+    "client": {
+      "connection": "Something is wrong with your connection to the server or internet"
+    },
+    "server": {
+      "unreacheable": "Can't connect to the server — the server is unreacheable"
+    },
+    "connection": {
+      "proofspace": {
+        "config": "Can't sync Proofspace integration configuration from the server"
+      }
+    },
+    "integration": {
+      "authenticated": {
+        "only": "Organization integration will work only for authenticated user"
+      },
+      "auth": {
+        "failed": "Failed to authenticate user of integrated service in the voting system"
+      },
+      "configured": "Integration isn't configured on this site",
+      "general": "Integration of voting system with the current site stoped working",
+      "unauthorized": "Integration is unauthorized",
+      "role": "No user role returned from the voting system"
+    },
+    "vocdoni": {
+      "voting": {
+        "census": {
+          "no": "You can't publish a poll with an empty or without a census",
+          "notpublished": "You can't publish the poll until the census is published",
+          "create": "No create method in Vocdoni voting strategy",
+          "register": "No create register in Vocdoni voting strategy",
+          "check": "No check method in Vocdoni voting strategy",
+          "publish": "No publish method in Vocdoni voting strategy"
+        }
+      }
+    },
+    "proofspace": {
+      "error": "Proofspace failed to support this action",
+      "qr": {
+        "auth": "Can't render QR code of authentication",
+        "register": "Can't render QR code of authentication"
+      }
+    },
+    "poll": {
+      "not": {
+        "started": "The poll isn't started - you can't vote in a poll that isn't started",
+        "defined": "The poll isn't linked to poll service — you can't vote in the poll that doesn't really exist"
+      },
+      "noproof": "Something really wrong happened with your process. Please, contant support with error code: noproof",
+      "multiproof": {
+        "support": "Current voting application version doesn't support multiproof votings"
+      },
+      "proof": {
+        "malformed": "The voting you try to participate is malformed, please contant support!"
+      },
+      "unknown": "Some went wrong with the poll",
+      "no": "No poll to show information about",
+      "casted": "You already casted a vote in this poll",
+      "registration": "You can authorize for the poll only during the registration or voting"
+    },
+    "answers": {
+      "malformed": "Your vote is malformed - the ballot is broken. You can't vote this way"
+    },
+    "validator": {
+      "missed": "Your credentials don't satify requirements for participation in this voting. Please, read the guide for the voting."
+    },
+    "unallowed": {
+      "country": "Voter from this country is unallowed",
+      "age": "You need to be at least 18 years old to participate in this voting"
+    }
+  },
+  "common": {
+    "resultbox": {
+      "title": {
+        "success": "Success",
+        "error": "Error"
+      },
+      "button": {
+        "continue": "Continue",
+        "retry": "Try again"
+      },
+      "error": {
+        "subtitle": "Something went wrong",
+        "vote": "Vote related error!",
+        "poll": "Interaction with the poll failed!",
+        "connection": "Failed to connect to voting service!",
+        "credWallet": "Proofpsace can't authenticate your wallet or credentials!",
+        "authentication": "Voting service rejected your authentication!",
+        "integrationUnauthorized": "Your organization manager hasn't registered your organization into voting system!",
+        "integration": "Site integration error!",
+        "message": "Message: {{message}}",
+        "default": "Ups! We don't know what has happened!"
+      }
+    },
+    "auth": {
+      "choice": {
+        "title": "Welcome to New Belarus Voting",
+        "subtitle": "Your safe and secure polls and votings",
+        "login": "Login",
+        "register": "Register",
+        "result": {
+          "success": "You are authenticated with nickname: \"{{name}}\"!",
+          "error": "During authentication process somehting unexpected happened!"
+        }
+      },
+      "integrated": {
+        "result": {
+          "success": "You are authenticated under nickname: {{name}}",
+          "error": "During authentication process somehting unexpected happened!"
+        }
+      },
+      "auth": {
+        "step1": {
+          "title": "Authentication — step 1",
+          "walletWhy": "To use the voting system you need to load a voting key (profile) from Proofpsace credentials wallet. It's required for both voting and managing polls.",
+          "scan": "Scan the QR code with Proofspace application to load your voting key (profile).",
+          "download": "You can scan the QR code with your phone to download the Proofspace wallet app, or use the download links below."
+        },
+        "stepper": {
+          "header": "Easy steps",
+          "title1": "Proofspace login",
+          "descr1": "Scan QR code with your Proofspace wallet containing voting key (profile)",
+          "title2": "Open voting profile",
+          "descr2": "Recall password from your voting profile. It was created during first registration in the server. Unfortunatly it can't be restored.",
+          "title3": "Enjoy!"
+        }
+      },
+      "register": {
+        "step1": {
+          "title": "Registration — step 1",
+          "walletWhy": "To use the voting system you need to create a voting key (profile) into Proofpsace credentials wallet. It's required for both voting and managing polls.",
+          "scan": "Scan the QR code with Proofspace application to create your voting key (profile).",
+          "download": "You can scan the QR code with your phone to download the Proofspace wallet app, or use the download links below."
+        },
+        "step2": {
+          "title": "Registration — step 2"
+        },
+        "stepper": {
+          "header": "Easy steps",
+          "title1": "Proofspace login",
+          "descr1": "Setup Proofspace application and add there your new voting profile.",
+          "title2": "Set password",
+          "descr2": "Create a cryptographic password for your voting profile.",
+          "title3": "Enjoy!"
+        }
+      },
+      "create": {
+        "error": {
+          "passwordMatch": "Confirmation doesn't match password",
+          "nameEmpty": "Voter name can't be empty",
+          "passwordEmpty": "Password can't be empty"
+        },
+        "header": "Create your voting profile",
+        "subheader": "Profile detials",
+        "why": {
+          "cause": "To manage your data in decentralized voting system you need a voting key (profile).",
+          "proofspace": "Your voting profile will be stored into your Proofspace wallet instead of our service.",
+          "pincode": "To make your voting profile absolutely secured, pleased provide password / pincode. It will encrypt your voting profile and key.",
+          "precaution": "We won't store your password anywhere, and it will be imposible to restore it.",
+          "remember": "PLEASE REMEMBER YOUR PASSWORD! It's not recoverable!"
+        },
+        "fields": {
+          "name": "Voter name",
+          "password": "Password",
+          "confirmation": "Confirm password"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create voting key"
+        }
+      },
+      "open": {
+        "error": {
+          "broken": "Incorrect password or keystore is broken",
+          "passwordEmpty": "Password can't be empty"
+        },
+        "header": "Open your votting wallet",
+        "why": {
+          "cause": "You loaded your voting profile from your Proofspace wallet",
+          "pincode": "Use the password (pincode) you remember to open (decipher) your voting profile",
+          "caution": "You should recall your password, cause it can't be restored!"
+        },
+        "fields": {
+          "password": "Password"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "open": "Open voting profile"
+        }
+      },
+      "telegram": {
+        "header": "Telegram Authorization Pincode",
+        "why": {
+          "main": "This voting requires you to authorize via telegram. If you see this window, you need to: ",
+          "primary": "Look for the pincode from Telegram Bot, if you get here using the bot;",
+          "secondary": "Or open Telegram bot with this link and start from there: "
+        },
+        "field": {
+          "pin": {
+            "label": "Pin-code",
+            "hint": "Enter pin-code from Telegram bot here",
+            "error": {
+              "unknown": "Unkown error happened",
+              "pattern": "Pin-code has incorrect format",
+              "minLengh": "Pin-code should be at least 4 symobls",
+              "maxLengh": "Pin-code should be at max 9 symobls",
+              "required": "Pin-code is required for authorization",
+              "wrong": "Wrong pincode provided! You can try to get a valid pincode via a voting bot!"
+            }
+          }
+        },
+        "action": {
+          "cancel": "Cancel",
+          "auth": "Authorize"
+        }
+      }
+    },
+    "authorization": {
+      "howto": {
+        "title": "Additional steps to proceed",
+        "subheader": "You succesfully created a voting key, but following setps required additional credentials. Please follow the guildlines bellow.",
+        "actions": {
+          "more": "Read additional info",
+          "next": "Procced to authorization"
+        }
+      },
+      "choice": {
+        "title": "Welcome to New Belarus Voting",
+        "subtitle": "Your safe and secure polls and votings",
+        "login": "Authorize",
+        "register": "Register",
+        "result": {
+          "success": "You are authenticated with nickname: \"{{name}}\"!",
+          "error": "During authentication process somehting unexpected happened!"
+        }
+      },
+      "integrated": {
+        "result": {
+          "success": "You are authenticated under nickname: {{name}}",
+          "error": "During authentication process somehting unexpected happened!"
+        }
+      },
+      "auth": {
+        "step1": {
+          "title": "Authorization — step 1",
+          "walletWhy": "To proceed you need to proove that you have required Proofspace credential and voting key.",
+          "scan": "Scan the QR code with Proofspace application to load required crednetials and voting key.",
+          "download": "You can scan the QR code with your phone to download the Proofspace wallet app, or use the download links below."
+        },
+        "stepper": {
+          "header": "Easy steps",
+          "title1": "Proofspace authorization",
+          "descr1": "Scan QR code with your Proofspace wallet containing voting key and required credentials",
+          "title2": "Open voting profile",
+          "descr2": "Recall password from your voting profile. It was created during first registration in the server. Unfortunatly it can't be restored.",
+          "title3": "Enjoy!"
+        }
+      },
+      "register": {
+        "step1": {
+          "title": "Registration — step 1",
+          "walletWhy": "To use the voting system you need to create a voting key (profile) into Proofpsace credentials wallet. It's required for both voting and managing polls.",
+          "scan": "Scan the QR code with Proofspace application to create your voting key (profile).",
+          "download": "You can scan the QR code with your phone to download the Proofspace wallet app, or use the download links below."
+        },
+        "step2": {
+          "title": "Registration — step 2"
+        },
+        "stepper": {
+          "header": "Easy steps",
+          "title1": "Proofspace login",
+          "descr1": "Setup Proofspace application and add there your new voting profile.",
+          "title2": "Set password",
+          "descr2": "Create a cryptographic password for your voting profile.",
+          "title3": "Enjoy!"
+        }
+      },
+      "create": {
+        "error": {
+          "passwordMatch": "Confirmation doesn't match password",
+          "nameEmpty": "Voter name can't be empty",
+          "passwordEmpty": "Password can't be empty"
+        },
+        "header": "Create your voting profile",
+        "subheader": "Profile detials",
+        "why": {
+          "cause": "To manage your data in decentralized voting system you need a voting key (profile).",
+          "proofspace": "Your voting profile will be stored into your Proofspace wallet instead of our service.",
+          "pincode": "To make your voting profile absolutely secured, pleased provide password / pincode. It will encrypt your voting profile and key.",
+          "precaution": "We won't store your password anywhere, and it will be imposible to restore it.",
+          "remember": "PLEASE REMEMBER YOUR PASSWORD! It's not recoverable!"
+        },
+        "fields": {
+          "name": "Voter name",
+          "password": "Password",
+          "confirmation": "Confirm password"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create voting key"
+        }
+      },
+      "open": {
+        "error": {
+          "broken": "Incorrect password or keystore is broken",
+          "passwordEmpty": "Password can't be empty"
+        },
+        "header": "Open your votting wallet",
+        "why": {
+          "cause": "You loaded your voting profile from your Proofspace wallet",
+          "pincode": "Use the password (pincode) you remember to open (decipher) your voting profile",
+          "caution": "You should recall your password, cause it can't be restored!"
+        },
+        "fields": {
+          "password": "Password"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "open": "Open voting profile"
+        }
+      },
+      "tg-blocker": {
+        "header": "Telegram Authorization Required",
+        "why": {
+          "main": "This voting requires you to authorize via telegram. If you see this window, you need to: ",
+          "primary": "Get Telegram ID authorization from our Telegram Bot",
+          "secondary": "You can open it following this link: "
+        },
+        "action": {
+          "back": "Get back"
+        }
+      }
+    }
+  },
+  "account": {
+    "balance": {
+      "insufficient": "Insufficient number of tokens"
+    }
+  },
+  "condition": {
+    "info": {
+      "title": "You need to authorize your vote",
+      "guide": "Fallow the link to learn more about how to participate in the election",
+      "guideUrl": "Election guide",
+      "proofspace": {
+        "title": "Use Proofspace ID Wallet",
+        "download": "Install Proofspace ID Wallet to digitalize your passport and vote on web and mobile from this site",
+        "android": "Proofspace ID Android App",
+        "ios": "Proofspace ID IOS App"
+      },
+      "newbelarus": {
+        "title": "Belarus ID Wallet",
+        "download": "Install Belarus ID Wallet to digitalize your passport and vote on mobile in the same app",
+        "android": "Belarus ID Android App",
+        "ios": "Belarus ID IOS App"
+      },
+      "telegram": {
+        "title": "Telegram Identity Verification",
+        "info": "Go through Telegram identity verification. Right now only those who submit their 2020 election balot to Golos Bot will be authorized to vote",
+        "bot": "Belarus Voting Bot"
+      },
+      "actions": {
+        "back": "Get back"
+      }
+    }
+  }
+}

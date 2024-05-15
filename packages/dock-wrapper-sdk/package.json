@@ -1,0 +1,63 @@
+{
+  "name": "@smartapps-poll/dock-wrapper-sdk",
+  "version": "0.0.1",
+  "description": "SDK to interract with dock.io crednetials implementation from some wrapping wallet.",
+  "main": "dist/index.js",
+  "repository": "git@github.com:nbgov/voting.git",
+  "author": "Mark Vandal",
+  "license": "MIT",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b -f",
+    "dev": "tsc -b -w --preserveWatchOutput --pretty",
+    "lint": "eslint src/",
+    "test": "jest --watchAll --testTimeout 30000",
+    "up": "yarn install && yarn build"
+  },
+  "devDependencies": {
+    "@docknetwork/crypto-wasm-ts": "^0.55.0",
+    "@jest/globals": "^29.4.3",
+    "@typescript-eslint/eslint-plugin": ">=6.0.0",
+    "@typescript-eslint/parser": ">=6.0.0",
+    "eslint": ">=8.0.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-config-xo": "^0.43.1",
+    "eslint-config-xo-typescript": "^1.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "ts-jest": "^29.0.5",
+    "typescript": ">=4.7"
+  },
+  "peerDependencies": {
+    "@docknetwork/crypto-wasm-ts": "*"
+  },
+  "dependencies": {
+    "@smartapps-poll/common": "link:../common"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": "xo",
+    "overrides": [
+      {
+        "extends": [
+          "xo-typescript"
+        ],
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ]
+      }
+    ],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {}
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "smartapps-poll",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:nbgov/voting.git",
+  "author": "Mark Vandal",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "update-major": "yarn install && lerna run up --parallel=0 && cd packages/server-core && yarn up && cd ../web-app && yarn up && cd ../..",
+    "update-minor": "lerna run up --parallel=0 --scope=@smartapps-poll/common --scope=@smartapps-poll/dock-wrapper-sdk && cd packages/server-core && yarn up && cd ../..",
+    "build": "lerna run build --ignore @smartapps-poll/web-app",
+    "dev": "lerna run dev --stream --parallel --concurrency 12 --ignore @smartapps-poll/web-app",
+    "lint": "lerna run lint --stream --ignore @smartapps-poll/web-app"
+  },
+  "workspaces": [
+    "packages/common",
+    "packages/web-common",
+    "packages/web-widget",
+    "packages/dock-wrapper-sdk",
+    "packages/web-app"
+  ],
+  "resolutions": {
+    "fsevents": "2.3.2",
+    "webpack-dev-middleware": "5.3.4",
+    "nth-check": "2.0.1",
+    "glob-parent": "5.1.2",
+    "@vocdoni/sdk/axios@npm:0.27.2": "1.6.8",
+    "axios": "1.6.8"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.2"
+  },
+  "packageManager": "yarn@4.2.1",
+  "dependencies": {
+    "patch-package": "^8.0.0"
+  }
+}

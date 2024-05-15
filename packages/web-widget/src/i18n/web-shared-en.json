@@ -1,0 +1,130 @@
+{
+  "error": {
+    "vote": {
+      "census": {
+        "missed": "Can't find out your registrion in the poll"
+      }
+    },
+    "newbelarus": {
+      "credentials": {
+        "strategy": {
+          "method": {
+            "implemented": "This voting method isn't supported by your wallet"
+          },
+          "cred": {
+            "not": {
+              "found": "You don't have one of required credentials. Please, re-read the voting guide!"
+            }
+          }
+        }
+      }
+    },
+    "duplication": "You've already voted. Every person can vote only one.",
+    "error": {
+      "duplication": "You've already voted. Every person can vote only one."
+    }
+  },
+  "shared": {
+    "poll": {
+      "list": {
+        "status": {
+          "unpublished": "Not published",
+          "published": "Pre-registration in progress",
+          "started": "We are waiting for your votes",
+          "paused": "Paused",
+          "canceled": "Canceled",
+          "finished": "Voting is finished - you can learn results"
+        },
+        "interval": {
+          "registrationEnd": "Registration ends in",
+          "startDate": "Voting starts in",
+          "endDate": "Voting ends in"
+        },
+        "createdAt": "Created at: {{createdAt}}"
+      },
+      "censusInfo": {
+        "status": {
+          "verification": "Verification successful",
+          "registered": "Voter registered",
+          "allowed": "Vote allowed",
+          "voted": "Already voted"
+        }
+      },
+      "info": {
+        "actions": {
+          "vote": "Vote",
+          "recheck": "Recheck",
+          "check": "Check",
+          "title": "Check voting status",
+          "description": "Right now the voting is inactive. You can learn more about your status in it."
+        }
+      },
+      "questions": {
+        "error": {
+          "title": "Error",
+          "choice": "Something is wrong with your choice"
+        },
+        "status": {
+          "winner": "winner"
+        },
+        "party": {
+          "unwrap": "Click here to show info"
+        }
+      },
+      "register": {
+        "status": {
+          "registered": "Registered"
+        },
+        "actions": {
+          "register": "Register",
+          "title": "Please register for voting",
+          "description": "Registration for the future voting is required to prepare your ballot and make sure that no ballots are faked.",
+          "inPast": "Registation for voting is ended",
+          "endDate": "Registration ends in"
+        }
+      },
+      "result": {
+        "actions": {
+          "recheck": "Recheck",
+          "check": "Check",
+          "title": "Check results",
+          "description": "You can check your voting status."
+        },
+        "voteForm": {
+          "voteId": {
+            "label": "Voting code",
+            "hint": "Put your voting code here to check the results",
+            "provided": "Id to confirm your participation in the voting"
+          },
+          "error": {
+            "required": "Voting code is required to check your vote"
+          }
+        },
+        "voted": "Save vote code to be able to check it: {{voteId}}"
+      },
+      "progress": {
+        "value": "{{count}} out of {{size}}",
+        "info": "Number of people voted"
+      },
+      "vote": {
+        "result": {
+          "success": "'Vote casted'",
+          "error": "You can't cast your vote probably because of the following error."
+        },
+        "actions": {
+          "check": "Check results",
+          "choose": "Please choose...",
+          "vote": "Vote",
+          "title": "Please vote",
+          "description": "The voting has begun. You may express your choice.",
+          "inPast": "Time for voting is passed",
+          "endDate": "Votings ends in"
+        },
+        "backdrop": {
+          "title": "Action is being performed...",
+          "body": "Please, wait! Do not close or refresh the screen! Cryptographical and blockchain related operations can take time!"
+        }
+      }
+    }
+  }
+}

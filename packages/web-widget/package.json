@@ -1,0 +1,117 @@
+{
+  "name": "@smartapps-poll/web-widget",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "repository": "git@github.com:nbgov/voting.git",
+  "author": "Mark Vandal",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b -f",
+    "dev": "tsc -b -w --preserveWatchOutput --pretty",
+    "lint": "eslint src/",
+    "storybook": "storybook dev -p 6007 --no-open",
+    "build-storybook": "storybook build",
+    "up": "yarn install && yarn build"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      "standard-with-typescript"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "project": [
+        "./tsconfig.json"
+      ],
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
+    }
+  },
+  "peerDependencies": {
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@mui/icons-material": "*",
+    "@mui/material": "*",
+    "@mui/x-date-pickers": "*",
+    "@smartapps-poll/common": "*",
+    "@smartapps-poll/web-common": "*",
+    "axios": "*",
+    "copy-to-clipboard": "*",
+    "dayjs": "*",
+    "firebase": "*",
+    "i18next": "*",
+    "i18next-browser-languagedetector": "*",
+    "react": "*",
+    "react-hook-form": "*",
+    "react-i18next": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.4",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.16",
+    "@mui/material": "^5.15.16",
+    "@mui/x-date-pickers": "^7.3.2",
+    "@storybook/addon-actions": "^8.0.9",
+    "@storybook/addon-essentials": "^8.0.9",
+    "@storybook/addon-interactions": "^8.0.9",
+    "@storybook/addon-links": "^8.0.9",
+    "@storybook/addon-mdx-gfm": "^8.0.9",
+    "@storybook/react": "^8.0.9",
+    "@storybook/react-webpack5": "^8.0.9",
+    "@storybook/testing-library": "^0.1.0",
+    "@types/react": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "babel-loader": "^8.3.0",
+    "copy-to-clipboard": "^3.3.3",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "firebase": "^10.10.0",
+    "i18next": "^22.4.14",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.43.8",
+    "react-i18next": "^12.2.0",
+    "storybook": "^8.0.9",
+    "typescript": "^4.9.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

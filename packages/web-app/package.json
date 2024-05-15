@@ -1,0 +1,132 @@
+{
+  "name": "@smartapps-poll/web-app",
+  "version": "0.0.1",
+  "homepage": "/",
+  "main": "index.js",
+  "repository": "git@github.com:nbgov/voting.git",
+  "author": "Mark Vandal",
+  "license": "MIT",
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js' --html anlayze.html",
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "serve": "serve -l tcp://0.0.0.0:8000 -s build",
+    "lint": "eslint src/",
+    "storybook": "start-storybook -p 6006 --no-open",
+    "build-storybook": "build-storybook",
+    "up": "yarn install"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      "standard-with-typescript"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "project": [
+        "./tsconfig.json"
+      ],
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "@docknetwork/crypto-wasm-ts": "^0.55.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@firebase/app": "^0.9.29",
+    "@firebase/firestore": "^4.5.0",
+    "@mui/icons-material": "^5.15.16",
+    "@mui/material": "^5.15.16",
+    "@mui/x-date-pickers": "^7.3.2",
+    "@noble/hashes": "^1.4.0",
+    "@smartapps-poll/common": "link:../common",
+    "@smartapps-poll/web-common": "link:../web-common",
+    "@smartapps-poll/web-widget": "link:../web-widget",
+    "@vocdoni/sdk": "^0.8.0",
+    "axios": "^1.6.8",
+    "ethers": "^6.1.0",
+    "firebase": "^10.10.0",
+    "i18next": "^22.4.14",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.43.7",
+    "react-i18next": "^12.2.0",
+    "react-router-dom": "^6.9.0",
+    "ssi-auth-lib": "^0.0.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@storybook/addon-actions": "^8.0.9",
+    "@storybook/addon-essentials": "^8.0.9",
+    "@storybook/addon-interactions": "^8.0.9",
+    "@storybook/addon-links": "^8.0.9",
+    "@storybook/builder-webpack5": "^8.0.9",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/node-logger": "^8.0.9",
+    "@storybook/preset-create-react-app": "^8.0.9",
+    "@storybook/react": "^8.0.9",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "prop-types": "^15.8.1",
+    "react-scripts": "^5.0.1",
+    "serve": "^14.2.0",
+    "source-map-explorer": "^2.5.3",
+    "typescript": "^4.9.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not ie <= 99",
+      "not android <= 4.4.4",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "packageManager": "yarn@4.2.1"
+}

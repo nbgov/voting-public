@@ -1,0 +1,10 @@
+{
+  "webApp": {
+    "layout": {
+      "header": {
+        "title": "New Belarus — Voting",
+        "login": "Sign in"
+      }
+    }
+  }
+}

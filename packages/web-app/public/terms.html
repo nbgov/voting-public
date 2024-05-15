@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Belarus ID — Terms &amp; conditions</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c1c7c8a3-6d21-42e3-9b61-18e6e1fa85a0" class="page sans"><header><h1 class="page-title">Belarus ID — Terms &amp; conditions</h1><p class="page-description"></p></header><div class="page-body"><h1 id="bf6c118e-5558-4b40-bbf2-dceb9e60ad11" class=""><strong>1. Introduction</strong></h1><p id="4a23baa3-1d6b-47b3-82e7-7ca7f4fd67d3" class="">By accessing or using Stichting(de) Lokale&#x27;s Belarus ID Wallet and Web 3 Voting Service (&quot;the Service&quot;), you (&quot;the User&quot;) agree to be bound by these Terms and Conditions (&quot;Terms&quot;). These Terms constitute a legally binding agreement between you, and Stichting(de) Lokale governing your access to and use of the Service.</p><h2 id="a008e0e0-5bb4-459e-958e-93854b81765d" class=""><strong>1.1 Access as Agreement</strong></h2><p id="ce6222e4-7b7f-4b14-9daa-a076f1a6644c" class="">For instance, when you create a digital representation of your documents (digital credentials) for our SSI Wallet, you&#x27;re not just signing up to use an advanced digital platform; you&#x27;re entering into a contract with us. By clicking &quot;I Agree&quot; during the digital credentials setup process or by simply using our services without creating a digital credential, you are indicating your acceptance of our entire T&amp;C. This includes, but is not limited to, our policies on data use, the functionalities of our Web 3 Voting Service, and your responsibilities as a user.</p><h2 id="0206a9d4-ae1e-44f9-b212-2666049984c6" class=""><strong>1.2 Continuous Agreement</strong></h2><p id="78b48b84-ee4e-4709-9a7b-edfa48dd1356" class="">It&#x27;s important to understand that this agreement isn&#x27;t just a one-time acknowledgment. Each time you use our Service, whether it&#x27;s to cast a vote using our Web 3 technology, manage your digital credentials, or interact with any new feature we roll out, you are reaffirming your agreement to our current Terms. This ensures that both parties, you the user and we the service provider, have a clear, ongoing understanding of the rights and obligations in our relationship.</p><h2 id="8ff04571-a588-4c6c-a6e9-432663e6c8e8" class=""><strong>1.3 Updates and Amendments:</strong> </h2><p id="2f6a7b45-ea90-4501-8753-4ef03ca08cbe" class="">We may update these Terms from time to time to reflect changes to our Service, legal requirements, or for other reasons. When we make significant changes, we&#x27;ll notify you through the Service or by other means, such as email. Your continued use of the Service after such changes have been notified will constitute your consent to those changes and agreement to be bound by the updated Terms.</p><p id="22e7ac07-2a4a-4543-84e9-3a0e456ca7d6" class="">Acceptance of these Terms is a prerequisite for using our Services. If you do not agree to these Terms in their entirety, you should not access or use our Belarus ID Wallet and Web 3 Voting Service. It&#x27;s crucial that you review these Terms regularly to ensure you are updated on any changes and to continue using our Service in accordance with these Terms.</p><h1 id="74f3c42b-07b9-4946-b200-f95c1d24c446" class=""><strong>2. Definitions</strong></h1><ul id="04cdced1-279d-47e2-b5fb-3273e49e00c9" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Service&quot;</strong> refers to the Self-Sovereign Identity (SSI) ID Wallet and Web 3 Voting Service provided by [Your Company Name], including all software, applications, features, and technology that enable users to store digital credentials and participate in Web 3 voting processes.</li></ul><ul id="76630394-411e-44c9-8228-c8ca4df9b062" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;User&quot;</strong> means any individual or entity that accesses or uses the Service, regardless of the manner or the purpose of such access or use.</li></ul><ul id="369b0268-a23c-47e0-9efd-8357ed92921b" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Digital Credentials&quot;</strong> are digital representations of identity and related information that can be stored, accessed, and shared through the SSI Wallet. These may include, but are not limited to, personal identification information, certificates, and electronic records verifying an individual&#x27;s identity or attributes.</li></ul><ul id="9fcb12fd-1c64-4a70-9e98-f1e50ce43936" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Web 3 Voting&quot;</strong> refers to the decentralized voting mechanism facilitated by blockchain technology, allowing users to cast votes in a secure, anonymous, and verifiable manner through the Service.</li></ul><ul id="3c9b4e79-38e1-4bcb-8813-c7d15a00c2f4" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Blockchain&quot;</strong> is a distributed ledger technology that records transactions across multiple computers in such a way that the registered transactions cannot be altered retroactively, providing a foundational technology for Web 3 functionalities.</li></ul><ul id="fbfa3aff-5d73-437b-8177-33aaaf4d4864" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Personal Information&quot;</strong> means any information related to an identified or identifiable natural person (‘data subject’); an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier, or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural or social identity of that natural person.</li></ul><ul id="4a3af262-aaab-4ed6-a643-097224b1bc4e" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Third-Party Service Providers&quot;</strong> are entities or individuals contracted by Stichting(de) Lokale to perform various functions or provide services related to the operation of the Service, including but not limited to hosting, data analysis, and payment processing.</li></ul><ul id="0badabb1-f30e-4c81-a66c-e1b8d5dea855" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Consent&quot;</strong> means the user&#x27;s freely given, specific, informed, and unambiguous indication of their wishes by which they, through a statement or a clear affirmative action, signify agreement to the processing of personal data relating to them.</li></ul><ul id="7b33ca58-0928-40bd-8fbb-08de26dac98a" class="bulleted-list"><li style="list-style-type:disc"><strong>&quot;Data Processing&quot;</strong> refers to any operation or set of operations performed on personal data or sets of personal data, whether or not by automated means, such as collection, recording, organization, structuring, storage, adaptation or alteration, retrieval, consultation, use, disclosure by transmission, dissemination or otherwise making available, alignment or combination, restriction, erasure, or destruction.</li></ul><ul id="096cfadf-9c63-456d-aed3-cf7a4d117c35" class="bulleted-list"><li style="list-style-type:disc"><strong>“Wallet ID” / “SSI Wallet” / “SSI ID Wallet”</strong> - mobile application that stores digital credentials and allows interaction with the service.</li></ul><ul id="ef8eb302-e62e-475a-8245-78e7de1f0030" class="bulleted-list"><li style="list-style-type:disc"><strong>“Server side representation”</strong> — server side entities that are indirectly associated with your digital credentials (replacement for user account functions), that are required to associated you with multi-step process states, e.g. deduplication of voting.</li></ul><h1 id="ffac5cbc-2035-4975-a59d-048959726708" class=""><strong>3. User Registration and Digital Credentials Management</strong></h1><p id="bf5bdcd6-acf3-444c-aad6-d62ab18cebe2" class=""><strong>3.1 Digital Credentials Creation:</strong> To access and use certain features of the Service, you must NOT register and create an account (&quot;Account&quot;), you use different kind of Digital credentials (”Digital Credentials”) that are used to proof your legibility for certain use of the Service. But when you use it the server may create an entity that will associate your wallet or credentials with a certain actions at least unidirectional (you can refer to them but we can’t refer to you)</p><p id="123888ee-0b30-43e1-be3b-11165299b7e7" class=""><strong>3.2 User Responsibility:</strong> You are solely responsible for maintaining the confidentiality of your cryptographic keys stored on your device, that arrange access to server side entities or execute actions on their behalf. You agree to immediately notify Stichting(de) Lokale of any unauthorized use, or suspected unauthorized use, of your cryptographic information or any other breach of security. Stichting(de) Lokale cannot and will not be liable for any loss or damage arising from your failure to comply with the above requirements.</p><p id="ceaaa549-b7cc-4daf-a8e4-1405e78669ae" class=""><strong>3.3 Digital Credentials &amp; Server Side Representations Security:</strong> Stichting(de) Lokale takes the security of server side entities that can be managed by your cryptographic information seriously and will implement reasonable measures to protect your information. However, the security of your cryptographic keys solely depends on your protection of your devices. Do not share your cryptographic keys with others or others to use your idenitty. Stichting(de) Lokale is not responsible for losses due to stolen or hacked pin-codes on your devices or other breaches on your devices.</p><p id="74e653e4-7d08-4db4-ad09-bff934ddc092" class=""><strong>3.5 Multiple Wallets:</strong> Users are generally prohibited from creating more than one ID Wallet. Exceptions may be made at the discretion of Stichting(de) Lokale for valid reasons.</p><p id="076db5c3-fe95-4ce9-a7de-36511c699947" class=""><strong>3.6 Digital Credentials Termination:</strong> Stichting(de) Lokale reserves the right to suspend legibility of your digital credentials stored on your device in relation to services provided by Stichting(de) Lokale. You may also terminate your Wallet ID and stored credentials by deleting installed wallet from your device.</p><p id="85cdecd7-637f-42cc-b2b6-7647977b6f9e" class=""><strong>3.7 Data Retention and Deletion:</strong> Upon Digital Credentials termination, Stichting(de) Lokale will retain hashes related to your physical IDs or digital ID numbers from other services (e.g. Telegram ID). Deletion of such hashes may be requested by you at any moment from Stichting(de) Lokale except cases when it’s required to deduplicate voting process, protecting interest of other users for the duration of the particular voting process where such hashes are utilized.</p><h1 id="1ebd1aad-c1fc-44e7-982e-16b5f3408668" class=""><strong>4. Use of the Service</strong></h1><p id="f2de0080-8f5e-4cd9-a04b-39d677763c81" class=""><strong>4.1 Scope of Use:</strong> The Service, including the SSI ID Wallet and Web 3 Voting functionalities, is provided for your personal and non-commercial use. You are granted a limited, non-exclusive, non-transferable, and revocable license to access and use the Service strictly in accordance with these Terms.</p><p id="f5b0cdba-1870-4d30-b066-09e2fdf4f2ea" class=""><strong>4.2 User Responsibilities:</strong> You agree to use the Service only for lawful purposes and in a manner that does not infringe the rights of, or restrict or inhibit the use and enjoyment of the Service by any third party. This includes conduct that is harmful, threatening, unlawful, defamatory, infringing, abusive, inflammatory, harassing, vulgar, obscene, fraudulent, privacy-invasive, or racially, ethnically, or otherwise objectionable.</p><p id="cdf194c6-3522-4aaf-a9b1-55e308163391" class=""><strong>4.3 Compliance with Laws:</strong> You are responsible for ensuring that your use of the Service complies with all applicable laws, regulations, and guidelines. This includes, but is not limited to, laws relating to identity theft, personal data protection, and electoral conduct where applicable.</p><p id="2e88b196-8b29-4ca1-865a-fd4182b82bf1" class=""><strong>4.4 Prohibited Activities:</strong> You are prohibited from:</p><ul id="425b4c14-b96e-4f77-b17e-e3d72129fbca" class="bulleted-list"><li style="list-style-type:disc">Using the Service in any way that could damage, disable, overburden, or impair it or interfere with any other party&#x27;s use and enjoyment of the Service.</li></ul><ul id="70f95163-1d66-4c68-a2e5-a2eef5eed2d2" class="bulleted-list"><li style="list-style-type:disc">Attempting to gain unauthorized access to the Service, other digital credentials, and server side representations, computer systems, or networks connected to the Service, through hacking, password mining, or any other means.</li></ul><ul id="8be55d88-55fe-406b-94ec-6015f0cecc76" class="bulleted-list"><li style="list-style-type:disc">Using the Service for any phishing, spoofing, or other fraudulent activities.</li></ul><ul id="18a75270-4dd0-4ad1-af8e-12400ac09654" class="bulleted-list"><li style="list-style-type:disc">Creating or distributing viruses or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Service.</li></ul><ul id="8cedb445-7d6a-4a1c-8c6e-ff4f9d4fc8d3" class="bulleted-list"><li style="list-style-type:disc">Using automated systems (e.g., bots, robots, spiders, or scrapers) to access or interact with the Service without prior consent from Stichting(de) Lokale.</li></ul><p id="dcce6a77-6b6e-499a-96b0-69882baac6e0" class=""><strong>4.5 Reporting Misuse:</strong> If you become aware of any misuse of the Service by any person, please contact Stichting(de) Lokale through the contact information provided on our website or within the Service.</p><p id="20d00d13-4239-401e-9865-dd4e8eacf403" class=""><strong>4.6 Service Modifications:</strong> Stichting(de) Lokale reserves the right at any time to modify or discontinue, temporarily or permanently, the Service (or any part thereof) with or without notice. You agree that Stichting(de) Lokale shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Service.</p><p id="c61c8511-f36f-470a-b527-1fd9f3050111" class=""><strong>4.7 User Content:</strong> You may be able to submit content through the Service. You are solely responsible for the content you submit and the consequences of posting or publishing it. Stichting(de) Lokale reserves the right, but is not obligated, to monitor and edit or remove any user content.</p><p id="3afbf709-de44-473d-8774-ab79323376f5" class=""><strong>4.8 Intellectual Property:</strong> The Service and its original content, features, and functionality are and will remain the exclusive property of Stichting(de) Lokale and its licensors. You agree not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Service, use of the Service, or access to the Service without express written permission from Stichting(de) Lokale.</p><h1 id="5bcd7ebe-2e02-4dff-92f2-48c2afba6bae" class=""><strong>5. Digital Credentials and Identity Verification</strong></h1><p id="95ca692c-6091-4fec-ad49-8bd21069a2be" class=""><strong>5.1 Definition of Digital Credentials:</strong> Digital Credentials refer to electronic documents or certificates that verify aspects of your identity or qualifications. These can include, but are not limited to, government-issued IDs, educational qualifications, and professional certifications. Through the Service, users can store, manage, and share these Digital Credentials securely.</p><p id="3755b2c6-da28-40cb-a25e-821dfb4fddd9" class=""><strong>5.2 Obtaining Digital Credentials:</strong> To obtain Digital Credentials, you may be required to undergo an identity verification process. This process involves providing personal information and documents that verify your identity to Stichting(de) Lokale or a third-party verification service. The specific requirements for verification will depend on the type of Digital Credential you are seeking to obtain.</p><p id="97d7aa90-23ca-4051-b380-001f940310a8" class=""><strong>5.3 User Consent for Verification:</strong> By initiating the identity verification process, you consent to Stichting(de) Lokale and any involved third-party verification services collecting, using, and storing the necessary personal information and documents for the purpose of verifying your identity and issuing Digital Credentials.</p><p id="5b7c25aa-cce7-476b-8c0f-3908e26fc317" class=""><strong>5.4 Accuracy of Information:</strong> You are responsible for ensuring that all information and documents provided for identity verification are accurate, current, and complete. Providing false or misleading information may result in the denial of Digital Credentials, suspension or termination of issuing of new digital representations of your physical documents (e.g. passport) or accounts from other services (e.g. Telegram ID), and/or legal action.</p><p id="f2b293c5-f86f-46ca-91a5-f1e2782a6693" class=""><strong>5.5 Storage and Access:</strong> Digital Credentials issued to you will be stored securely within your SSI Wallet. You will have control over who can access and view these credentials. Stichting(de) Lokale will not access or share your Digital Credentials without your explicit consent, except as required by law or as necessary for the operation of the Service.</p><p id="9a7d81d6-67c3-40c8-a6d8-fd8b1f81e565" class=""><strong>5.6 Sharing of Digital Credentials:</strong> You may choose to share your Digital Credentials with third parties through the Service. It is your responsibility to manage access to your Digital Credentials and to share them only with trusted parties. Stichting(de) Lokale is not responsible for any misuse of your Digital Credentials by third parties with whom you have shared them.</p><p id="0a4c5df1-51c1-4ebe-8032-543195cbd80b" class=""><strong>5.7 Revocation of Digital Credentials:</strong> Digital Credentials may be revoked by the issuing authority at any time for reasons including, but not limited to, expiration, discovery of false information, or breach of the terms under which the credentials were issued. You will be notified through the Service if any of your Digital Credentials are revoked.</p><p id="c66a447c-8969-43d6-a85d-d530d24f82c4" class=""><strong>5.8 Changes to Identity Verification Processes:</strong> Stichting(de) Lokale reserves the right to modify the identity verification process or requirements as necessary to comply with legal requirements, improve security, or enhance user experience. Changes will be communicated to users through the Service or other appropriate means.</p><h1 id="2affc894-e151-41e3-aaa2-24a7eeb2ed9f" class=""><strong>6. Web 3 Voting Service</strong></h1><p id="6af1f5f8-f08f-4e34-addb-2b77c1a9c1c6" class=""><strong>6.1 Overview:</strong> The Web 3 Voting Service provided by Stichting(de) Lokale utilizes blockchain technology to offer a secure, transparent, and tamper-proof voting mechanism. This service allows users to participate in various voting activities, including but not limited to elections, surveys, and polls, leveraging the security and anonymity features inherent in Web 3 technology.</p><p id="cd509439-4e4e-4b4c-a5ba-f444dfd5bb14" class=""><strong>6.2 Eligibility:</strong> To participate in voting activities through the Service, you must be a registered user with a verified identity within the SSI Wallet. Specific voting events may have additional eligibility requirements, such as being a member of a certain community, reaching a certain age, or holding specific digital credentials. It is your responsibility to ensure you meet these requirements before participating in a vote.</p><p id="261045ed-cad9-49e8-9cf6-7f0128f937de" class=""><strong>6.3 Voting Process:</strong> Voting through the Service involves the following steps:</p><ul id="b63d73a9-2d7c-43c2-b594-1406e9ab94a2" class="bulleted-list"><li style="list-style-type:disc">Accessing the voting event within the Service.</li></ul><ul id="295face0-6092-4bd3-a925-8e0233e7c8fc" class="bulleted-list"><li style="list-style-type:disc">Reviewing the voting instructions and eligibility criteria.</li></ul><ul id="517befda-1109-4442-9bf1-6e0b37412d80" class="bulleted-list"><li style="list-style-type:disc">Casting your vote securely via the blockchain-based platform.</li></ul><ul id="e7883cf0-24a4-4212-84e5-a2428f07236a" class="bulleted-list"><li style="list-style-type:disc">Receiving a confirmation of your vote submission.</li></ul><p id="6ee2f903-e70c-434e-92f9-d9f283673540" class=""><strong>6.4 Anonymity and Security:</strong> The Service is designed to protect your privacy and maintain the anonymity of your vote. While your identity is verified to ensure eligibility, the vote you cast is encrypted and cannot be traced back to you by Stichting(de) Lokale or any other parties.</p><p id="92635353-97f5-4681-8034-a4956a2f7980" class=""><strong>6.5 Fair Use:</strong> You agree to use the Web 3 Voting Service in a manner that is fair, responsible, and in compliance with the voting instructions and terms. Manipulating the outcome of a vote, such as by creating multiple digital credentials to cast additional votes or using software to automate voting, is strictly prohibited and may result in digital credentials suspension or termination.</p><p id="3e4a200f-6b82-4a36-bded-e93c3b63bb5b" class=""><strong>6.6 Voting Integrity:</strong> Stichting(de) Lokale employs various measures to ensure the integrity and accuracy of voting results. This includes monitoring for fraudulent activity, validating votes against eligibility criteria, and using blockchain technology to create a permanent, unalterable record of votes cast.</p><p id="ff22e6de-ed0b-4297-8c50-b0ab105cfc0f" class=""><strong>6.7 Dispute Resolution:</strong> In the event of a dispute regarding a voting outcome, Stichting(de) Lokale will review the matter in accordance with the established dispute resolution process outlined in these Terms. Decisions made by Stichting(de) Lokale regarding disputes will be considered final and binding.</p><p id="fd3c8880-ea36-4c3e-90a7-d4982c62f50e" class=""><strong>6.8 Changes to the Voting Service:</strong> Stichting(de) Lokale reserves the right to make changes to the Web 3 Voting Service, including modifying, suspending, or discontinuing the service or specific voting events. Users will be notified of significant changes through the Service or other appropriate means.</p><h1 id="5d7ba189-c6be-4386-afea-1975cd86228c" class=""><strong>7. Privacy and Data Protection</strong></h1><p id="49d69703-22a8-4c2e-8bdc-ff0f27c2ca11" class=""><strong>7.1 Commitment to Privacy:</strong> Stichting(de) Lokale is committed to protecting the privacy and security of your personal information. The collection, use, and sharing of your personal data are governed by our Privacy Policy, which is incorporated by reference into these Terms and Conditions. By using the Service, you agree to the terms of the Privacy Policy <a href="https://newbelarus-voting.com/privacy.html">https://newbelarus-voting.com/privacy.html</a>.</p><p id="4fbe9726-48c9-428b-8829-161864f4b833" class=""><strong>7.2 Data Collection:</strong> We collect personal information necessary to provide the Service, including but not limited to your name, email address, and digital credentials. We may also collect information related to your use of the Service, such as voting activities and transaction history, to improve service functionality and user experience.</p><p id="4577215b-9819-4e26-be3c-2f8cb1a81674" class=""><strong>7.3 Use of Data:</strong> The personal data collected will be used solely for the purposes outlined in the Privacy Policy, including service provision, identity verification, support, and improvement of the Service. We will not use your personal data for any other purposes without your explicit consent.</p><p id="1c3c298b-2c03-4621-94fe-f8c8635b4dd1" class=""><strong>7.4 Data Sharing:</strong> Stichting(de) Lokale will not share your personal data with third parties except as required to provide the Service, comply with the law, or protect our rights and interests. This may include sharing data with third-party service providers for hosting, data analysis, and identity verification purposes, under strict confidentiality agreements.</p><p id="9bd7ac28-1bac-4681-9aaf-4c0a118db19c" class=""><strong>7.5 Data Security:</strong> We implement robust security measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. These measures include encryption, access control, secure data storage, and regular security assessments.</p><p id="eee1021e-1dac-42b8-8361-67e5c5471854" class=""><strong>7.6 User Rights:</strong> You have rights regarding your personal data, including the right to access, correct, delete, or restrict the processing of your data. You can exercise these rights by contacting us using the contact information provided in the Service. We will respond to your requests in accordance with applicable data protection laws.</p><p id="66353dc6-7711-463a-b6c1-4a4ace843233" class=""><strong>7.7 Data Retention:</strong> Your personal data will be retained for as long as necessary to provide the Service, comply with our legal obligations, resolve disputes, and enforce our agreements. Data that is no longer needed for these purposes will be securely deleted or anonymized.</p><p id="36a9b9d6-d509-46b0-a063-7caea08b9c0b" class=""><strong>7.8 Changes to Privacy Practices:</strong> Stichting(de) Lokale reserves the right to update our privacy practices and the Privacy Policy <a href="https://newbelarus-voting.com/privacy.html">https://newbelarus-voting.com/privacy.html</a> from time to time. We will notify you of any significant changes through the Service or by other means, such as email, and obtain your consent where required by law.</p><p id="e2e21c46-5707-4845-acff-042b58573a45" class=""><strong>7.9 Contact Information:</strong> If you have any questions or concerns about how we handle your personal data, please contact us through the contact information provided in the Service.</p><h1 id="ba7fbdf0-1fd3-47ed-8d19-9cef7083408b" class=""><strong>8. Intellectual Property Rights</strong></h1><p id="8c7b4342-06d1-40ee-bdd6-41c711423063" class=""><strong>8.1 Ownership:</strong> All intellectual property rights in the Service, including but not limited to software, technology, designs, graphics, logos, and all other content provided by Stichting(de) Lokale as part of the Service, are the exclusive property of Stichting(de) Lokale or its licensors. This includes all copyrights, trademarks, trade secrets, patents, and other intellectual property rights. The use of the Service does not transfer any of these rights to you or any other user.</p><p id="6b97d58f-0e04-4ef0-ae66-3d4d21c2a863" class=""><strong>8.2 License to Use:</strong> Stichting(de) Lokale grants you a personal, non-exclusive, non-transferable, revocable license to access and use the Service strictly in accordance with these Terms. This license is for the sole purpose of enabling you to use the Service as provided by [Your Company Name], in the manner permitted by these Terms. No other rights are granted to you in the Service or any of the content provided.</p><p id="36a1c4fd-936b-435d-836e-2c9cc824fcc7" class=""><strong>8.3 Restrictions:</strong> You are not permitted to use, reproduce, redistribute, sell, modify, reverse engineer, disassemble, or otherwise exploit any part of the Service or its content for any purpose other than as expressly allowed under these Terms. All rights not expressly granted to you in these Terms are reserved by Stichting(de) Lokale or its licensors.</p><p id="75e773d9-61ee-4b76-82ee-79d58d57c7bf" class=""><strong>8.4 User Content:</strong> If you submit, upload, or transmit any content or material to the Service, you represent and warrant that you have all the necessary rights to do so and to grant Stichting(de) Lokale a non-exclusive, royalty-free, perpetual, irrevocable, and fully sublicensable right to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and display such content throughout the world in any media. You grant Stichting(de) Lokale and its sublicensees the right to use the name that you submit in connection with such content, if they choose.</p><p id="f7f84580-188f-4b2a-aa75-ef308677adf2" class=""><strong>8.5 Feedback:</strong> By submitting suggestions, feedback, or improvements regarding the Service to Stichting(de) Lokale, you agree to grant Stichting(de) Lokale a non-exclusive, royalty-free, perpetual, irrevocable, and fully sublicensable right to use and implement such feedback in any manner without any obligation, compensation, or acknowledgment to you.</p><p id="be112c75-8b1e-4073-994c-196aa6972da6" class=""><strong>8.6 Third-Party Intellectual Property:</strong> The Service may contain material, such as software, content, and services, provided, owned, or controlled by third parties. The use of such third-party material may be subject to additional terms and conditions provided by the third parties. Stichting(de) Lokale does not endorse, and is not responsible or liable for, the use of any such third-party material.</p><h1 id="05cbd1af-b7d2-4490-b350-393f77da53ec" class=""><strong>9. Third-Party Services and Content</strong></h1><p id="8cf58f65-d1b7-42aa-862e-dd588ce6091a" class=""><strong>9.1 Integration of Third-Party Services:</strong> Stichting(de) Lokale&#x27;s Service integrates with various third-party services and content providers to enhance your experience and the functionality of our Service. Specifically, for identity verification, we partner with Veriff, and for our Web 3 Voting Service, we utilize the Vocdoni blockchain platform. These integrations are designed to provide secure, efficient, and reliable services to you.</p><p id="b1873da3-8768-44a0-96e1-76d54dfc125d" class=""><strong>9.2 Veriff Identity Verification:</strong> To ensure the highest standards of security and compliance with legal requirements, our Service uses Veriff for the verification of user identities. By using our Service and agreeing to our Terms, you consent to the sharing of your personal information necessary for identity verification purposes with Veriff, subject to their privacy policy and terms of service. Stichting(de) Lokale does not control and is not responsible for the privacy practices or content of Veriff.</p><p id="18ccb1be-c593-4ed8-8dbd-da890ed7179c" class=""><strong>9.3 Vocdoni Blockchain for Voting:</strong> Our Web 3 Voting Service is powered by the Vocdoni blockchain platform, offering a secure and transparent mechanism for casting votes. By participating in voting activities through our Service, you interact with the Vocdoni blockchain, under terms that govern its use. Stichting(de) Lokale provides this integration to facilitate voting but does not control the Vocdoni platform or its operations.</p><p id="43ef8950-ded7-421a-9ed0-0c86e01c4af5" class=""><strong>9.4 Responsibility for Third-Party Services:</strong> While Stichting(de) Lokale selects third-party services that align with our standards for security and privacy, we cannot guarantee the performance, reliability, or safety of such third-party services. Your use of these third-party services is at your own risk, and we encourage you to review their terms and privacy policies.</p><p id="3fce869f-2f6a-41f2-980b-61ec2d04067d" class=""><strong>9.5 No Endorsement:</strong> Reference to any third-party services, including Veriff and Vocdoni, does not constitute an endorsement or recommendation by Stichting(de) Lokale. We provide these references for your convenience and information only.</p><p id="c9b8572b-19ff-4256-b1e2-7560dec6d0b8" class=""><strong>9.6 Third-Party Content:</strong> The Service may display, include, or make available third-party content (including data, information, applications, and other products or services) or provide links to third-party websites or services. Stichting(de) Lokale is not responsible for examining or evaluating the content or accuracy of any such third-party material, and we do not warrant and will not have any liability or responsibility for any third-party materials or websites, or for any other materials, products, or services of third parties.</p><p id="568e5aab-e1e5-493d-9dbf-1638d01129b7" class=""><strong>9.7 User Agreements with Third Parties:</strong> Your interaction with third-party services and content, including Veriff and Vocdoni, may require agreements directly between you and such third parties. Stichting(de) Lokale is not a party to any such agreements and does not have any responsibility or liability related to them.</p><h1 id="0f5fe56b-1e6a-4533-9e11-6aa0a7929366" class=""><strong>10. Amendments and Changes to the Service</strong></h1><p id="a6408629-512c-436d-8ece-f5f05b6ce6ee" class=""><strong>10.1 Right to Modify Services:</strong> Stichting(de) Lokale reserves the right, at our sole discretion, to modify, add, or remove portions of this Service, including features, functionality, and content, at any time without prior notice. This may be necessary to reflect changes in technology, industry practices, regulatory requirements, or for other reasons deemed appropriate by Stichting(de) Lokale.</p><p id="e57daab7-47ee-420f-90cd-19df6981ac62" class=""><strong>10.2 Amendments to Terms and Conditions:</strong> Similarly, Stichting(de) Lokale reserves the right to modify these Terms and Conditions at any time. When we make changes, we will post the revised Terms and Conditions on our website or within our Service, and update the &quot;Last Updated&quot; date at the top of these Terms. We may also provide additional notice, such as sending an email notification or providing notice through our Service.</p><p id="6669181d-5975-4df7-8f6f-cf934618f137" class=""><strong>10.3 User Responsibility to Review Changes:</strong> It is your responsibility to review the Terms and Conditions periodically for changes. Your continued use of the Service after the posting of changes constitutes your binding acceptance of such changes. If you do not agree to the amended Terms, you must stop using the Service.</p><p id="fb922585-0470-4324-886c-fbb2360c443b" class=""><strong>10.4 Effect of Changes on Users:</strong> Changes to the Service may affect or delete data, features, or functionalities that you have relied on. Stichting(de) Lokale does not guarantee that any specific feature or functionality will always be available. If a change materially affects your use of the Service or your legal rights as a user of the Service, we will attempt to notify you prior to the change&#x27;s effective date.</p><p id="943ce356-27ab-4c55-9e87-b5a5b4a5b66b" class=""><strong>10.5 Feedback and Suggestions:</strong> Stichting(de) Lokale welcomes feedback and suggestions from users regarding possible changes and improvements to the Service. However, the decision to implement any changes remains at our discretion. By submitting feedback, you agree that Stichting(de) Lokale may use and share this feedback for any purpose without compensation to you.</p><p id="bedc3444-00f9-4415-99b6-e39e76119875" class=""><strong>10.6 Discontinuation of Service:</strong> Stichting(de) Lokale reserves the right to suspend or discontinue, temporarily or permanently, the Service (or any part thereof) with or without notice. In the event of a permanent discontinuation, Stichting(de) Lokale will, where practical, provide you with advance notice and an opportunity to retrieve your data, if applicable.</p><h1 id="6e26cf41-dcd6-4c56-86b4-af295cdda308" class=""><strong>11. Termination</strong></h1><p id="3639446b-838d-4876-b4d5-652d3b7949f5" class=""><strong>11.1 Termination by Stichting(de) Lokale:</strong> Stichting(de) Lokale reserves the right to terminate or suspend your digital credentials and access to the Service at any time, without notice, for any reason, including but not limited to breach of these Terms and Conditions, upon the occurrence of any conduct that [Your Company Name] deems unacceptable, or if it is in the best interest of [Your Company Name], other users, or the public. Upon termination, your right to use the Service will immediately cease, and you must immediately cease all use of the Service.</p><p id="89d8f57a-392b-492c-9481-7694a836a373" class=""><strong>11.2 Termination by User:</strong> You may terminate your ID Wallet and digital credentials and discontinue your use of the Service at any time by deleting your ID Wallet app. Termination of your digital credentials is your sole right and remedy with respect to any dispute with Stichting(de) Lokale regarding the Service or these Terms.</p><p id="05de8751-2817-46ce-a70a-9864292dd734" class=""><strong>11.3 Consequences of Termination:</strong> Upon termination or suspension, regardless of the reasons therefor, your right to use the services offered on the Service immediately ceases, and you acknowledge and agree that we may immediately deactivate or delete your digital credentials and all related information and files in your device and/or bar any further access to such files or the Service. Stichting(de) Lokale shall not be liable to you or any third party for any claims or damages arising out of any termination or suspension or any other actions taken by us in connection with such termination or suspension.</p><p id="4d3e37e2-8ffa-46de-9b9f-7900070b921b" class=""><strong>11.4 Survival:</strong> All provisions of these Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p><p id="28dc7624-cbf1-46f0-9b42-8b05a9e9eca8" class=""><strong>11.5 Data Retention and Deletion:</strong> Following termination or deactivation of your digital credentials, Stichting(de) Lokale may retain your information for a commercially reasonable time for backup, archival, and/or audit purposes, which includes only hashes of your digital and physical documents and IDs from other services. In certain instances, we may retain and continue to use certain data as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements.</p><h1 id="11699da4-c445-4614-8cea-78d5149f561d" class=""><strong>12. Dispute Resolution</strong></h1><p id="67119745-b4b3-4f12-8591-f466a87a3dc2" class=""><strong>12.1 Informal Resolution:</strong> Before initiating any formal legal proceedings, you and Stichting(de) Lokale commit to attempting to resolve any disputes arising from or related to the Service through informal negotiations. Please contact Stichting(de) Lokale&#x27;s customer support to begin this process. If the dispute cannot be resolved informally within 30 days, either party may proceed to the next step.</p><p id="f71c8098-3a94-49cd-b15b-d959b70ae269" class=""><strong>12.2 Mediation:</strong> As an intermediary step before arbitration or litigation, the parties may agree to undertake mediation in accordance with the mediation procedures available in Netherlands, with the aim of reaching an amicable settlement.</p><p id="40a2515d-a983-4831-943a-18c4ed80b93d" class=""><strong>12.3 Arbitration:</strong> If mediation does not resolve the dispute, the parties agree to submit the dispute to binding arbitration in Netherlands, in accordance with the Netherlands Law on Commercial Arbitration. The arbitration will be conducted in English or Dutch language and the decision of the arbitrator(s) will be final and binding.</p><p id="0d88f7d3-c71c-481c-a0ab-fa813ff4ee5a" class=""><strong>12.4 Court Proceedings:</strong> Disputes not subject to arbitration, or following an arbitration process where the arbitration award is challenged, will be resolved in the competent courts of Netherlands. You and Stichting(de) Lokale agree to submit exclusively to the jurisdiction of these courts.</p><p id="b8a28f2c-a7ad-4afb-940e-5716e253e086" class=""><strong>12.5 Governing Law:</strong> These Terms and Conditions and any dispute arising from them will be governed by and construed in accordance with the laws of Netherlands, without giving effect to any choice or conflict of law provision or rule.</p><h1 id="50f63e23-74d7-4fbd-9f42-313386444ec1" class=""><strong>13. Limitation of Liability and Warranty Disclaimer</strong></h1><p id="c29b2916-7550-4feb-9e95-f59440858989" class=""><strong>13.1 Warranty Disclaimer:</strong> Stichting(de) Lokale provides the SSI Wallet and Web 3 Voting Service &quot;as is&quot; and &quot;as available&quot; without any warranties of any kind, whether express, implied, statutory, or otherwise, including but not limited to any warranties of merchantability, fitness for a particular purpose, or non-infringement. Stichting(de) Lokale does not warrant that the Service will be uninterrupted, secure, or free from errors, viruses, or other harmful components.</p><p id="ecb65570-a114-45db-93e1-d3920bef6c74" class=""><strong>13.2 Limitation of Liability:</strong> To the fullest extent permitted by applicable law, in no event will Stichting(de) Lokale, its affiliates, officers, directors, employees, agents, or licensors be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to, damages for loss of profits, goodwill, use, data, or other intangible losses, arising out of or related to your use or inability to use the Service, regardless of whether such damages are based on contract, tort (including negligence), strict liability, or any other theory of liability.</p><p id="12f73c0b-ef65-49e1-a5ce-1a9a6e382c97" class=""><strong>13.3 Liability Cap:</strong> In no event will Stichting(de) Lokale&#x27;s total liability arising out of or in connection with these terms or from the use of or inability to use the Service exceed the amount you have paid to Stichting(de) Lokale for the use of the Service or one hundred euros (€100), whichever is greater.</p><p id="787c107d-4d21-4c2a-b978-728fcd4c1d0c" class=""><strong>13.4 User Indemnification:</strong> You agree to defend, indemnify, and hold harmless Stichting(de) Lokale and its affiliates, officers, directors, employees, agents, and licensors from any claim, demand, damages, liabilities, or expenses (including attorneys’ fees) arising from or related to your use of the Service, your violation of these Terms, or your violation of any rights of a third party.</p><p id="23ade2b0-039e-4936-bb90-c252827344c6" class=""><strong>13.5 Essential Basis of the Bargain:</strong> You acknowledge and agree that Stichting(de) Lokale has offered the Service and entered into these Terms in reliance upon the warranty disclaimers and the limitations of liability set forth herein. These provisions form an essential basis of the bargain between you and Stichting(de) Lokale and will survive and apply even if any limited remedy specified in these Terms is found to have failed its essential purpose.</p><p id="e3abc644-a6a8-47f5-9232-859e95b590ad" class=""><strong>13.6 Consumer Rights:</strong> Nothing in these Terms will affect any non-waivable statutory rights that apply to you. If you are a consumer, any statutory consumer guarantees or legislation intended to protect non-business consumers in your jurisdiction will apply to you and may not be contracted out of.</p><h1 id="c907ade8-9358-4012-b550-aba9dbc45297" class=""><strong>14. General Provisions</strong></h1><p id="4b9838ac-6e55-4596-b8db-68e6f7040193" class=""><strong>14.1 Severability:</strong> Should any part of these Terms be held invalid or unenforceable by a court of competent jurisdiction in Netherlands, that part will be modified to reflect the original intention of the parties or eliminated to the minimum extent necessary, with the remainder of the Terms remaining in full effect.</p><p id="3f92eb21-f2d6-4865-8ae9-c45b65aa8e6d" class=""><strong>14.2 Waiver:</strong> Failure by Stichting(de) Lokale to enforce any rights under these Terms does not constitute a waiver of such rights. A waiver is only effective if provided in writing and signed by Stichting(de) Lokale.</p><p id="bc8dc40f-2edb-41b4-917a-c83132486990" class=""><strong>14.3 Entire Agreement:</strong> These Terms, along with any updates and additional agreements related to the Service, represent the complete agreement between you and Stichting(de) Lokale regarding the Service.</p><p id="d54f3692-20f8-49f5-a9f2-18a2491bbe0f" class=""><strong>14.4 Assignment:</strong> You may not assign these Terms without Stichting(de) Lokale&#x27;s written consent. Stichting(de) Lokale may assign these Terms at its discretion. These Terms are binding upon and benefit both parties and their respective permitted successors and assigns.</p><p id="22eb37b2-fb73-4264-92e1-2c5d696ef9ef" class=""><strong>14.5 Notices:</strong> Notices from Stichting(de) Lokale will be sent to you via email or posted on the Service. Email notices are considered received on the date sent.</p><p id="83445897-ba2a-4200-a488-a12741853e94" class=""><strong>14.6 Governing Law:</strong> These Terms are governed by Netherlands law, excluding its conflict of law rules.</p><p id="3dd097ce-014d-4dca-8e99-7a8d06c9198e" class=""><strong>14.7 Jurisdiction:</strong> Any disputes will be resolved in the competent courts of Netherlands, to which you and Stichting(de) Lokale consent to personal jurisdiction.</p><p id="9a0cc4cf-ba43-4e0d-8215-bd8ab0fefbaa" class=""><strong>14.8 Force Majeure:</strong> Stichting(de) Lokale is not liable for delays or failures to perform caused by factors beyond reasonable control, including natural disasters, acts of government, or civil unrest.</p><h1 id="45d8a253-fd31-4510-a644-6301aba9d6d8" class=""><strong>15. Contact Information</strong></h1><p id="3cfcee5e-19e5-45c8-b3d7-49053415e397" class="">Stichting(de) Lokale<br/>Fluwelen Burgwal 58,<br/>2511CJ, Hague, Netherlands<br/></p><p id="4f059a9e-11e3-43fa-979d-6cc37ef69cbc" class="">Jey Rojo</p><p id="da7d5250-f582-44bb-86a1-e405aa4a35fa" class=""><a href="mailto:jeyrojo@proton.me">jeyrojo@proton.me</a></p><h1 id="8c4b5d7d-a733-463e-9c82-27bc7cd7fabf" class=""><strong>16. Effective Date</strong></h1><p id="ecfbe177-b29a-4193-8fee-39d5a53d914d" class="">March 01st, 2024</p><p id="fccc9a10-49c0-4344-8355-7142594379c3" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

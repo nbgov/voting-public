@@ -1,0 +1,240 @@
+{
+  "error": {
+    "poll": {
+      "manager": {
+        "create": "Server failed to process your request on poll creation",
+        "edit": "Can't update the poll in the srevice",
+        "publish": "Can't publish the poll in the srevice",
+        "start": "Can't start the poll in the srevice",
+        "finish": "Can't finish the poll on the service side",
+        "vocodniFinish": "Can't finish the poll on the voting service side"
+      },
+      "delete": "Can't delete the poll"
+    },
+    "tg": {
+      "botUrl": "Bot URL should be a valid URL, preferably of a Telegram Bot"
+    }
+  },
+  "manager": {
+    "poll": {
+      "steps": {
+        "header": "Voting status",
+        "title1": "Unpublished",
+        "descr1": "Run pre-registration to allow voters register to future voting.",
+        "title2": "Pre-registration",
+        "descr2": "Voters can pre-register to future voting. You can launch voting campaign when everything is ready.",
+        "title3": "Voting is run",
+        "descr3": "Registered users can express their opinion until you finish the voting process.",
+        "title4": "Finished",
+        "descr4": "This voting process is finished."
+      },
+      "list": {
+        "table": {
+          "column": {
+            "title": "Poll title",
+            "status": "Status",
+            "actions": "Actions"
+          },
+          "actions": {
+            "edit": "Edit",
+            "manage": "Manage"
+          },
+          "result": {
+            "nocontent": "No content"
+          }
+        },
+        "status": {
+          "unpublished": "Not published",
+          "published": "Pre-registration",
+          "started": "Started",
+          "paused": "Paused",
+          "canceled": "Canceled",
+          "finished": "Finished"
+        },
+        "toolbox": {
+          "title": "Polls"
+        }
+      },
+      "choice": {
+        "error": {
+          "required": "Question choice title is required"
+        },
+        "fields": {
+          "title": "Choice title",
+          "avatarUrl": "Party member picture — fullurl"
+        }
+      },
+      "creation": {
+        "error": {
+          "title": "Poll title is mandatory field",
+          "code": "Poll code should be short signa of the voting"
+        },
+        "result": {
+          "success": "Poll created",
+          "error": "Service is partly unavailable so we can't create the poll"
+        },
+        "header": "Create a new poll",
+        "fields": {
+          "title": "Poll title",
+          "code": "Poll code",
+          "proofGuideUrl": "Guidline Url",
+          "uiType": "Use party voting UI"
+        },
+        "hint": {
+          "title": "Can be changed before the poll is started",
+          "code": "Code also can be changed before the poll is started",
+          "proofGuideUrl": "Url with a guidence describing how to get aditional authorization",
+          "uiType": "Check this checkbox if you want to make voting suitable for party election"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create"
+        }
+      },
+      "edit": {
+        "header": "Prepare poll",
+        "error": {
+          "title": "Poll title is mandatory field",
+          "code": "Poll code should be short signa of the voting",
+          "headerLength": "Poll header shouldn't be longer than 120 symbols",
+          "descrLength": "Poll description shouldn't be longer than 2000 symbols",
+          "registrationEnd": "Registration can't and in the past",
+          "startDate": "Voting can start only after registration ends",
+          "endDate": "Voting can't end before the start"
+        },
+        "fields": {
+          "title": "Poll title",
+          "code": "Poll code",
+          "header": "Header",
+          "descr": "Description",
+          "registrationEnd": "Registration ends at",
+          "startDate": "Voting starts at",
+          "endDate": "Voting ends at"
+        },
+        "requiredProof": {
+          "info": "This voting requires from the voter to have an additional proof in their credential wallet",
+          "title": "Authorization via: ",
+          "guide": "How to guide link: "
+        },
+        "result": {
+          "success": "Poll updated",
+          "error": "Service is partly unavailable so we can't change this poll"
+        },
+        "actions": {
+          "add": "Add question",
+          "cancel": "Cancel",
+          "publish": "Run pre-registration",
+          "start": "Run voting",
+          "update": "Save",
+          "remove": "Delete"
+        },
+        "alert": {
+          "uiType": {
+            "party": {
+              "title": "This is party election voting",
+              "body": "This voting implies only one question. Every question will be treated as an answer, while answers will be treated just as additional information "
+            }
+          }
+        }
+      },
+      "manage": {
+        "header": "Manage poll",
+        "result": {
+          "success": "Poll updated",
+          "error": "Service is partly unavailable so we can't change this poll"
+        },
+        "actions": {
+          "finish": "Finish",
+          "close": "Back",
+          "remove": "Delete"
+        }
+      },
+      "question": {
+        "error": {
+          "title": "Question title is a mandatory field"
+        },
+        "fields": {
+          "title": "Question title",
+          "descr": "Question description"
+        },
+        "actions": {
+          "add": "Add choice"
+        }
+      },
+      "sharedActions": {
+        "preview": "Preview",
+        "copy": "Copy Url"
+      }
+    },
+    "census": {
+      "filter": {
+        "type": {
+          "title": "Authroization type",
+          "hint": "The way the voting authorization will be organized",
+          "empty": "Predefined census",
+          "value": {
+            "offchain": "Predefined census",
+            "csp-non-blinded-non-salted": "CSP — transparent",
+            "csp-blinded-non-salted": "CSP - blinded"
+          }
+        },
+        "tg": {
+          "title": "Require Telegram ID",
+          "hint": "Require Telegram ID for additional authorization",
+          "botUrl": {
+            "title": "Voting Bot",
+            "hint": "Url of telegram voting bot to be used to receive authorization and Tg Id"
+          },
+          "validators": {
+            "label": "Additioanl Telegram claims",
+            "golos": {
+              "label": "Participation in Golos exitpoll"
+            },
+            "cpartizans": {
+              "label": "Identity proof from Cyber Partizans"
+            },
+            "hint": "Additional claims about your identity that can be prooven via Telegram bots"
+          }
+        },
+        "select": {
+          "title": "Require additional authorization",
+          "hint": "Only voters who comply selected requirements will be allowed",
+          "empty": "No"
+        },
+        "source": {
+          "title": "Select type of authorization", 
+          "hint": "The system allows to use diffent ways of autorization in a voting. But only one is allowed right now.",
+          "value": {
+            "skip": "Skip",
+            "newbelarus": "New Belarus Wallet",
+            "proofspace": "Proofspace Wallet"
+          }
+        },
+        "fields": {
+          "size": {
+            "label": "Maximum census size",
+            "hint": "Maximum number of voters who may vote"
+          }
+        },
+        "error": {
+          "size": {
+            "required": "It's a required field. We need to know total number of voters.",
+            "min": "At least one voter is required to execute a voting",
+            "max": "You exided allowed number of voters",
+            "number": "Specified value should be an integer number"
+          }
+        }
+      }
+    },
+    "vocdoni": {
+      "faucet": {
+        "field": {
+          "token": "Faucet tokens"
+        },
+        "action": {
+          "claim": "Claim"
+        }
+      }
+    }
+  }
+}
