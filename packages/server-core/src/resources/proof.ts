@@ -45,7 +45,7 @@ export const createProofResource = (ctx: Context): Resource =>
 export interface ProofResourceService extends Record<string, unknown> {
   load: (userId: string, source: string, id: string) => Promise<Proof | undefined>
   matchPoll: (userId: string, poll: Poll) => Promise<MatchPollResult>
-  createLasting: (userId: string, source: string, id: string, livetime?: number, cadance?: plugin.DurationUnitType) => Promise<Proof | undefined>
+  createLasting: (userId: string, source: string, id: string, livetime?: number | Date, cadance?: plugin.DurationUnitType) => Promise<Proof | undefined>
   cleanUp: () => Promise<void>
   auditProof: (poll: Poll) => Promise<{ [key: string]: number }>
 }
@@ -62,12 +62,16 @@ export const buildProofResourceService: ResourceServiceBuilder = (res, _) => {
       }) ?? undefined
     },
 
-    createLasting: async (userId, source, id, livetime: number = 2, cadance?: plugin.DurationUnitType) => {
+    createLasting: async (userId, source, id, livetime = 2, cadance?) => {
       if (await _service.load(userId, source, id) != null) {
         return undefined
       }
 
-      return await _res.put({ userId, source, id, expiredAt: days(new Date()).add(livetime, cadance ?? 'month').toDate() })
+      return await _res.put({
+        userId, source, id, expiredAt: typeof livetime === 'number'
+          ? days(new Date()).add(livetime, cadance ?? 'month').toDate()
+          : days(livetime).add(1, 'day').toDate()
+      })
     },
 
     matchPoll: async (userId, poll) => {

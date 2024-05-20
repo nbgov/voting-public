@@ -13,6 +13,7 @@ import { vocdoniCsp } from './routes/vocdoni'
 import { newbelarusChallenge } from './routes/newbelarus'
 import { telegram } from './routes/telegram'
 import { audit } from './routes/audit'
+import { veriff } from './routes/veriff'
 
 export const createRouter = (auth: Authentication): PluginBuilder => () => {
   const router = Router()
@@ -104,6 +105,12 @@ export const createRouter = (auth: Authentication): PluginBuilder => () => {
     ...auth.ensure(), newbelarusChallenge.verifyParams, newbelarusChallenge.verify
   )
   router.use('/verification', verifnRtr)
+
+  const vrfRtr = Router()
+  vrfRtr.route('/init/:pollId').get(veriff.init)
+  vrfRtr.route('/hook').post(veriff.hook)
+  vrfRtr.route('/pickup').get(veriff.pickUp)
+  router.use('/veriff', vrfRtr)
 
   const tgRtr = Router()
   tgRtr.route('/auth').post(

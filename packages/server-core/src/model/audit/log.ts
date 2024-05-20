@@ -6,7 +6,10 @@ import { AUDIT_WORKER, QUEUE_AUDIT } from '../../queue/consts'
 import { stabWaitMethod } from '../../queue/utils'
 import { hash } from '@smartapps-poll/common'
 import axios from 'axios'
-import { PROOFSPACE_AUDIT_MARKER, apiAuditMarkers } from './const'
+import { PROOFSPACE_AUDIT_MARKER, VERIFF_AUDIT_MARKER, apiAuditMarkers } from './const'
+import { VeriffHookRequest } from '../veriff/types'
+import { isVeriffDecision } from '../veriff/util'
+import { buildStoreHelper } from '../redis'
 
 export const createAuditLogger = (config: Config): AuditLogger => {
 
@@ -59,8 +62,7 @@ export const createAuditLogger = (config: Config): AuditLogger => {
         { ip: did, host: PROOFSPACE_AUDIT_MARKER, path: '', permissions: 'keypair' },
         {
           process: `proofspace:${process}`, stage, outcome: typeof outcome === 'boolean'
-            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER
-            : outcome
+            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER : outcome
         }
       )
     },
@@ -70,8 +72,21 @@ export const createAuditLogger = (config: Config): AuditLogger => {
         _logger.createMeta(req),
         {
           process: `newbelarus:${process}`, stage, outcome: typeof outcome === 'boolean'
-            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER
-            : outcome
+            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER : outcome
+        }
+      )
+    },
+
+    webPass: (req, process, outcome = false, stage = AuditStage.FINALIZATION) => {
+      const hookEvent = req.body as VeriffHookRequest
+      _logger.send(
+        process === 'hook' ? {
+          ip: isVeriffDecision(hookEvent) ? hookEvent.technicalData.ip : 'unknown',
+          host: VERIFF_AUDIT_MARKER, path: '', permissions: 'hmac'
+        } : _logger.createMeta(req),
+        {
+          process: `webpass:${process}`, stage, outcome: typeof outcome === 'boolean'
+            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER : outcome
         }
       )
     },
@@ -81,8 +96,7 @@ export const createAuditLogger = (config: Config): AuditLogger => {
         _logger.createMeta(req),
         {
           process: `csp:${process}`, stage, outcome: typeof outcome === 'boolean'
-            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER
-            : outcome
+            ? outcome ? AuditOutcome.SUCCESS : AuditOutcome.FAILUER : outcome
         }
       )
     },
@@ -118,11 +132,18 @@ export const buildAuditLoggerSendHandler: AuditLoggerSendHandler = ctx => ({
       let country = ctx.config.ipWhiteList.includes(ip) ? 'secured' : 'unknown'
 
       if (!apiAuditMarkers.includes(job.data.meta?.host ?? '')) {
-        if (ctx.config.ipInfoToken != null && country === 'unknown') {
+        const store = buildStoreHelper(ctx)
+        const key = 'ip-country:' + hash(ctx.config.salt, ip)
+        const _country = await store.get<string>(key)
+        if (_country != null) {
+          country = _country
+        } else if (ctx.config.ipInfoToken != null && country === 'unknown') {
           try {
             country = (await axios.get(`https://ipinfo.io/${ip}/country?token=${ctx.config.ipInfoToken}`)).data as string
           } catch {
             country = 'unindentified'
+          } finally {
+            await store.set(key, country, 3600)
           }
         }
       }

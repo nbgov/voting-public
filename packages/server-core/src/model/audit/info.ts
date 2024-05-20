@@ -35,8 +35,8 @@ export const buildAuditInfoHandler: WorkerHandlerWithCtx<AuditInfoParams, AuditI
         finishTime: poll.endDate.toString(),
         status: poll.status,
         authorized: Object.entries(docsAuthorizd).reduce((memo, [, count]) => memo + count, 0),
-        count: election.voteCount,
-        size: election.maxCensusSize ?? election.census.size,
+        count: election.voteCount ?? 0,
+        size: election.maxCensusSize ?? election?.census?.size ?? poll?.census?.size ?? 0,
       }
     } catch (e) {
       serializeError(e)

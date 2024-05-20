@@ -1,10 +1,13 @@
 import {
   type Census, type Poll, type PollInfo, type RequiredProof,
-  truncatePoll, EMPTY_ACTION, NEWBELARUS_STRATEGY, TELEGRAM_STRATEGY, type TgProofMeta
+  truncatePoll, EMPTY_ACTION, NEWBELARUS_STRATEGY, TELEGRAM_STRATEGY, type TgProofMeta,
+  WEBPASS_STRATEGY,
+  PollStatus
 } from '@smartapps-poll/common'
 import { type EditForm, type PollCreationForm } from './types'
 import { type Context } from '../../../shared/types'
 import { type TFunction } from 'i18next'
+import { isCspCensus } from '../../../helpers'
 
 export const buildEditFormData = (poll: PollInfo): EditForm => {
   const _poll = truncatePoll(poll) as EditForm
@@ -51,6 +54,11 @@ export const populateRequiredProofs = (_: Context, data: PollCreationForm): Part
       } as TgProofMeta
     })
   }
+  if (data.allowWebPass) {
+    requiredProofs.push({
+      _id: "webPass", type: WEBPASS_STRATEGY, guideUrl: data.proofGuideUrl
+    })
+  }
 
   return { requiredProofs }
 }
@@ -60,3 +68,7 @@ export const makeCodeValidationRules = (t: TFunction) => ({
   maxLength: { value: 12, message: t('error.code') ?? '' },
   pattern: { value: /^([A-Z]|[0-9]|[-:#])*$/, message: t('error.code') ?? '' }
 })
+
+export const isStatusEditable = (poll: PollInfo): boolean => isCspCensus(poll)
+  ? [PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll.status)
+  : PollStatus.UNPUBLISHED === poll.status

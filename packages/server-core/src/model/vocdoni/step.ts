@@ -3,7 +3,8 @@ import type { WorkerHandlerWithCtx } from '../../queue/types'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import {
   CensusStatus, PollError, PollReadyError, PollStatus, type TmpTokenAuthenticationMethod, getWalletUtils,
-  VOCDONI_CENSUS_CSP_NBNS, VOCDONI_CENSUS_CSP_BLINDNS, AUTH_TYPE_TOKEN_ONETIME
+  VOCDONI_CENSUS_CSP_NBNS, VOCDONI_CENSUS_CSP_BLINDNS, AUTH_TYPE_TOKEN_ONETIME,
+  OneTimePayload
 } from '@smartapps-poll/common'
 import type { PollResource } from '../../resources/poll'
 import type { VocdoniStepData, VocdoniStepResult } from './types'
@@ -28,7 +29,7 @@ export const buildVocdoniStepHandler: WorkerHandlerWithCtx<VocdoniStepData, Vocd
       const pollRes: PollResource = ctx.db.resource('poll')
 
       const poll = await pollRes.get(votingId, 'externalId')
-      if (poll == null) {
+      if (poll == null || poll.externalId == null) {
         throw new PollError('poll.notexists')
       }
       if (poll.status !== PollStatus.STARTED) {
@@ -47,6 +48,11 @@ export const buildVocdoniStepHandler: WorkerHandlerWithCtx<VocdoniStepData, Vocd
       await authRes.service.cleanTmpToken(user._id)
       if (auth == null) {
         throw new PollError('auth.insecure')
+      }
+
+      const payload: OneTimePayload | undefined = auth.credentials as OneTimePayload
+      if (payload.externalId == null || payload.externalId !== poll.externalId) {
+        throw new PollError('auth.abuse')
       }
 
       switch (authType) {
@@ -85,7 +91,10 @@ export const buildVocdoniStepHandler: WorkerHandlerWithCtx<VocdoniStepData, Vocd
               const blindingParams = newRequestParameters()
               const token = pointToHex(blindingParams.signerR)
 
-              await authRes.service.createTmpToken(token, undefined, AUTH_TYPE_TOKEN_ONETIME, { k: blindingParams.k.toHex(32) })
+              await authRes.service.createTmpToken(token, undefined, AUTH_TYPE_TOKEN_ONETIME, { 
+                k: blindingParams.k.toHex(32),
+                externalId: poll.externalId
+              })
 
               return { token }
           }

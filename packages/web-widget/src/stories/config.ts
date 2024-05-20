@@ -15,6 +15,8 @@ export const debugConfig: Config = {
   },
   hideProofspace: false,
   hideTg: false,
+  hideWebPass: false,
+  hiddenStrategies: [],
   firebase: {},
   sharableBaseUrl: process.env.SHARABLE_BASE_URL ?? 'http://localhost:3000'
 }

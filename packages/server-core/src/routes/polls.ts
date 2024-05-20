@@ -1,52 +1,45 @@
 import { constants as HTTP } from 'http2'
-import { fillPagination, type Listed, type NewPoll, type Pager, type Poll, type PollInfo, PollStatus, type RequiredProof, type User, VOCDONI_CENSUS_OFFCHAIN } from '@smartapps-poll/common'
+import { fillPagination, type Listed, type NewPoll, type Pager, type Poll, type PollInfo, PollStatus } from '@smartapps-poll/common'
 import { type Request, type RequestHandler } from 'express'
-import { type MemberResource } from '../resources/member'
 import { IntegrationError } from '../model/errors'
 import { AuhtorizationError, MalformedError } from './errors'
 import { PollAuthorization, type PollResource } from '../resources/poll'
 import { PollManagerError } from '../resources/errors'
-import { buildProofMeta } from '../model/proof'
 import { buildStoreHelper } from '../model/redis'
 import { POLLS_CACHE } from '../model/poll/cache'
 import { checkSchema, validationResult } from 'express-validator'
 import { strValSchema } from './consts'
+import { buildPollCreateHandler } from '../model/poll/create'
+import { buildPollDeleteHandler } from '../model/poll/delete'
+import { buildPollUpdateHandler } from '../model/poll/update'
 
+/**
+ * @TODO Shild mutating endpoints with queue
+ */
 export const polls = {
   /**
-   * @admin
-   * @queue
+   * @admin 
+   * @queue ✅
    */
   create: (async (req: Request<PollsParams, Poll, NewPoll>, res) => {
     try {
-      const memRes: MemberResource = req.context.db.resource('member')
       const poll = req.body
       if (poll.serviceId == null || poll.orgId == null || poll.managerId == null) {
         throw new IntegrationError('integration.unknown')
       }
-      const member = await memRes.service.authorize(req.user as User, poll.serviceId, poll.orgId, poll.managerId)
-      if (member == null) {
-        throw new AuhtorizationError()
+      if (req.user == null) {
+        throw new AuhtorizationError('create.guest')
       }
-      const newPoll = { ...poll }
-      delete newPoll.managerId
-
-      const pollRes: PollResource = req.context.db.resource('poll')
-
-      newPoll.requiredProofs = (await Promise.all(
-        newPoll.requiredProofs?.map(async proof => await buildProofMeta(
-          req.context, proof, newPoll.census?.type ?? VOCDONI_CENSUS_OFFCHAIN
-        )) ?? []
-      )).filter(proof => proof != null) as RequiredProof[]
-
-      const result = await pollRes.service.create(newPoll, member)
+      const result = await buildPollCreateHandler(req.context).wait({ poll, user: req.user })
 
       const store = buildStoreHelper(req.context)
       await store.clean(POLLS_CACHE, true)
 
       res.json(result)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof PollManagerError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else if (e instanceof IntegrationError) {
@@ -95,7 +88,9 @@ export const polls = {
       await store.save(key, result, [POLLS_CACHE])
       res.json(result)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof Error) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else {
@@ -158,7 +153,9 @@ export const polls = {
 
       res.json(result)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof Error) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else {
@@ -205,7 +202,9 @@ export const polls = {
 
       res.json(presentation)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof MalformedError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else if (e instanceof PollManagerError) {
@@ -227,7 +226,7 @@ export const polls = {
 
   /**
    * @admin
-   * @queue
+   * @queue ✅
    */
   delete: (async (req: Request<PollsParams>, res) => {
     try {
@@ -238,30 +237,19 @@ export const polls = {
         throw new AuhtorizationError('update.guest')
       }
 
-      const memRes: MemberResource = req.context.db.resource('member')
-      const pollRes: PollResource = req.context.db.resource('poll')
-      const poll = await pollRes.get(req.params.id)
-      if (poll == null) {
-        throw new MalformedError('missed.poll')
-      }
-      const member = await memRes.service.authorize(req.user, poll.serviceId, poll.orgId)
-      if (member == null) {
-        throw new AuhtorizationError('member.unauthorized')
-      }
-      const presentation = await pollRes.service.authorize(poll, req.user, PollAuthorization.MANAGEMENT)
-      if (presentation.manager == null) {
-        throw new AuhtorizationError('poll.manager.unauthorized')
-      }
+      const deleted = await buildPollDeleteHandler(req.context).wait({ id: req.params.id, user: req.user })
 
-      const deleted = await pollRes.service.delete(presentation, member)
-
-      const store = buildStoreHelper(req.context)
-      await store.clean(POLLS_CACHE, true)
-      await store.clean({ id: req.params.id, method: 'poll' })
+      if (deleted) {
+        const store = buildStoreHelper(req.context)
+        await store.clean(POLLS_CACHE, true)
+        await store.clean({ id: req.params.id, method: 'poll' })
+      }
 
       res.json({ deleted })
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof MalformedError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else if (e instanceof PollManagerError) {
@@ -279,7 +267,7 @@ export const polls = {
 
   /**
    * @admin
-   * @queue
+   * @queue ✅
    */
   update: (async (req: Request<PollsParams, PollInfo, Partial<Poll>>, res) => {
     try {
@@ -290,31 +278,22 @@ export const polls = {
         throw new AuhtorizationError('update.guest')
       }
 
-      const memRes: MemberResource = req.context.db.resource('member')
-      const pollRes: PollResource = req.context.db.resource('poll')
-      const poll = await pollRes.get(req.params.id)
-      if (poll == null) {
-        throw new MalformedError('missed.poll')
-      }
-      const member = await memRes.service.authorize(req.user, poll.serviceId, poll.orgId)
-      if (member == null) {
-        throw new AuhtorizationError('member.unauthorized')
-      }
-      const presentation = await pollRes.service.authorize(poll, req.user, PollAuthorization.MANAGEMENT)
-      if (presentation.manager == null) {
-        throw new AuhtorizationError('poll.manager.unauthorized')
-      }
+      const updated = await buildPollUpdateHandler(req.context).wait({
+        id: req.params.id, poll: req.body as PollInfo, user: req.user
+      })
 
-      const updated = await pollRes.service.update(presentation, req.body, member, PollAuthorization.MANAGEMENT)
-
-      const store = buildStoreHelper(req.context)
-      await store.clean(POLLS_CACHE, true)
-      await store.clean({ id: req.params.id, method: 'poll', manager: 'true' })
-      await store.clean({ id: req.params.id, method: 'poll', manager: undefined })
+      if (updated._id) {
+        const store = buildStoreHelper(req.context)
+        await store.clean(POLLS_CACHE, true)
+        await store.clean({ id: updated._id, method: 'poll', manager: 'true' })
+        await store.clean({ id: updated._id, method: 'poll', manager: undefined })
+      }
 
       res.json(updated)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof MalformedError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else if (e instanceof PollManagerError) {

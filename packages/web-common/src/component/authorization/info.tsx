@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions'
 import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, TELEGRAM_STRATEGY } from '@smartapps-poll/common'
+import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, TELEGRAM_STRATEGY, WEBPASS_STRATEGY } from '@smartapps-poll/common'
 import type { RequiredProof, TgProofMeta } from '@smartapps-poll/common'
 import CardHeader from '@mui/material/CardHeader'
 import { useCtx } from '../../context'
@@ -36,6 +36,13 @@ export const ConditionInfo: FC<ConditionInfoProps> = ({ poll, back, noBorder }) 
           if (ctx.config.hideTg && proof.type === TELEGRAM_STRATEGY) {
             return
           }
+          if (ctx.config.hideWebPass && proof.type === WEBPASS_STRATEGY) {
+            return
+          }
+          if (proof.type === NEWBELARUS_STRATEGY) {
+            return
+          }
+
           return <Box key={proof.type} mt={2}>
             <Typography variant="h5">{t(`${proof.type}.title`)}</Typography>
             {(() => {
@@ -62,6 +69,10 @@ export const ConditionInfo: FC<ConditionInfoProps> = ({ poll, back, noBorder }) 
                     <Typography>{t('telegram.info')}</Typography>
                     <Button startIcon={<TelegramIcon />} onClick={open(_proof.meta?.botUrl)}
                       variant="contained" sx={{ mt: 1 }}>{t('telegram.bot')}</Button>
+                  </>
+                case WEBPASS_STRATEGY:
+                  return <>
+                    <Typography>{t('webpass.info')}</Typography>
                   </>
               }
             })()}

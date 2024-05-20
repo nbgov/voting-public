@@ -24,6 +24,7 @@ import { useSmallPaddings } from '../helpers'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { isViewWrapped } from './utils'
+import { isCspCensus } from '../../helpers'
 
 export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
   const { t } = useTranslation()
@@ -39,6 +40,18 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
   const [voteId, setVoteId] = useState<string | undefined>()
   const [org, setOrg] = useState<Organization | undefined>(undefined)
 
+  const onRefresh = async () => {
+    if (id != null) {
+      const poll = await context?.web.polls.load(id)
+      if (poll != null) {
+        setVoteId(await buildStoreHelper(_context).loadVote(poll))
+        setPoll(poll as Poll)
+      } else {
+        setError(t, 404, 'error.poll.no')
+      }
+    }
+  }
+
   useEffect(() => {
     void (async () => {
       if (poll?.serviceId == null || poll?.orgId == null) {
@@ -49,25 +62,12 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
     })()
   }, [poll?.serviceId, poll?.orgId])
 
-  useEffect(() => {
-    void (async () => {
-      if (id != null) {
-        const poll = await context?.web.polls.load(id)
-        if (poll != null) {
-          setVoteId(await buildStoreHelper(_context).loadVote(poll))
-          setPoll(poll as Poll)
-        } else {
-          setError(t, 404, 'error.poll.no')
-        }
-      }
-    })()
-  }, [id])
+  useEffect(() => { void onRefresh() }, [id])
 
   useEffect(() => {
     void (async () => {
-      if (poll?.status != null && context != null &&
-        ![PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll.status) &&
-        poll.externalId != null) {
+      if (poll?.status != null && context != null && poll.externalId != null &&
+        ![PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll.status)) {
         try {
           setPoll(await context.strategy.service().poll.update(poll) as Poll)
         } catch (e) {
@@ -119,11 +119,13 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
     nav.go(pollResultsVote(voteId))
   }
 
-  const startDate = new Date(poll?.createdAt ?? new Date())
+  const isCsp = useMemo(() => poll != null ? isCspCensus(poll)() : true,[poll?._id])
+
+  const startDate = new Date(isCsp && poll != null ? poll.startDate : poll?.createdAt ?? new Date())
   const endDate = new Date(
     poll == null
       ? new Date()
-      : poll.status === PollStatus.PUBLISHED
+      : poll.status === PollStatus.PUBLISHED && !isCsp
         ? poll.registrationEnd
         : poll.endDate
   )
@@ -162,7 +164,7 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
         />
         <Navigator navigation={nav}>
           <Screen screen={POLL_VIEW_REGISTRATION}>
-            <PollViewRegistration poll={poll as Poll} status={status} onRegister={onRegister} />
+            <PollViewRegistration poll={poll as Poll} status={status} onRegister={onRegister} onRefresh={onRefresh} />
           </Screen>
           <Screen screen={POLL_VIEW_VOTE}>
             <PollViewVote poll={poll as Poll} onVote={onVote} onInfo={onVote} skipSuccess />

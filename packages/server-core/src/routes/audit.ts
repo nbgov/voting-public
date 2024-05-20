@@ -24,7 +24,9 @@ export const audit = {
 
       res.json(audit)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof MalformedError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else {

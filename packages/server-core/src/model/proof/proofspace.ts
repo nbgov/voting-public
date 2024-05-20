@@ -1,5 +1,5 @@
 import type { Context } from '../../types'
-import { ALLOWRD_PROOFSPACE_COUNTRIES, PROOFSPACE_STRATEGY, castPassportFromPs, type PsCredential } from '@smartapps-poll/common'
+import { PROOFSPACE_STRATEGY, castPassportFromPs, type PsCredential } from '@smartapps-poll/common'
 import type { AuthorizeResourceHandler, ProofService } from '../../resources/types'
 import type { PollResource } from '../../resources/poll'
 import { DEDUPLICATION_FIELD_VALUE } from '../../resources/consts'
@@ -45,7 +45,7 @@ export const makeAuthorizePsResourceHandler = (ctx: Context, proofService: Proof
         return false
       }
       const passport = castPassportFromPs(cred)
-      if (!ALLOWRD_PROOFSPACE_COUNTRIES.includes(passport.countryCode)) {
+      if (!ctx.config.proofspace.allowrdCountries.includes(passport.countryCode)) {
         console.log('wrong country')
         return false
       }
@@ -84,7 +84,7 @@ export const makeAuthorizePsResourceHandler = (ctx: Context, proofService: Proof
     // a new proof object. In this case we think that the deduplication is failed and we 
     // are safe to denie voting authorization.
     const proofRes: ProofResouce = ctx.db.resource('proof')
-    const proof = await proofRes.service.createLasting(dedupHash, dedupSource, resourceId)
+    const proof = await proofRes.service.createLasting(dedupHash, dedupSource, resourceId, poll.endDate)
     if (proof == null) {
       console.log('voting proof failed')
       return false

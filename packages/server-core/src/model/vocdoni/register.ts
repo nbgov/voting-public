@@ -44,7 +44,7 @@ export const buildCensusRegisterHandler: WorkerHandlerWithCtx<CensusRegisterData
 
         return result as {}
       } catch (e) {
-        console.error(e)
+        // console.error(e)
         if (e instanceof CensusSyntaxError) {
           throw e
         }

@@ -1,4 +1,4 @@
-import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, dockNBPrefedinedActions, type PsActionTemplate, type PsCredential, type RequiredProof, CRED_TYPE_NEWBELARUSPASSPORT, NBServiceData, TELEGRAM_STRATEGY } from '@smartapps-poll/common'
+import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, dockNBPrefedinedActions, type PsActionTemplate, type PsCredential, type RequiredProof, CRED_TYPE_NEWBELARUSPASSPORT, NBServiceData, TELEGRAM_STRATEGY, WEBPASS_STRATEGY } from '@smartapps-poll/common'
 import { type Context } from '../types'
 import { createProofspaceWalletStrategy } from '../startegy/proofspace/wallet'
 import { type ServiceResource } from '../resources/service'
@@ -24,6 +24,8 @@ export const buildProofMeta = async (context: Context, proof: RequiredProof, kin
     case TELEGRAM_STRATEGY: {
       return { ...proof }
     }
+    case WEBPASS_STRATEGY:
+      return { ...proof, meta: {} }
     default:
       return undefined
   }

@@ -99,7 +99,7 @@ export const CensusFilter: FC = () => {
     <Controller control={control} name="tg.requireId" defaultValue={false} render={({ field, fieldState }) => {
       return (
         <FormControl fullWidth sx={{ mb: isTgRequired ? 1 : 2 }}>
-          <FormControlLabel control={<Checkbox {...field} checked={field.value} value="true" onChange={(e) => {
+          <FormControlLabel control={<Checkbox {...field} checked={field.value} value="true" onChange={e => {
             field.onChange(e.target.checked)
             trigger()
           }} />} {...field} label={t('tg.title')} />
@@ -132,6 +132,20 @@ export const CensusFilter: FC = () => {
         </FormControl>
       )} />
     </> : undefined}
+
+    <Controller control={control} name="allowWebPass" defaultValue={false} render={({ field, fieldState }) => {
+      return (
+        <FormControl fullWidth sx={{ mb: 1 }}>
+          <FormControlLabel {...field} label={t('web-pass.title')} control={
+            <Checkbox {...field} checked={field.value} value="true" onChange={e => {
+              field.onChange(e.target.checked)
+              trigger()
+            }} />
+          } />
+          <FormHelperText>{fieldState.invalid ? fieldState.error?.message : t('web-pass.hint')}</FormHelperText>
+        </FormControl>
+      )
+    }} />
   </>
 }
 

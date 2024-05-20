@@ -71,5 +71,5 @@ export const decryptTelegramToken = async (ctx: Context, data: TelegramDecryptDa
   }
 
   const helper = buildStoreHelper(ctx)
-  return { token: await helper.tokenize(user), golos: user.golos }
+  return { token: await helper.tokenize(user, 'tg-user'), golos: user.golos }
 }

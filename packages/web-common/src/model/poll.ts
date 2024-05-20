@@ -1,4 +1,4 @@
-import { type Poll, PollError, PollStatus, getProofStrategy, isAuthroizationRequired, PROOFSPACE_STRATEGY, PsActionTemplate, isPsAuthenticationRequired, TELEGRAM_STRATEGY } from '@smartapps-poll/common'
+import { type Poll, PollError, PollStatus, getProofStrategy, isAuthroizationRequired, PROOFSPACE_STRATEGY, PsActionTemplate, isPsAuthenticationRequired, TELEGRAM_STRATEGY, MULTIPROOF_STRATEGY } from '@smartapps-poll/common'
 import { type PollHelper } from './types'
 import { type CommonContext } from '../context'
 import { pollAuthroizationVerificators } from '../component/authorization/strategy'
@@ -15,16 +15,21 @@ export const buildPollHelper = (ctx: CommonContext): PollHelper => {
       if (![PollStatus.PUBLISHED, PollStatus.STARTED].includes(poll.status)) {
         throw new PollError('poll.registration')
       }
-      const strategy = getProofStrategy(poll, ctx.strategy.creds().getType())
+      const strategy = getProofStrategy(poll, { 
+        preferedStrategy: ctx.strategy.creds().getType(),
+        hiddenStrategies: ctx.config.hiddenStrategies
+      })
       if (poll.requiredProofs == null || poll.requiredProofs.length < 1 ||
         poll.requiredProofs.some(proof => proof.meta == null)) {
         throw new PollError('poll.noproof')
       }
-      if (poll.requiredProofs.filter(proof => proof.type !== TELEGRAM_STRATEGY).length > 2) {
-        throw new PollError('poll.multiproof.support')
+      if (strategy === MULTIPROOF_STRATEGY) {
+        poll.requiredProofs.filter(proof => proof.type !== TELEGRAM_STRATEGY)
+          .map(proof => pollAuthroizationVerificators[proof.type](poll, config))
+      } else {
+        pollAuthroizationVerificators[strategy](poll, config)
       }
-
-      pollAuthroizationVerificators[strategy](poll, config)
+      
       return strategy
     },
 

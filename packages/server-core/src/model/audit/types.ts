@@ -10,6 +10,7 @@ export interface AuditLogger {
   view: (req: Request, process: string) => void
   proofspace: (did: string, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
   nb: (req: Request, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
+  webPass: (req: Request, process: string, outcome?: AuditOutcome | boolean, stage?: AuditStage) => void
   vocdoni: (req: Request, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
   createMeta: (req: Request) => AuditLoggerMeta
   setContext: (ctx: Context) => void

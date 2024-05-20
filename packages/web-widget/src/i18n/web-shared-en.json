@@ -81,6 +81,12 @@
           "description": "Registration for the future voting is required to prepare your ballot and make sure that no ballots are faked.",
           "inPast": "Registation for voting is ended",
           "endDate": "Registration ends in"
+        },
+        "stub": {
+          "title": "The voting isn't started yet",
+          "description": "Please, wait until the voting starts. You will be able to vote when the election time comes.",
+          "startDate": "The voting will start in",
+          "refresh": "Refresh"
         }
       },
       "result": {
@@ -94,13 +100,13 @@
           "voteId": {
             "label": "Voting code",
             "hint": "Put your voting code here to check the results",
-            "provided": "Id to confirm your participation in the voting"
+            "provided": "Id to confirm your participation in the voting on the blockcahin or our site"
           },
           "error": {
             "required": "Voting code is required to check your vote"
           }
         },
-        "voted": "Save vote code to be able to check it: {{voteId}}"
+        "voted": "Save vote code to be able to check it on the blockchain or our site: {{voteId}}"
       },
       "progress": {
         "value": "{{count}} out of {{size}}",

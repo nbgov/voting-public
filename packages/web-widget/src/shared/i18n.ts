@@ -31,6 +31,7 @@ export const initI18nShared = (options: InitOptions, config: Config): I18n => {
 
   const i18next = initI18nWeb({
     ...options,
+    lng: 'be',
     resources: {
       en: { translation: englishSharedTranslation },
       be: { translation: belarusSharedTranslation },

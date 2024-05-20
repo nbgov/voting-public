@@ -22,6 +22,7 @@ export interface PollCreationForm {
   requiredProofs: string[]
   proofGuideUrl: string
   uiType: boolean
+  allowWebPass: boolean
   tg: {
     requireId: boolean
     botUrl: string

@@ -25,7 +25,8 @@ export const PollCreation: FunctionComponent<PollCreationProps> = ({ onSuccess, 
     mode: 'onChange',
     defaultValues: {
       title: '', code: '', requiredProofs: [''], proofGuideUrl: '', uiType: false, census: { type: '', size: 1 },
-      credSources: [DEFAULT_CRED_SOURCE, SKIP_CRED_SOURCE], tg: { requireId: undefined, botUrl: '', validators: [] }
+      credSources: [DEFAULT_CRED_SOURCE, SKIP_CRED_SOURCE], allowWebPass: false,
+      tg: { requireId: undefined, botUrl: '', validators: [] }
     }
   })
   const { control, handleSubmit, watch, trigger } = methods

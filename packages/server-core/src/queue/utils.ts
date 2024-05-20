@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { AuthError, CensusRegistration, IntegrationError, NewBelarusError, ProofspaceError } from '../model/errors'
+import { AuthError, CensusRegistration, IntegrationError, NewBelarusError, ProofspaceError, VeriffError } from '../model/errors'
 import { PollError } from '@smartapps-poll/common'
 import { AuhtorizationError, MalformedError } from '../routes/errors'
 import type { Context } from '../types'
@@ -9,7 +9,9 @@ import { ProofError } from '../resources/errors'
 
 export const serializeError = (e: unknown): never => {
   // console.log(new Error().stack)
-  console.error(e)
+  // console.error(e)
+  // console.log((e as any)?.message)
+  // console.log((e as any)?.stack)
   if (e instanceof IntegrationError) {
     throw new Error(`integration:${e.message}`)
   } else if (e instanceof CensusRegistration) {
@@ -30,6 +32,8 @@ export const serializeError = (e: unknown): never => {
     throw new Error(`proofspace:${e.message}`)
   } else if (e instanceof AxiosError) {
     throw new Error(`axios:${e.message}`)
+  } else if (e instanceof VeriffError) {
+    throw new Error(`veriff:${e.message}`)
   } else if (e instanceof Error) {
     throw new Error(`${e.name}:${e.message}`)
   } else {
@@ -68,6 +72,8 @@ export const deserializeError = (e: unknown): never => {
         throw new ProofspaceError(info[1])
       case 'axios':
         throw new AxiosError(info[1])
+      case 'veriff':
+        throw new VeriffError(info[1])
     }
   }
   if (e instanceof Error) {

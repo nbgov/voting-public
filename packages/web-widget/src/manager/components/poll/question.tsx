@@ -8,8 +8,9 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 import { QuestionChoice } from './choice'
 import { type EditForm, type PollQuestionProps } from './types'
 import IconButton from '@mui/material/IconButton'
-import { POLL_CHOICE_MAX, PollStatus, prepareEmptyChoice } from '@smartapps-poll/common'
+import { POLL_CHOICE_MAX, prepareEmptyChoice } from '@smartapps-poll/common'
 import { useTranslation } from 'react-i18next'
+import { isStatusEditable } from './utils'
 
 export const PollQuestion: FunctionComponent<PollQuestionProps> = ({ poll, index, remove }) => {
   const { t } = useTranslation(undefined, { keyPrefix: 'manager.poll.question' })
@@ -17,7 +18,7 @@ export const PollQuestion: FunctionComponent<PollQuestionProps> = ({ poll, index
   const { fields: choices, append: appendChoice, remove: removeChoice } = useFieldArray<EditForm>(
     { control, name: `questions.${index}.choices` }
   )
-  const disabled = poll.status !== PollStatus.UNPUBLISHED
+  const disabled = isStatusEditable(poll)
   return <Grid item container direction="column" justifyContent="center" alignItems="stretch" p={2}>
     <Grid item container direction="row" justifyContent="space-between" alignItems="stretch" p={1}>
       <Grid item container xs={1} justifyContent="center" alignItems="center">

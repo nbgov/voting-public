@@ -8,6 +8,8 @@ export const debugConfig: Config = {
   apiPickUpDelay: process.env.API_PICKUP_DELAY == null ? 2000 : parseInt(process.env.API_PICKUP_DELAY),
   hideProofspace: false,
   hideTg: false,
+  hideWebPass: false,
+  hiddenStrategies: [],
   vocdoni: {
     env: process.env.VOCDONI_ENV as EnvOptions ?? "dev",
     fireproxy: false

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ResultBox, ResultBoxStatus } from '../utils'
 import { LocalizedError } from '@smartapps-poll/common'
 import { IntegrationError } from '../../integration'
-import { ProofspaceAuthorizationChoice } from './choice'
+import { AuthorizationChoice } from './choice'
 
 export const ProofspaceIntegratedAuthorization: FunctionComponent<ProofspaceIntegratedAuthorizationProsp> = ({
   pollId, onSuccess, onBack, skipSuccess
@@ -48,7 +48,7 @@ export const ProofspaceIntegratedAuthorization: FunctionComponent<ProofspaceInte
     ? <ResultBox status={status} error={error} retry={retry} msg={{
       success: t('result.success', { name }), error: t('result.error')
     }} onSuccess={onSuccess} />
-    : <ProofspaceAuthorizationChoice pollId={pollId} onBack={onBack} onSuccess={onChoiceSuccess} skipSuccess />
+    : <AuthorizationChoice pollId={pollId} onBack={onBack} onSuccess={onChoiceSuccess} skipSuccess />
 }
 
 export interface ProofspaceIntegratedAuthorizationProsp extends IntegratedAuthAsyncProps {

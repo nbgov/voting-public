@@ -26,7 +26,7 @@ export const createNBWrapperWalletStrategy = (): CredentialsWalletStrategy<Commo
         ? action.find(action => action.type === NEWBELARUS_STRATEGY) as RequiredProof
         : action
       const _action = action as unknown as DockActionTemplate
-      if (_action.type !== NEWBELARUS_STRATEGY) {
+      if (_action?.type !== NEWBELARUS_STRATEGY) {
         throw new NewBelarusWalletInteractionError('wallet.action.mismatch')
       }
 

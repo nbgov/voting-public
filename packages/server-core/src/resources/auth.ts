@@ -2,7 +2,7 @@ import type { Resource, ResourceServiceBuilder } from '../db/types'
 import type { Context } from '../types'
 import { createResourceBuilder } from '../db/resource'
 import { AUTH_ANONYMOUS, AUTH_TYPE_TOKEN, AUTH_TYPE_TOKEN_ONETIME, AUTH_TYPE_TOKEN_ONETIME_SEED, buildAnonymousUser, fromBase64, hash, randomToken } from '@smartapps-poll/common'
-import type { AuthTmpTokenType, AuthenticationMethod, TmpTokenAuthenticationMethod, TokenAuthenticationMethod, User } from '@smartapps-poll/common'
+import type { AuthTmpTokenType, AuthenticationMethod, OneTimePayload, TmpTokenAuthenticationMethod, TokenAuthenticationMethod, User } from '@smartapps-poll/common'
 import days from 'dayjs'
 import { AUTH_TYPE_PS, TERMINATION_PAYLOAD, type ProofspaceAuthenticationMethod } from '../auth/method/proofspace/types'
 import { AUTH_PICKUP_KEY, type AuthenticationWithUser } from '../auth/method/types'
@@ -281,7 +281,8 @@ export const buildAuthUtils: ResourceServiceBuilder = (res, ctx) => {
           await userModel.takeForUser(AUTH_PICKUP_KEY)
           return authWithUser
         }
-        await authRes.service.createTmpToken(auth, false)
+        const payload: OneTimePayload = { externalId: pickup ?? 'unknown' }
+        await authRes.service.createTmpToken(auth, false, AUTH_TYPE_TOKEN_ONETIME, payload)
       } else if (authWithUser?.user[0] != null) {
         await authRes.service.createToken(authWithUser.user[0], auth)
       }

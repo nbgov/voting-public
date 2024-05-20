@@ -35,4 +35,4 @@ export const ALGO_CONCURENCY = 5000
 
 export const AUTH_CLEAUP_FREQUENCY = 300
 
-export const PROOF_CLEAUP_FREQUENCY = 3600 * 12
+export const PROOF_CLEAUP_FREQUENCY = 3600

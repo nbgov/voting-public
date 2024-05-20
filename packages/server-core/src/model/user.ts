@@ -3,7 +3,7 @@ import type { Context } from '../types'
 import { buildStoreHelper } from './redis'
 
 export const makeUserModel = (ctx: Context, user: User): UserModel => {
-  const _key = (key: string): string => `${user._id}:${key}`
+  const _key = (key: string): string => `user-data:${user._id}:${key}`
   const store = buildStoreHelper(ctx)
 
   const _utils: UserModel = {

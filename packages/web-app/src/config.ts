@@ -1,7 +1,7 @@
 import type { Config } from '@smartapps-poll/web-widget/dist/app'
 import type { EnvOptions } from '@vocdoni/sdk'
 import * as ethers from 'ethers'
-import { DANGEROUS_COUNTRIES, hydarteArgon, hydrateEthers } from '@smartapps-poll/common'
+import { DANGEROUS_COUNTRIES, PROOFSPACE_STRATEGY, TELEGRAM_STRATEGY, WEBPASS_STRATEGY, hydarteArgon, hydrateEthers } from '@smartapps-poll/common'
 import { argon2id } from '@noble/hashes/argon2'
 import { apiOverrides } from './api-overrides'
 
@@ -11,6 +11,8 @@ hydarteArgon(argon2id) // @TODO There is missalignment with the server side impl
 const noProxy = document.location.search.includes('noproxy=true') || process.env.REACT_APP_API_FIREPROXY === 'false'
 
 const showProofspace = document.location.search.includes('showproofspace=true')
+const showWebPass = document.location.search.includes('showwebpass=true')
+const showTg = document.location.search.includes('showtg=true')
 
 console.info('APP MODE', {
   debug: process.env.REACT_APP_DEBUG_MODE === 'true',
@@ -29,7 +31,9 @@ export const config: Config = {
   fireproxyProject: process.env.REACT_APP_FIREPROXY ?? '',
   apiPickUpDelay: parseInt(process.env.REACT_APP_API_PICKUP_DELAY ?? '3000'),
   hideProofspace: process.env.REACT_APP_HIDE_PROOFSPACE === 'true' && !showProofspace,
-  hideTg: process.env.REACT_APP_HIDE_TELEGRAM === 'true' && !showProofspace,
+  hideTg: process.env.REACT_APP_HIDE_TELEGRAM === 'true' && !showTg,
+  hideWebPass: process.env.REACT_APP_HIDE_WEBPASS === 'true' && !showWebPass,
+  hiddenStrategies: [],
   vocdoni: {
     env: (process.env.REACT_APP_VOCDONI_ENV ?? 'dev') as EnvOptions,
     fireproxy: (process.env.REACT_APP_VOCDONI_FIREPROXY ?? 'true') === 'true'
@@ -46,3 +50,13 @@ export const config: Config = {
   geoCheckURL: process.env.REACT_APP_IPCHECK_URL,
   apiOverrides: apiOverrides(noProxy)
 }
+
+Object.entries({
+  [PROOFSPACE_STRATEGY]: config.hideProofspace,
+  [TELEGRAM_STRATEGY]: config.hideTg,
+  [WEBPASS_STRATEGY]: config.hideWebPass
+}).forEach(([strategy, hide]) => {
+  if (hide) {
+    config.hiddenStrategies.push(strategy)
+  }
+})

@@ -1,5 +1,9 @@
 import Stack from '@mui/material/Stack'
-import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, type Poll, PollError, type PollInfo, type ProofspaceConfig, type PsActionTemplate, isAuthroizationRequired } from '@smartapps-poll/common'
+import {
+  NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, type Poll, PollError, type PollInfo,
+  type ProofspaceConfig, type PsActionTemplate, isAuthroizationRequired,
+  WEBPASS_STRATEGY, MULTIPROOF_STRATEGY, nonChoiceStrategies
+} from '@smartapps-poll/common'
 import { type FC } from 'react'
 import { useCtx } from '../../context/model'
 import Button from '@mui/material/Button'
@@ -28,7 +32,7 @@ export const pollAuthroizationVerificators: Record<string, VerifyPollForAuthoriz
       throw new PollError('poll.proof.malformed')
     }
   },
-  [NEWBELARUS_STRATEGY]: (poll) => {
+  [NEWBELARUS_STRATEGY]: poll => {
     if (poll.requiredProofs == null) {
       throw new PollError('poll.noproof')
     }
@@ -39,15 +43,41 @@ export const pollAuthroizationVerificators: Record<string, VerifyPollForAuthoriz
     if (proof?.meta == null) {
       throw new PollError('poll.proof.malformed')
     }
+  },
+  [WEBPASS_STRATEGY]: poll => {
+    if (poll.requiredProofs == null) {
+      throw new PollError('poll.noproof')
+    }
+    if (poll.requiredProofs.length < 1) {
+      throw new PollError('poll.noproof')
+    }
+    const proof = poll.requiredProofs.find(proof => proof.type === WEBPASS_STRATEGY)
+    if (proof?.meta == null) {
+      throw new PollError('poll.proof.malformed')
+    }
   }
 }
 
-export const ButtonStackStrategy: FC<ButtonStackStrategyProps> = ({ navigate, poll, strategy, authorize }) => {
+export const ButtonStackStrategy: FC<ButtonStackStrategyProps> = ({
+  navigate, poll, strategy, authorize, selectStrategy
+}) => {
   const ctx = useCtx()
   const { t } = useTranslation(undefined, { keyPrefix: 'common.authorization.choice' })
 
   switch (strategy) {
     case NEWBELARUS_STRATEGY:
+      return <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={1}>
+        <Button variant="contained" size="large" fullWidth onClick={() => { void authorize() }}>{t('login')}</Button>
+      </Stack>
+    case MULTIPROOF_STRATEGY:
+      return <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={1}>
+        {poll.requiredProofs?.filter(proof => !nonChoiceStrategies.includes(proof.type))
+          .filter(proof => !ctx.config.hiddenStrategies.includes(proof.type)).map(
+            proof => <Button key={proof.type} variant="contained" size="large" fullWidth
+              onClick={() => { void selectStrategy(proof.type) }}>{t(proof.type)}</Button>
+          )}
+      </Stack>
+    case WEBPASS_STRATEGY:
       return <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={1}>
         <Button variant="contained" size="large" fullWidth onClick={() => { void authorize() }}>{t('login')}</Button>
       </Stack>
@@ -67,4 +97,5 @@ export interface ButtonStackStrategyProps {
   poll: Poll | PollInfo
   strategy: string
   authorize: () => Promise<void>
+  selectStrategy: (strategy: string) => Promise<void>
 }

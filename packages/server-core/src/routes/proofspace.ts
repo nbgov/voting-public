@@ -46,12 +46,14 @@ export const proofspace = {
         revokedCredentials: [],
         ok: true
       }
-      
+
       await buildSendToPsHandler(req.context).wait(response)
 
       res.json({ ok: true })
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof AuhtorizationError) {
         res.status(HTTP.HTTP_STATUS_UNAUTHORIZED)
       } else if (e instanceof AxiosError) {

@@ -1,4 +1,4 @@
-import { POLL_CHOICE_MAX, POLL_QUESTION_MAX } from './consts'
+import { MULTIPROOF_STRATEGY, POLL_CHOICE_MAX, POLL_QUESTION_MAX } from './consts'
 import { type NewPoll, type Poll, type PollInfo, PollStatus, Choice, PartyChoice, ChoiceMeta, Question } from './types'
 import 'dayjs/plugin/duration.js'
 import days from 'dayjs'
@@ -9,6 +9,7 @@ import { TELEGRAM_STRATEGY } from '../telegram'
 import { RENDERER_PARTY } from '../../ui'
 import { ContentImageType } from '../utils'
 import type { IQuestion } from '@vocdoni/sdk'
+import { NEWBELARUS_STRATEGY } from '../newbelarus'
 
 export const truncatePoll = (poll: PollInfo | NewPoll): PollInfo | NewPoll => {
   if (poll.questions == null) {
@@ -59,7 +60,7 @@ export const prepareQuestions = <Meta extends ChoiceMeta>(poll: PollInfo<Meta>):
         })) ?? []
       }]
   }
-  
+
   return poll.questions?.map(
     question => ({
       title: { default: question.title },
@@ -121,13 +122,26 @@ export const getEndDateInterval = (poll: Poll | PollInfo): Duration =>
 export const isProofRequired = (poll: Poll | PollInfo): boolean =>
   poll.requiredProofs != null && poll.requiredProofs.length > 0
 
-export const getProofStrategy = (poll: Poll | PollInfo, preferedStrategy?: string): string => {
+export const getProofStrategy = (poll: Poll | PollInfo, { preferedStrategy, hiddenStrategies }: {
+  preferedStrategy?: string
+  hiddenStrategies?: string[]
+}): string => {
   if (isProofRequired(poll) && poll.requiredProofs != null) {
-    const proofs = poll.requiredProofs.filter(proof => proof.type !== TELEGRAM_STRATEGY).map(proof => proof.type)
-    if (preferedStrategy != null && proofs.includes(preferedStrategy)) {
+    const proofs = poll.requiredProofs.filter(proof => proof.type !== TELEGRAM_STRATEGY)
+      .filter(proof => proof.type !== NEWBELARUS_STRATEGY
+        || (proof.type === NEWBELARUS_STRATEGY && preferedStrategy === NEWBELARUS_STRATEGY))
+      .filter(proof => hiddenStrategies == null || !hiddenStrategies.includes(proof.type))
+      .map(proof => proof.type)
+    if ((proofs.length < 2 || preferedStrategy === NEWBELARUS_STRATEGY)
+      && preferedStrategy != null && proofs.includes(preferedStrategy)) {
       return preferedStrategy
     }
-    return proofs[0]
+    if (proofs.length > 1) {
+      return MULTIPROOF_STRATEGY
+    }
+    if (proofs[0] != null) {
+      return proofs[0]
+    }
   }
 
   return PROOFSPACE_STRATEGY

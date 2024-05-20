@@ -1,4 +1,4 @@
-import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, newbelarusAllowedCensus } from './model'
+import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, TELEGRAM_STRATEGY, newbelarusAllowedCensus } from './model'
 import { proofspaceAllowedCensus } from './model/proofspace/consts'
 
 export const SKIP_CRED_SOURCE = 'skip'
@@ -9,6 +9,8 @@ export const credentialSourceList = [
   SKIP_CRED_SOURCE, NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY
 ]
 
+export const nonChoiceStrategies = [TELEGRAM_STRATEGY, NEWBELARUS_STRATEGY]
+
 export const DEFAULT_CRED_SOURCE = NEWBELARUS_STRATEGY
 
 export const supportedCensusBySource = {
@@ -17,5 +19,5 @@ export const supportedCensusBySource = {
 }
 
 export const ALLOWED_COUNTRIES = ['BY']
-export const ALLOWRD_PROOFSPACE_COUNTRIES = ['11']
+export const ALLOWED_PROOFSPACE_COUNTRIES = ['112']
 export const DANGEROUS_COUNTRIES = ['BY', 'RU']

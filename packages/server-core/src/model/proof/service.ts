@@ -1,4 +1,4 @@
-import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, filterProofspaceRequiredCreds, advancedHash, TELEGRAM_STRATEGY } from '@smartapps-poll/common'
+import { NEWBELARUS_STRATEGY, PROOFSPACE_STRATEGY, filterProofspaceRequiredCreds, advancedHash, TELEGRAM_STRATEGY, WEBPASS_STRATEGY } from '@smartapps-poll/common'
 import type { PsActionTemplate, TelegramRequiredProof } from '@smartapps-poll/common'
 import type { Context } from '../../types'
 import type { PollResource } from '../../resources/poll'
@@ -6,6 +6,7 @@ import type { ProofResouce } from '../../resources/proof'
 import type { ProofService } from '../../resources/types'
 import { makeAuthorizePsResourceHandler } from './proofspace'
 import { makeAuthorizeNbResourceHandler } from './newbelarus'
+import { makeAuthorizeWpResourceHandler } from './webpass'
 
 export const buildProofService = (ctx: Context): ProofService => {
   const _service: ProofService = {
@@ -36,8 +37,11 @@ export const buildProofService = (ctx: Context): ProofService => {
 
     commitTgCondition: async (poll, check) => {
       const proofRes: ProofResouce = ctx.db.resource('proof')
+      if (poll.externalId == null) {
+        return false
+      }
       if (check.dedup != null && check.dedup != '') {
-        const proof = await proofRes.service.createLasting(check.dedup, TELEGRAM_STRATEGY, poll.externalId ?? poll._id)
+        const proof = await proofRes.service.createLasting(check.dedup, TELEGRAM_STRATEGY, poll.externalId, poll.endDate)
         if (proof == null) {
           return false
         }
@@ -50,6 +54,8 @@ export const buildProofService = (ctx: Context): ProofService => {
 
     authorizePsResource: async () => false,
 
+    authorizeWpResource: async () => false,
+
     authorizeResource: async (resourceId, creds, options) => {
       let strategy = options?.strategy
       const pollRes: PollResource = ctx.db.resource('poll')
@@ -61,6 +67,8 @@ export const buildProofService = (ctx: Context): ProofService => {
             strategy = PROOFSPACE_STRATEGY
           } else if (poll.requiredProofs.every(proof => proof.type === NEWBELARUS_STRATEGY)) {
             strategy = NEWBELARUS_STRATEGY
+          } else if (poll.requiredProofs.every(proof => proof.type === WEBPASS_STRATEGY)) {
+            strategy = WEBPASS_STRATEGY
           }
         }
 
@@ -69,6 +77,8 @@ export const buildProofService = (ctx: Context): ProofService => {
             return _service.authorizePsResource(resourceId, creds, { ...options, poll })
           case NEWBELARUS_STRATEGY:
             return _service.authorizeNbResource(resourceId, creds, { ...options, poll })
+          case WEBPASS_STRATEGY:
+            return _service.authorizeWpResource(resourceId, creds, { ...options, poll })
         }
       }
 
@@ -97,6 +107,7 @@ export const buildProofService = (ctx: Context): ProofService => {
 
   _service.authorizeNbResource = makeAuthorizeNbResourceHandler(ctx, _service)
   _service.authorizePsResource = makeAuthorizePsResourceHandler(ctx, _service)
+  _service.authorizeWpResource = makeAuthorizeWpResourceHandler(ctx, _service)
 
   return _service
 }

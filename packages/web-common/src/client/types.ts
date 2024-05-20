@@ -1,4 +1,4 @@
-import type { IntegrationParams, Listed, Member, NewPoll, Organization, Pager, Poll, PollInfo, ProofspaceConfig } from '@smartapps-poll/common'
+import type { IntegrationParams, Listed, Member, NewPoll, Organization, Pager, Poll, PollInfo, ProofspaceConfig, VeriffInitResponse } from '@smartapps-poll/common'
 import type { AxiosInstance } from 'axios'
 import type { ParsedUrl } from 'parse-url'
 
@@ -53,6 +53,10 @@ export interface WebClient {
     auth: (token: string) => Promise<TelegramAuthResponse>
     authPin: (pin: string) => Promise<TelegramAuthResponse>
     authPoll: (token: string, pollId: string) => Promise<string | undefined>
+  }
+
+  veriff: {
+    init: (pollId: string) => Promise<VeriffInitResponse>
   }
 }
 

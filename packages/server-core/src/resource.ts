@@ -6,6 +6,7 @@ import { createPollResource } from './resources/poll'
 import { createProofResource } from './resources/proof'
 import { createIntegrationResource } from './resources/service'
 import { createUserResource } from './resources/user'
+import { createVeriffResource } from './resources/veriff'
 import type { Context } from './types'
 
 export const createResources = (context: Context): void => {
@@ -17,4 +18,5 @@ export const createResources = (context: Context): void => {
     .register(createOrgMemberResource(context))
     .register(createPollResource(context))
     .register(createProofResource(context))
+    .register(createVeriffResource(context))
 }

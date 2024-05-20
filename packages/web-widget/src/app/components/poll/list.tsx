@@ -57,7 +57,11 @@ export const PublicPollList: FunctionComponent<PublicPollListProps> = ({ open })
           <CardActions sx={{ backgroundColor: color }}>
             <Grid container direction="row" justifyContent="space-between" alignItems="baseline">
               <Grid item xs={6}>
-                <Typography variant="subtitle1">{t(`status.${poll.status}`)}</Typography>
+                <Typography variant="subtitle1">{t(`status.${
+                  poll.status === PollStatus.PUBLISHED && !poll.strictRegistration 
+                    ? PollStatus.UNPUBLISHED
+                    : poll.status
+                }`)}</Typography>
                 <Typography noWrap variant="subtitle2">{t('createdAt', { createdAt: new Date(poll.createdAt).toLocaleString() })}</Typography>
               </Grid>
               <Grid item container xs={6} direction="row" justifyContent="space-around" alignItems="stretch" columnSpacing={1}>
@@ -66,7 +70,7 @@ export const PublicPollList: FunctionComponent<PublicPollListProps> = ({ open })
                     case PollStatus.UNPUBLISHED:
                     case PollStatus.PUBLISHED: {
                       const beforeRegEnds = getRegistrationEndInterval(poll)
-                      if (beforeRegEnds.asSeconds() < 0) {
+                      if (beforeRegEnds.asSeconds() < 0 || !poll.strictRegistration) {
                         const beforeStarts = getStartDateInterval(poll)
                         return <>
                           <Grid item xs={8} textAlign="end">

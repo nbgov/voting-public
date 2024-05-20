@@ -5,7 +5,6 @@ import { AxiosError } from 'axios'
 import { MalformedError } from './errors'
 
 export const processHttpError = (e: unknown, res: Response) => {
-  console.error(e)
   if (e instanceof MalformedError) {
     res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
   } else if (e instanceof IntegrationError) {

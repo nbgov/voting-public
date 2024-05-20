@@ -9,6 +9,7 @@ export interface ProofspaceConfig {
   regCred: ProofspaceCredConfig
   passportCred: ProofspacePassportConfig
   pk?: string
+  allowrdCountries: string[]
 }
 
 export interface ProofspaceCredConfig {

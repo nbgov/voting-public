@@ -237,7 +237,9 @@
         "result": {
           "success": "You are authenticated with nickname: \"{{name}}\"!",
           "error": "During authentication process somehting unexpected happened!"
-        }
+        },
+        "proofspace": "Proofsapce ID",
+        "webpass": "Physical ID (Web)"
       },
       "integrated": {
         "result": {
@@ -334,6 +336,14 @@
         "action": {
           "back": "Get back"
         }
+      },
+      "veriff": {
+        "header": "You are in a dangerous country!",
+        "intro": "Please, use VPN to authorize with a physical ID",
+        "vpn": "We care about your safety, so we can't allow you to proceed, until we sure that you use VPN",
+        "vpn-desktop": "Use VPN both on this device and your mobile phone.",
+        "vpn-mobile": "To proceed, install VPN on your mobile phone too. Also avoid getting authorization link on your phone via SMA.",
+        "back": "Cancel"
       }
     }
   },
@@ -363,6 +373,10 @@
         "title": "Telegram Identity Verification",
         "info": "Go through Telegram identity verification. Right now only those who submit their 2020 election balot to Golos Bot will be authorized to vote",
         "bot": "Belarus Voting Bot"
+      },
+      "webpass": {
+        "title": "Physical Passport Authorization",
+        "info": "You may authorize your vote right here using web browser on your mobile phone. Please, proceed with voting to do it."
       },
       "actions": {
         "back": "Get back"

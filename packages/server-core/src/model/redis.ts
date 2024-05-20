@@ -45,9 +45,9 @@ export const buildStoreHelper = (ctx: Context): StoreHelper => {
       return true
     },
 
-    tokenize: async (value, ttl) => {
+    tokenize: async (value, prefix, ttl = undefined) => {
       const token = randomToken()
-      await _helper.set(token, value, ttl ?? 300)
+      await _helper.set(prefix + ':' + token, value, ttl ?? 300)
 
       return token
     },
@@ -144,7 +144,7 @@ export const buildStoreHelper = (ctx: Context): StoreHelper => {
 
 export interface StoreHelper {
   get: <T>(key: string) => Promise<T | undefined>
-  tokenize: <T>(value: T, ttl?: number) => Promise<string>
+  tokenize: <T>(value: T, prefix: string, ttl?: number) => Promise<string>
   set: <T>(key: string, value: T, ttl?: number) => Promise<boolean>
   has: (key: string) => Promise<boolean>
   remove: (key: string) => Promise<boolean>

@@ -42,6 +42,8 @@ export interface CommonConfig {
   firebase: FirebaseOptions
   hideProofspace: boolean
   hideTg: boolean
+  hideWebPass: boolean
+  hiddenStrategies: string[]
   geoCheckURL?: string
 }
 

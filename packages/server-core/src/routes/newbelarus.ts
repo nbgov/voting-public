@@ -25,7 +25,9 @@ export const newbelarusChallenge = {
       req.context.auditLogger.nb(_req, 'start', true)
     } catch (e) {
       req.context.auditLogger.nb(_req, 'start', AuditOutcome.ERROR)
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       res.status(HTTP.HTTP_STATUS_BAD_REQUEST).send()
     }
   }) as RequestHandler<DockChallngeStartRequestParams, DockActionRequest[]>,
@@ -53,7 +55,9 @@ export const newbelarusChallenge = {
       res.send()
       req.context.auditLogger.nb(_req, 'verify', true)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof AuthError) {
         res.status(HTTP.HTTP_STATUS_FORBIDDEN)
         req.context.auditLogger.nb(_req, 'verify', AuditOutcome.ABUSE)

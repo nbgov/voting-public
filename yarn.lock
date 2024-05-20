@@ -5275,6 +5275,7 @@ __metadata:
     "@storybook/testing-library": "npm:^0.1.0"
     "@types/react": "npm:^18.3.1"
     "@typescript-eslint/eslint-plugin": "npm:^5.43.0"
+    "@veriff/incontext-sdk": "npm:^1.3.1"
     "@vocdoni/sdk": "npm:^0.8.0"
     axios: "npm:^1.6.8"
     axios-retry: "npm:^4.1.0"
@@ -7985,6 +7986,16 @@ __metadata:
   version: 1.2.0
   resolution: "@ungap/structured-clone@npm:1.2.0"
   checksum: 10c0/8209c937cb39119f44eb63cf90c0b73e7c754209a6411c707be08e50e29ee81356dca1a848a405c8bdeebfe2f5e4f831ad310ae1689eeef65e7445c090c6657d
+  languageName: node
+  linkType: hard
+
+"@veriff/incontext-sdk@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "@veriff/incontext-sdk@npm:1.3.1"
+  dependencies:
+    dom-focus-lock: "npm:^1.0.4"
+    tua-body-scroll-lock: "npm:1.0.0"
+  checksum: 10c0/56864d4813b0cee3119691dcf3619bb3ab5516a2afd8e6d68238eb57b2dbb052cb2ed5663401a081adb6375e72cc5a9da9436f6fad08c0310279e87d48b22e4e
   languageName: node
   linkType: hard
 
@@ -12140,6 +12151,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom-focus-lock@npm:^1.0.4":
+  version: 1.1.0
+  resolution: "dom-focus-lock@npm:1.1.0"
+  dependencies:
+    focus-lock: "npm:^0.11.3"
+  checksum: 10c0/4881005d2f903fd18ce1932113e29401c26d79be62094a4c5d25145ca0946ff45f001abaaa8eba508bc3ce661982fc9df72710446c483ea774436f0fc09bcca0
+  languageName: node
+  linkType: hard
+
 "dom-helpers@npm:^5.0.1":
   version: 5.2.1
   resolution: "dom-helpers@npm:5.2.1"
@@ -14080,6 +14100,15 @@ __metadata:
     inherits: "npm:^2.0.3"
     readable-stream: "npm:^2.3.6"
   checksum: 10c0/2cd4f65b728d5f388197a03dafabc6a5e4f0c2ed1a2d912e288f7aa1c2996dd90875e55b50cf32c78dca55ad2e2dfae5d3db09b223838388033d87cf5920dd87
+  languageName: node
+  linkType: hard
+
+"focus-lock@npm:^0.11.3":
+  version: 0.11.6
+  resolution: "focus-lock@npm:0.11.6"
+  dependencies:
+    tslib: "npm:^2.0.3"
+  checksum: 10c0/a68e477a53f0c23c96a68c57f908099b06107880f3e491bf545b7478a31a9ec7514aef7b92ecc8e38abb06a387a7770daebb9280b64a5ad5acce640e52531ccf
   languageName: node
   linkType: hard
 
@@ -25206,6 +25235,13 @@ __metadata:
   version: 0.0.0
   resolution: "tty-browserify@npm:0.0.0"
   checksum: 10c0/c0c68206565f1372e924d5cdeeff1a0d9cc729833f1da98c03d78be8f939e5f61a107bd0ab77d1ef6a47d62bb0e48b1081fbea273acf404959e22fd3891439c5
+  languageName: node
+  linkType: hard
+
+"tua-body-scroll-lock@npm:1.0.0":
+  version: 1.0.0
+  resolution: "tua-body-scroll-lock@npm:1.0.0"
+  checksum: 10c0/87318bdc29bf5561fac2da9b68fca8f4e5cb6d74350ddfdd32156223ff903a2b1952dc0956501f5ed5d7513e52cde04e4225fea2ae70f2bd238ef686b96fa969
   languageName: node
   linkType: hard
 

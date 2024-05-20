@@ -46,7 +46,12 @@ export interface Config {
     host: string
     path: string
   }
-  ipInfoToken?: string
+  ipInfoToken?: string,
+  veriff: {
+    url: string
+    key: string
+    secret: string
+  }
 }
 
 export interface TelegramConfig {

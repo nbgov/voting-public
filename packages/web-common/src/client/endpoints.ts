@@ -19,6 +19,9 @@ export const defaultEndpoints = {
   telegram: { 
     auth: '/telegram/auth',
     authPoll: '/telegram/auth/poll'
+  },
+  veriff: {
+    init: '/veriff/init/'
   }
 }
 

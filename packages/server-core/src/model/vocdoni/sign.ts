@@ -26,7 +26,7 @@ export const buildVocdoniSignHandler: WorkerHandlerWithCtx<VocdoniSignData, Vocd
       const pollRes: PollResource = ctx.db.resource('poll')
 
       const poll = await pollRes.get(votingId, 'externalId')
-      if (poll == null) {
+      if (poll == null || poll.externalId == null) {
         throw new PollError('poll.notexists')
       }
       if (poll.status !== PollStatus.STARTED) {
@@ -45,8 +45,13 @@ export const buildVocdoniSignHandler: WorkerHandlerWithCtx<VocdoniSignData, Vocd
         // Actually this method is called just for legacy consistancy when ontime token were stored in the database
         authRes.service.cleanTmpToken(token)
 
-        if (auth == null || auth.credentials == null) {
+        if (auth == null || auth.credentials == null 
+          || auth.credentials.k == null || auth.credentials.externalId == null) {
           throw new PollError('auth.insecure')
+        }
+
+        if (poll.externalId !== auth.credentials.externalId) {
+          throw new PollError('auth.abuse')
         }
 
         if (poll.census.type !== VOCDONI_CENSUS_CSP_BLINDNS) {

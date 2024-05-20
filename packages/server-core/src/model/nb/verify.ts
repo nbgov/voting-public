@@ -3,7 +3,7 @@ import type { WorkerHandlerWithCtx } from '../../queue/types'
 import type { NBVerifyData } from './types'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import type { AuthResource } from '../../resources/auth'
-import { AUTH_TYPE_TOKEN_ONETIME_SEED, type TmpTokenAuthenticationMethod } from '@smartapps-poll/common'
+import { AUTH_TYPE_TOKEN_ONETIME, AUTH_TYPE_TOKEN_ONETIME_SEED, OneTimePayload, PollError, type TmpTokenAuthenticationMethod } from '@smartapps-poll/common'
 import { AuthError, NewBelarusError } from '../errors'
 import { Presentation } from '@docknetwork/crypto-wasm-ts'
 import type { PollResource } from '../../resources/poll'
@@ -38,9 +38,13 @@ export const buildNBVerifyHandler: WorkerHandlerWithCtx<NBVerifyData> = ctx => (
 
       const pollRes: PollResource = ctx.db.resource('poll')
       const poll = await pollRes.get(votingId)
+      if (poll?.externalId == null) {
+        throw new PollError('poll.no')
+      }
 
-      if (await buildProofService(ctx).authorizeNbResource(poll?.externalId ?? '', presentations)) {
-        await authRes.service.createTmpToken(user._id, false)
+      if (await buildProofService(ctx).authorizeNbResource(poll.externalId, presentations)) {
+        const payload: OneTimePayload = { externalId: poll?.externalId ?? 'unknown' }
+        await authRes.service.createTmpToken(user._id, false, AUTH_TYPE_TOKEN_ONETIME, payload)
       } else {
         throw new NewBelarusError('newbelarus.authorization')
       }

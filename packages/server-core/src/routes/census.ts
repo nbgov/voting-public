@@ -18,7 +18,9 @@ export const census = {
       const result = await buildCensusRegisterHandler(req.context).wait({ user: req.user, id: req.params.id })
       res.json(result)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof CensusRegistration) {
         res.status(HTTP.HTTP_STATUS_FORBIDDEN)
       } else if (e instanceof MalformedError) {
@@ -48,7 +50,9 @@ export const census = {
         res.json(result)
       }
     } catch (e) {
-      console.error('error', e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof CensusRegistration) {
         res.status(HTTP.HTTP_STATUS_FORBIDDEN)
       } else if (e instanceof MalformedError) {
@@ -65,7 +69,7 @@ export const census = {
   censusParams: checkSchema({
     id: strValSchema(true, 256)
   }, ['params']),
-  
+
   censusQuery: checkSchema({
     address: strValSchema(true, 256)
   }, ['params']),

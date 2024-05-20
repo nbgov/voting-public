@@ -26,7 +26,7 @@ export const sendToProofspace = async (ctx: Context, response: AllResponsesToPs)
     url, payload, { headers, validateStatus: () => true }
   )
   if (!result.data.ok) {
-    console.error(result.data.error?.message ?? result.data.error ?? result.data)
+    // console.error(result.data.error?.message ?? result.data.error ?? result.data)
     throw new ProofspaceError(result.data.error?.message)
   }
 }

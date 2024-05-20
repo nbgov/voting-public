@@ -7,13 +7,14 @@ import { type FunctionComponent } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { type EditForm, type PollChoiceProps } from './types'
 import { useTranslation } from 'react-i18next'
-import { RENDERER_PARTY, PollStatus } from '@smartapps-poll/common'
+import { RENDERER_PARTY } from '@smartapps-poll/common'
 import { MemberAvatarInput } from './fields/avatar'
+import { isStatusEditable } from './utils'
 
 export const QuestionChoice: FunctionComponent<PollChoiceProps> = ({ parent, index, poll, remove }) => {
   const { control } = useFormContext<EditForm>()
   const { t } = useTranslation(undefined, { keyPrefix: 'manager.poll.choice' })
-  const disabled = poll.status !== PollStatus.UNPUBLISHED
+  const disabled = isStatusEditable(poll)
   return <Grid item container direction="column" justifyContent="center" alignItems="stretch">
     <Grid item container direction="row" justifyContent="space-between" alignItems="stretch" p={1}>
       <Grid item container xs={1} justifyContent="center" alignItems="center">

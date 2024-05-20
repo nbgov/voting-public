@@ -124,7 +124,9 @@ export const makeAuthorizeNbResourceHandler = (ctx: Context, proofService: Proof
             console.log('wrong country')
             throw new ProofError('unallowed.country')
           }
-
+          if (subject[ctx.config.newbelarus.keyField] == null) {
+            throw new ProofError('document.malformed')
+          }
           if (ctx.config.newbelarus.keyField in subject
             && typeof subject[ctx.config.newbelarus.keyField] === 'string') {
             dedupHash = await proofService.hash(resourceId, subject[ctx.config.newbelarus.keyField] as string)
@@ -148,7 +150,7 @@ export const makeAuthorizeNbResourceHandler = (ctx: Context, proofService: Proof
       // a new proof object. In this case we think that the deduplication is failed and we 
       // are safe to denie voting authorization.
       const proofRes: ProofResouce = ctx.db.resource('proof')
-      const proof = await proofRes.service.createLasting(dedupHash, dedupSource, resourceId)
+      const proof = await proofRes.service.createLasting(dedupHash, dedupSource, resourceId, poll.endDate)
       if (proof == null) {
         return false
       }

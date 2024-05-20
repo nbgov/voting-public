@@ -6,8 +6,8 @@ import CardHeader from '@mui/material/CardHeader'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { type PollInfo, PollStatus, POLL_QUESTION_MAX, type Poll, LocalizedError, isElectionEditable, CensusStatus, type Census, RENDERER_DEFAULT, prepareEmptyChoice } from '@smartapps-poll/common'
-import { PollError, ProgressButton, ResultBox, ResultBoxStatus, useNavigation, useToggle, Navigator, Screen } from '@smartapps-poll/web-common'
+import { type PollInfo, PollStatus, POLL_QUESTION_MAX, type Poll, LocalizedError, isElectionEditable, CensusStatus, type Census, RENDERER_DEFAULT, prepareEmptyChoice, type RequiredProofAction } from '@smartapps-poll/common'
+import { PollError, ProgressButton, ResultBox, ResultBoxStatus, useToggle } from '@smartapps-poll/web-common'
 import days from 'dayjs'
 import { type FunctionComponent, useEffect, useState } from 'react'
 import { Controller, useFieldArray, useForm, FormProvider } from 'react-hook-form'
@@ -20,8 +20,8 @@ import { PollSteps } from './steps'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import { VocdoniCunsusSize } from '../vocdoni/cesnus-size'
-import { buildEditFormData, makeCodeValidationRules } from './utils'
-import { canStartVoting, isCspNbspCensus, isOffchainCensus, isPublishingRequired } from '../../../helpers'
+import { buildEditFormData, isStatusEditable, makeCodeValidationRules } from './utils'
+import { canStartVoting, isCspCensus, isPublishingRequired } from '../../../helpers'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 
@@ -50,7 +50,6 @@ const defaults: EditForm = {
 export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuccess }) => {
   const { t } = useTranslation(undefined, { keyPrefix: 'manager.poll.edit' })
   const ctx = useCtx()
-  const nav = useNavigation()
   const [status, setStatus] = useState<ResultBoxStatus>(ResultBoxStatus.READY)
   const [error, setError] = useState<Error>(new LocalizedError('unknown'))
   const [poll, setPoll] = useState<PollInfo>({ _id: id } as unknown as PollInfo)
@@ -179,7 +178,13 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
             <Grid item container xs={12} direction="column" justifyContent="space-evenly" alignItems="stretch">
               {poll.requiredProofs != null && poll.requiredProofs.length > 0
                 ? (() => {
-                  const info = ctx.strategy.creds().castProofInfo(poll.requiredProofs)
+                  let info: RequiredProofAction
+                  try {
+                    info = ctx.strategy.creds().castProofInfo(poll.requiredProofs)
+                  } catch {
+                    const proof = poll.requiredProofs[0]
+                    info = { ...proof }
+                  }
                   return <Grid item p={1}>
                     <Typography variant="body2">{t('requiredProof.info')}</Typography>
                     <Typography variant="body1">{t('requiredProof.title')} {info.title}</Typography>
@@ -200,7 +205,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   rules={{ required: t('error.title') ?? '' }}
                   render={({ field, fieldState: state }) =>
                     <TextField {...field} fullWidth error={state.invalid}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.title')} />
                   } />
               </Grid>
@@ -209,7 +214,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   rules={makeCodeValidationRules(t)}
                   render={({ field, fieldState: state }) =>
                     <TextField {...field} fullWidth error={state.invalid}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.code')} />
                   } />
               </Grid>
@@ -218,7 +223,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   rules={{ maxLength: { value: 120, message: t('error.headerLength') } }}
                   render={({ field, fieldState: state }) =>
                     <TextField {...field} fullWidth multiline minRows={1} maxRows={3} error={state.invalid}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.header')} />
                   } />
               </Grid>
@@ -227,33 +232,27 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   rules={{ maxLength: { value: 2000, message: t('error.descrLength') } }}
                   render={({ field, fieldState: state }) =>
                     <TextField {...field} fullWidth multiline minRows={3} maxRows={9} error={state.invalid}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.descr')} />
                   } />
               </Grid>
-              <Navigator navigation={nav}>
-                <Screen match={isCspNbspCensus(poll)}>
-                  <Grid item p={1}>
-                    <VocdoniCunsusSize disabled={poll.status !== PollStatus.UNPUBLISHED} />
-                  </Grid>
-                </Screen>
-                <Screen match={isOffchainCensus(poll)}>
-                  <Grid item p={1}>
-                    <Controller control={control} name="registrationEnd" defaultValue={new Date()}
-                      rules={{
-                        validate: value => (!isElectionEditable(poll) ||
-                          days(value).isAfter(days())) ?? t('error.registrationEnd')
-                      }} render={({ field, fieldState: state }) =>
-                        <DateTimePicker {...field} value={days(field.value)}
-                          onChange={e => { field.onChange(e?.toDate()) }}
-                          disabled={poll.status !== PollStatus.UNPUBLISHED}
-                          label={state.invalid ? state.error?.message : t('fields.registrationEnd')}
-                          minDateTime={days()}
-                          slotProps={{ textField: { fullWidth: true, error: state.invalid } }} />
-                      } />
-                  </Grid>
-                </Screen>
-              </Navigator>
+              {isCspCensus(poll) ? <Grid item p={1}>
+                <VocdoniCunsusSize disabled={isStatusEditable(poll)} />
+              </Grid> : undefined}
+              <Grid item p={1}>
+                <Controller control={control} name="registrationEnd" defaultValue={new Date()}
+                  rules={{
+                    validate: value => (!isElectionEditable(poll) ||
+                      days(value).isAfter(days())) ?? t('error.registrationEnd')
+                  }} render={({ field, fieldState: state }) =>
+                    <DateTimePicker {...field} value={days(field.value)}
+                      onChange={e => { field.onChange(e?.toDate()) }}
+                      disabled={isStatusEditable(poll)}
+                      label={state.invalid ? state.error?.message : t('fields.registrationEnd')}
+                      minDateTime={days()}
+                      slotProps={{ textField: { fullWidth: true, error: state.invalid } }} />
+                  } />
+              </Grid>
               <Grid item p={1}>
                 <Controller control={control} name="startDate" defaultValue={new Date()}
                   rules={{
@@ -262,7 +261,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   }} render={({ field, fieldState: state }) =>
                     <DateTimePicker {...field} value={days(field.value)}
                       onChange={e => { field.onChange(e?.toDate()) }}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.startDate')}
                       minDateTime={days(getValues('registrationEnd'))}
                       slotProps={{ textField: { fullWidth: true, error: state.invalid } }} />
@@ -276,7 +275,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                   }} render={({ field, fieldState: state }) =>
                     <DateTimePicker {...field} value={days(field.value)}
                       onChange={e => { field.onChange(e?.toDate()) }}
-                      disabled={poll.status !== PollStatus.UNPUBLISHED}
+                      disabled={isStatusEditable(poll)}
                       label={state.invalid ? state.error?.message : t('fields.endDate')}
                       minDateTime={days(getValues('startDate'))}
                       slotProps={{ textField: { fullWidth: true, error: state.invalid } }} />
@@ -288,7 +287,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
                 )}
                 <Grid item p={1}>
                   <Button fullWidth variant="outlined"
-                    disabled={poll.status !== PollStatus.UNPUBLISHED || questions.length >= POLL_QUESTION_MAX}
+                    disabled={isStatusEditable(poll) || questions.length >= POLL_QUESTION_MAX}
                     onClick={() => {
                       appendQuestion({ title: '', description: '', choices: [prepareEmptyChoice(poll, 0)] })
                     }}>{t('actions.add')}</Button>
@@ -302,7 +301,7 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
     <CardActions sx={{ justifyContent: 'flex-end' }}>
       <ProgressButton size="large" toggle={toggle} onClick={remove}>{t('actions.remove')}</ProgressButton>
       {
-        poll.status !== PollStatus.UNPUBLISHED
+        isStatusEditable(poll)
           ? <PollShareBlock poll={poll as Poll} />
           : undefined
       }

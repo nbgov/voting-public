@@ -14,7 +14,7 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import { PollViewVotedInfo } from './voted-info'
 import TextField from '@mui/material/TextField'
-import { isCspNbspCensus } from '../../helpers'
+import { isCspCensus } from '../../helpers'
 import { useSmallPaddings, useSmallStyles, useSmalllUI } from '../helpers'
 import { isViewWrapped } from './utils'
 import { PollQuestion } from './questions'
@@ -77,13 +77,11 @@ export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll,
       const vote = await context.strategy.service().poll.read(poll, voteId)
       if ((vote?.result == null || vote.result.length === 0) && voteId != null) {
         const votes = await buildStoreHelper(context).loadVotes(voteId)
-        if (votes != null) {
-          // @TODO This hack (flatMap) is working well for one varient questions. In other cases it may induce a bug
-          vote.result = votes.flatMap(
-            vote => vote.choices.filter(choice => (choice as any).selected)
-              .map(choice => choice.value)
-          )
-        }
+        // @TODO This hack (flatMap) is working well for one varient questions. In other cases it may induce a bug
+        vote.result = votes?.flatMap(
+          vote => vote?.choices?.filter(choice => (choice as any).selected)
+            .map(choice => choice.value) ?? []
+        ) ?? []
       }
       console.info(vote)
       setVoteInfo(vote)
@@ -120,7 +118,7 @@ export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll,
       </CardContent>
       : <CardContent sx={paddingStyle}>
         <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" columnSpacing={3}>
-          {isCspNbspCensus(poll)()
+          {isCspCensus(poll)()
             ? <Grid item sm={8} xs={12} mb={1}>
               {voteId != null ? <Typography variant="caption" sx={smallVoteIdResult}>{t('voted', { voteId })}</Typography> : undefined}
               <Controller control={voteControl} name="voteId" render={
@@ -166,7 +164,7 @@ export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll,
                 ? undefined
                 : <CardActions sx={{ justifyContent: 'center', flexDirection: 'column', ...paddingStyle }}>
                   <ProgressButton size="large" fullWidth toggle={toggle}
-                    onClick={isCspNbspCensus(poll)() ? handleSubmit(check) : tryCheck}>
+                    onClick={isCspCensus(poll)() ? handleSubmit(check) : tryCheck}>
                     {regInfo != null ? t('actions.recheck') : t('actions.check')}
                   </ProgressButton>
                 </CardActions>}

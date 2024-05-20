@@ -135,7 +135,7 @@ export const PartyPollQuestions: FC<PollQuestionProps<PartyChoice>> = ({ poll, f
                             ? ` (${parseFloat(`${result.share * 100}`).toFixed(2)}%)`
                             : ''
                         }
-                        {result?.winner === true && !isOngoingPoll ? ` - ${t('status.winner')}` : ''}
+                        {/* {result?.winner === true && !isOngoingPoll ? ` - ${t('status.winner')}` : ''} */}
                       </Typography>
                     </Stack>
                   </Grid> : undefined}

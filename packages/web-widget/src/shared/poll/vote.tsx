@@ -1,8 +1,16 @@
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import { LocalizedError, type Poll, type PollResult, VoteError, getEndDateInterval, isAuthroizationRequired, NEWBELARUS_STRATEGY, prepareViewQustions } from '@smartapps-poll/common'
-import { Backdrop, ProgressButton, ProofspaceAuthChoiceAsync, ProofspaceAuthorizationChoice, ProofspaceIntegratedAuthAsync, ProofspaceIntegratedAuthorization, ResultBox, ResultBoxStatus, useToggle, buildPollHelper, buildStoreHelper, useTgAuthentication, buildAnalytics, ConditionInfo } from '@smartapps-poll/web-common'
+import {
+  LocalizedError, type Poll, type PollResult, VoteError, getEndDateInterval,
+  isAuthroizationRequired, NEWBELARUS_STRATEGY, prepareViewQustions, WEBPASS_STRATEGY
+} from '@smartapps-poll/common'
+import {
+  Backdrop, ProgressButton, ProofspaceAuthChoiceAsync, AuthorizationChoice,
+  ProofspaceIntegratedAuthAsync, ProofspaceIntegratedAuthorization, ResultBox,
+  ResultBoxStatus, useToggle, buildPollHelper, buildStoreHelper, useTgAuthentication,
+  buildAnalytics, ConditionInfo, VeriffInitializationHandler, VeriffAuthorizationCom
+} from '@smartapps-poll/web-common'
 import { type FC, useEffect, useState, useMemo } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { useCtx } from '../context'
@@ -21,12 +29,15 @@ import { PollViewVotedInfo } from './voted-info'
 import { assertProofspaceErrorAboutPossibleDuplication, filterAnswers, isViewWrapped } from './utils'
 import { useSmallPaddings, useSmallStyles } from '../helpers'
 import { PollQuestion } from './questions'
+import React from 'react'
+const VeriffAuthorization: VeriffAuthorizationCom = React.lazy(() => import('@smartapps-poll/web-common/dist/component/authorization/veriff-auth') as any)
 
 export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skipSuccess }) => {
   const { t } = useTranslation(undefined, { keyPrefix: 'shared.poll.vote' })
   const context = useCtx()
   const analytics = buildAnalytics(context)
   const pollHelper = useMemo(() => buildPollHelper(context), [])
+  const veriffHandler = useMemo<VeriffInitializationHandler>(() => ({}), [])
   const toggle = useToggle(true)
   const auth = useToggle(false)
   const backdrop = useToggle(false)
@@ -38,10 +49,10 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
   const [voteId, setVoteId] = useState<string>('')
 
   const methods = useForm<VoteForm>({
-    values: form, defaultValues: { questions: prepareViewQustions(poll) } as unknown as VoteForm
+    mode: 'all', defaultValues: { questions: prepareViewQustions(poll) }
   })
 
-  const { control, handleSubmit, formState, watch } = methods
+  const { control, handleSubmit, formState, watch, getValues } = methods
 
   const isWrapped = useMemo(() => isViewWrapped(context), [])
 
@@ -86,12 +97,18 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
   }
 
   const tryVote = async (data: VoteForm): Promise<void> => {
+    let strategy = 'unknown'
     try {
       toggle.close()
       if (isAuthroizationRequired(poll)) {
         backdrop.open()
-        const strategy = await pollHelper.getPollStrategy(poll)
-        if (strategy === NEWBELARUS_STRATEGY) {
+        strategy = await pollHelper.getPollStrategy(poll)
+        if (strategy === WEBPASS_STRATEGY) {
+          analytics.startVote(poll._id, strategy, 'try')
+          setForm(data)
+          veriffHandler.trigger != null && void veriffHandler.trigger()
+          return
+        } else if (strategy === NEWBELARUS_STRATEGY) {
           analytics.startVote(poll._id, strategy, 'try')
           const challenged = await pollHelper.challenge(poll)
           if (challenged) {
@@ -109,7 +126,6 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
               throw new VoteError('vote.proof.unauthorized')
             }
           } else {
-            analytics.finishVote(poll._id, strategy, 'try', false)
             toggle.open()
           }
         } else {
@@ -127,6 +143,7 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
         auth.open()
       }
     } catch (e) {
+      analytics.finishVote(poll._id, strategy, 'try', false)
       console.error(e)
       setError(e as Error)
       setStatus(ResultBoxStatus.ERROR)
@@ -140,7 +157,12 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
       auth.close()
       backdrop.open()
       if (isAuthroizationRequired(poll)) {
-        await tryVoteWithProof(form)
+        if (form.questions.length > 0) {
+          await tryVoteWithProof(form)
+        } else {
+          const form = getValues()
+          await tryVoteWithProof(form)
+        }
       } else {
         await vote(form)
       }
@@ -213,7 +235,8 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
               ? <ProofspaceIntegratedAuthorization pollId={poll._id} skipSuccess onBack={onBack} onSuccess={afterAuth} />
               : <ProofspaceIntegratedAuthAsync skipSuccess onSuccess={afterAuth} />
             : isAuthroizationRequired(poll)
-              ? <ProofspaceAuthorizationChoice pollId={poll._id} skipSuccess onBack={onBack} onSuccess={afterAuth} />
+              ? <AuthorizationChoice pollId={poll._id} skipSuccess onBack={onBack} onSuccess={afterAuth}
+                veriffHandler={veriffHandler} />
               : <ProofspaceAuthChoiceAsync skipSuccess onSuccess={afterAuth} />
         }
       </CardContent>
@@ -226,12 +249,12 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
                 {helper.hasGolos || isWrapped ? undefined : <ConditionInfo poll={poll} noBorder />}
               </Box>
               {/* <Paper sx={isWrapped ? { px: 0, border: 0 } : { px: 2 }}> */}
-                <ResultBox status={status} error={error} onSuccess={async () => { await onVote(voteId) }} msg={{
-                  success: t('result.success'), error: t('result.error')
-                }} />
-                {questions.map(
-                  (field, index) => <PollQuestion key={field.id} field={field} index={index} poll={poll} />
-                )}
+              <ResultBox status={status} error={error} onSuccess={async () => { await onVote(voteId) }} msg={{
+                success: t('result.success'), error: t('result.error')
+              }} />
+              {questions.map(
+                (field, index) => <PollQuestion key={field.id} field={field} index={index} poll={poll} />
+              )}
               {/* </Paper> */}
             </FormProvider>
           </Grid>
@@ -264,6 +287,7 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
         </Grid>
       </CardContent>
     }
+    <VeriffAuthorization pollId={poll?._id ?? ''} handler={veriffHandler} success={afterAuth} failure={onBack} />
     <Backdrop toggle={backdrop}>
       <Card sx={backDropStyles}>
         <CardHeader title={t('backdrop.title')} sx={{ pb: 1, mb: 0 }} />

@@ -29,6 +29,12 @@ export class NewBelarusError extends Error {
   }
 }
 
+export class VeriffError extends Error {
+  constructor (message?: string) {
+    super(message ?? 'veriff.hindred')
+  }
+}
+
 export class AuthError extends Error {
   constructor (message?: string) {
     super(message ?? 'auth.failed')

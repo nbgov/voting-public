@@ -100,8 +100,8 @@ export const processPsPayloadAsync: PsProcessPayload = async (ctx, { request, au
       const store = buildStoreHelper(ctx)
 
       const [, token] = authSubject.token.includes(':') ? authSubject.token.split(':', 2) : [, null]
-      const tg: { tg: string } | undefined = token == null ? undefined : await store.get(token)
-      const tgUser: TgUser | undefined = tg == null ? undefined : await store.get(tg.tg)
+      const tg: { tg: string } | undefined = token == null ? undefined : await store.get('tg:' + token)
+      const tgUser: TgUser | undefined = tg == null ? undefined : await store.get('tg-user:' + tg.tg)
 
       if (!await buildProofService(ctx).authorizePsResource(authSubject.resource, request.receivedCredentials, { tgUser })) {
         await utils.storeForUser(AUTH_PICKUP_KEY, TERMINATION_PAYLOAD, 300)
@@ -124,7 +124,7 @@ export const processPsPayloadAsync: PsProcessPayload = async (ctx, { request, au
         console.error('issuing tg cred failed')
       }
 
-      await utils.storeForUser(AUTH_PICKUP_KEY, JSON.stringify(request), 300)
+      await utils.storeForUser(AUTH_PICKUP_KEY, authSubject.resource ?? 'unknown', 300)
       ctx.auditLogger.proofspace(request.subscriberConnectDid, 'authorization', true)
     }
     /**

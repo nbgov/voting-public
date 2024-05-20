@@ -1,4 +1,4 @@
-import { integrationParamsToEntities, type Listed, type Poll, type PollInfo, type Member, type ProofspaceConfig, type User, type Organization } from '@smartapps-poll/common'
+import { integrationParamsToEntities, type Listed, type Poll, type PollInfo, type Member, type ProofspaceConfig, type User, type Organization, VeriffInitResponse } from '@smartapps-poll/common'
 import axios from 'axios'
 import type { CommonContext, PartialCommonContext } from '../context/types'
 import type { AuthPickUpOptions, AuthPickup, Insist, WebClient } from './types'
@@ -323,6 +323,17 @@ export const createWebClient = (context: PartialCommonContext): WebClient => {
         }
         return undefined
       },
+    },
+
+    veriff: {
+      init: async pollId => {
+        const result = await url.get<VeriffInitResponse>(ep.veriff.init + pollId)
+        if (result.status !== WEB_STATUS_OK) {
+          throw new ConnectionError('veriff.init')
+        }
+
+        return result.data
+      }
     }
   }
 

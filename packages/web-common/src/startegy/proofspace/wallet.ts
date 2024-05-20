@@ -30,7 +30,7 @@ export const createProofspaceWalletStrategy = (): CredentialsWalletStrategy<Comm
         ? proof.find(proof => proof.type === PROOFSPACE_STRATEGY) as RequiredProof
         : proof
 
-      if (proof.type !== PROOFSPACE_STRATEGY) {
+      if (proof?.type !== PROOFSPACE_STRATEGY) {
         throw new ProofspaceWalletInteractionError('wallet.proof.mismatch')
       }
 

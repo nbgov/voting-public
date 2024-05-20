@@ -196,6 +196,10 @@
             "hint": "Additional claims about your identity that can be prooven via Telegram bots"
           }
         },
+        "web-pass": {
+          "title": "Use Web Passport Authorization",
+          "hint": "Enable capability to authorize vote with one time phisical passport check"
+        },
         "select": {
           "title": "Require additional authorization",
           "hint": "Only voters who comply selected requirements will be allowed",

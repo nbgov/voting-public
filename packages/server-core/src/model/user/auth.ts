@@ -17,7 +17,7 @@ export const buildUserTokenAuth: WorkerHandlerWithCtx<UserTokenAuthData, UserTok
   name: 'user:token-auth',
 
   handler: async job => {
-    try {      
+    try {
       // console.log('start checking token')
       const { telegram, token } = job.data
       if (typeof token === 'string' && token.length > 512) {
@@ -37,7 +37,7 @@ export const buildUserTokenAuth: WorkerHandlerWithCtx<UserTokenAuthData, UserTok
       const idRead = await authRes.service.extractSaltedId(token)
       if (telegram != null && idRead != null) {
         // console.log('store telegram info')
-        await store.set(idRead[0], { tg: telegram }, 1800)
+        await store.set('tg:' + idRead[0], { tg: telegram }, 1800)
       }
 
       auth = await authRes.service.authenticateWithHash(AUTH_TYPE_TOKEN, token)

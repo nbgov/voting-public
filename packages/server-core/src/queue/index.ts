@@ -19,6 +19,11 @@ import { buildCensusProofHandler } from '../model/vocdoni/proof'
 import { buildTelegramPollAuthHandler } from '../model/telegram/poll'
 import { buildAuditInfoHandler } from '../model/audit/info'
 import { buildAuditLoggerSendHandler } from '../model/audit/log'
+import { buildVeriffInitHandler } from '../model/veriff/init'
+import { buildVeriffHookHandler } from '../model/veriff/hook'
+import { buildPollCreateHandler } from '../model/poll/create'
+import { buildPollUpdateHandler } from '../model/poll/update'
+import { buildPollDeleteHandler } from '../model/poll/delete'
 
 export const registerAllWorkers = (context: Context, tags?: string[], workers?: (WorkerHandler | WorkerHandlerWithCtx)[]) => {
   if (tags == null) {
@@ -62,5 +67,10 @@ export const allWorkers = [
   buildCensusProofHandler,
   buildTelegramPollAuthHandler,
   buildAuditInfoHandler,
-  buildAuditLoggerSendHandler
+  buildAuditLoggerSendHandler,
+  buildVeriffInitHandler,
+  buildVeriffHookHandler,
+  buildPollCreateHandler,
+  buildPollUpdateHandler,
+  buildPollDeleteHandler
 ]

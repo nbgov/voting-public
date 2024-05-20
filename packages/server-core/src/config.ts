@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import fs from 'fs'
 import path from 'path'
 import * as ethers from 'ethers'
-import { hydarteArgon, hydrateEthers } from '@smartapps-poll/common'
+import { hydarteArgon, hydrateEthers, ALLOWED_PROOFSPACE_COUNTRIES } from '@smartapps-poll/common'
 import type { EnvOptions } from '@vocdoni/sdk'
 import { hash as argon2id, argon2id as argonType } from 'argon2'
 import type { ArgonOpts } from '@noble/hashes/argon2'
@@ -27,7 +27,6 @@ hydarteArgon((value: string | Uint8Array, salt: string | Uint8Array, opts: Argon
     raw: true
   }) as unknown as Uint8Array // THIS IS A DIRTY HACK TO PRETEND THAT THE FUNCTION IS SYNC DESPITE IT'S USED ASYNC
 })
-
 
 import utils from 'util'
 utils.inspect.defaultOptions.depth = null
@@ -87,7 +86,10 @@ export const config: Config = {
       keyField: process.env.PROOFSPACE_PASS_KEY_FIELD ?? '',
       birthdateMultiplier: parseInt(process.env.PROOFPSACE_PASS_MULTIPLIER ?? '86400')
     },
-    ...(process.env.PROOFSPACE_PK_PATH != null ? { pk: _readConfig(process.env.PROOFSPACE_PK_PATH) } : {})
+    ...(process.env.PROOFSPACE_PK_PATH != null ? { pk: _readConfig(process.env.PROOFSPACE_PK_PATH) } : {}),
+    allowrdCountries: process.env.ALLOWED_PROOFSPACE_COUNTRIES != null && process.env.ALLOWED_PROOFSPACE_COUNTRIES != ''
+      ? process.env.ALLOWED_PROOFSPACE_COUNTRIES.split(',')
+      : ALLOWED_PROOFSPACE_COUNTRIES
   },
   newbelarus: {
     keyField: process.env.NEWBELARUS_PASS_KEY_FIELD ?? 'personId'
@@ -129,5 +131,12 @@ export const config: Config = {
     host: process.env.AUDIT_LOGGER_WINSTON_HOST ?? '',
     path: _readConfig(process.env.AUDIT_LOGGER_WINSTON_PATH)
   },
-  ipInfoToken: process.env.IPINFO_TOKEN != '' ? _readConfig(process.env.IPINFO_TOKEN) : undefined
+  ipInfoToken: process.env.IPINFO_TOKEN != '' ? _readConfig(process.env.IPINFO_TOKEN) : undefined,
+  veriff: {
+    url: process.env.VERIFF_API_URL ?? 'https://stationapi.veriff.com',
+    key: _readConfig(process.env.VERIFF_API_KEY ?? ''),
+    secret: _readConfig(process.env.VERIFF_API_SECRET ?? ''),
+  }
 }
+
+console.log('Double check dev mode: ', config.devMode ? 'dev' : 'prod')

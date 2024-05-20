@@ -44,16 +44,16 @@ export const vocdoniCsp = {
       res.json(result)
       req.context.auditLogger.vocdoni(_req, 'step', true)
     } catch (e) {
-      if (e instanceof PollReadyError) {
+      if (req.context.config.devMode) {
         console.error(e)
+      }
+      if (e instanceof PollReadyError) {
         res.status(HTTP.HTTP_STATUS_UNAUTHORIZED)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ABUSE)
       } else if (e instanceof PollError) {
-        console.error(e)
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ABUSE)
       } else {
-        console.error(e)
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ERROR)
       }
@@ -87,16 +87,16 @@ export const vocdoniCsp = {
       res.json(result)
       req.context.auditLogger.vocdoni(_req, 'sign', true)
     } catch (e) {
-      if (e instanceof PollReadyError) {
+      if (req.context.config.devMode) {
         console.error(e)
+      }
+      if (e instanceof PollReadyError) {
         res.status(HTTP.HTTP_STATUS_UNAUTHORIZED)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ABUSE)
       } else if (e instanceof PollError) {
-        console.error(e)
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ABUSE)
       } else {
-        console.error(e)
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
         req.context.auditLogger.vocdoni(_req, 'step', AuditOutcome.ERROR)
       }

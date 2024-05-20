@@ -60,7 +60,9 @@ export const integration = {
       })
       res.send(member)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       req.context.auditLogger.push(req as unknown as Request, {
         process: 'integration.check',
         stage: AuditStage.PROGRESS,

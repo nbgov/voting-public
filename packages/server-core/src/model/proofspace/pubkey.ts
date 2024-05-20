@@ -19,7 +19,7 @@ export const proofspacePubKeyRequest: WorkerHandlerWithCtx<PsPubKeyRequest, PsPu
       )
       return result.data
     } catch (e) {
-      console.error(e)
+      // console.error(e)
       serializeError(e)
       throw e
     }

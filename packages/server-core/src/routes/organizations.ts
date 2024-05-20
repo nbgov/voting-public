@@ -14,7 +14,7 @@ export const organizations = {
   load: (async (req, res) => {
     try {
       validationResult(req).throw()
-      
+
       const store = buildStoreHelper(req.context)
       const cache = await store.load<Organization>(req.params)
       if (cache != null) {
@@ -37,7 +37,9 @@ export const organizations = {
 
       res.json(org)
     } catch (e) {
-      console.error(e)
+      if (req.context.config.devMode) {
+        console.error(e)
+      }
       if (e instanceof MalformedError) {
         res.status(HTTP.HTTP_STATUS_BAD_REQUEST)
       } else {
