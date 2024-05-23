@@ -1,6 +1,6 @@
 import type { Context } from '../../types'
 import { PROOFSPACE_STRATEGY, castPassportFromPs, type PsCredential } from '@smartapps-poll/common'
-import type { AuthorizeResourceHandler, ProofService } from '../../resources/types'
+import type { AuthorizeResourceHandler, ProofService } from './types'
 import type { PollResource } from '../../resources/poll'
 import { DEDUPLICATION_FIELD_VALUE } from '../../resources/consts'
 import type { ProofResouce } from '../../resources/proof'

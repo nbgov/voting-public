@@ -7,6 +7,7 @@ import type { VeriffFinalDecision } from '@smartapps-poll/common'
 import { VeriffAuthorizationCom } from './veriff/types'
 import { shouldSkipGeo } from '../../client/fireproxy/geo-skip'
 import { VeriffWarning } from './veriff/warning'
+import { skipAdditionalVpnChecks } from '../../client'
 
 export const VeriffAuthorization: VeriffAuthorizationCom = ({ pollId, handler, success, failure }) => {
   const ctx = useCtx()
@@ -23,13 +24,14 @@ export const VeriffAuthorization: VeriffAuthorizationCom = ({ pollId, handler, s
       _failure = reject
     })
     try {
-      if (!await shouldSkipGeo(ctx)) {
+      console.log(!await shouldSkipGeo(ctx), !skipAdditionalVpnChecks)
+      if (!await shouldSkipGeo(ctx) && !skipAdditionalVpnChecks) {
         await failure(new Error('vpn'))
         return await ctx.modal.request(VeriffWarning)
       }
       const session = await ctx.web.veriff.init(pollId)
       const frame = createVeriffFrame({
-        url: session.sessionUrl, lang: i18n.language, onEvent: async event => {
+        url: session.sessionUrl, lang: i18n.language != 'be' ? i18n.language : 'ru', onEvent: async event => {
           try {
             // console.log('veriff event', event)
             // @TODO check verification event and process respectively

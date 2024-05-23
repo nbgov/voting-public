@@ -2,15 +2,16 @@ import type { WorkerHandlerWithCtx } from '../../queue/types'
 import { QUEUE_DB_SYNC, SERVICES_WORKER } from '../../queue/consts'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import { PollVerification, VeiffDocStatus, VeriffActions, VeriffStatus, type VeriffHookRequest } from './types'
-import { isVeriffAction, isVeriffDecision, stabPassportInDevMode } from './util'
+import { isVeriffAction, isVeriffDecision, isVeriffRecordSafe, stabPassportInDevMode } from './utils'
 import type { AuthResource } from '../../resources/auth'
 import { buildStoreHelper } from '../redis'
-import { VeriffError } from '../errors'
+import { ERROR_EARLY_FAILURE, VeriffError } from '../errors'
 import { buildProofService } from '../proof/service'
 import { PollResource } from '../../resources/poll'
 import { AuditOutcome } from '../audit/types'
 import { AUTH_TYPE_TOKEN_ONETIME, OneTimePayload } from '@smartapps-poll/common'
 import { VeriffResouce } from '../../resources/veriff'
+import { VERIFF_ABUSE_TRESHOLD } from './consts'
 
 export const buildVeriffHookHandler: WorkerHandlerWithCtx<VeriffHookRequest, AuditOutcome> = ctx => ({
   tags: [SERVICES_WORKER],
@@ -21,9 +22,6 @@ export const buildVeriffHookHandler: WorkerHandlerWithCtx<VeriffHookRequest, Aud
 
   handler: async job => {
     try {
-      // if (ctx.config.devMode) {
-      //   console.info(job.data)
-      // }
       switch (true) {
         case isVeriffAction(job.data): {
           if (job.data != null) {
@@ -31,7 +29,7 @@ export const buildVeriffHookHandler: WorkerHandlerWithCtx<VeriffHookRequest, Aud
             if (event.action === VeriffActions.Started) {
               if (event.id != null) {
                 const veriff: VeriffResouce = ctx.db.resource('veriff')
-                veriff.service.register(event.id)
+                await veriff.service.register(event.id)
               }
             }
           }
@@ -60,9 +58,13 @@ export const buildVeriffHookHandler: WorkerHandlerWithCtx<VeriffHookRequest, Aud
             throw new VeriffError('veriff.resource')
           }
 
+          // @TODO safe but better to remove from prod
           const passport = stabPassportInDevMode(ctx.config, job.data) // job.data
+
           if (!await buildProofService(ctx).authorizeWpResource(verification.id, [passport], { poll })) {
-            await store.set('veriff-pickup:' + token, { status: 'ok' }, 1800)
+            await store.set('veriff-pickup:' + token, {
+              status: ctx.config.earlyFailure ? ERROR_EARLY_FAILURE : 'ok'
+            }, 1800)
             return AuditOutcome.ABUSE
           }
 
@@ -70,6 +72,16 @@ export const buildVeriffHookHandler: WorkerHandlerWithCtx<VeriffHookRequest, Aud
           // One time token after deduplication is issued here
           await auth.service.createTmpToken(verification.seed, false, AUTH_TYPE_TOKEN_ONETIME, payload)
           await store.set('veriff-pickup:' + token, { status: 'ok' }, 1800)
+
+          // We record when someone gets right to get bulletin with a suspicious passport
+          const [safe, score] = isVeriffRecordSafe(passport.verification)
+          if (!safe) {
+            ctx.auditLogger.veriffRisk(
+              passport.technicalData.ip, 'web-pass', passport.verification,
+              score < VERIFF_ABUSE_TRESHOLD
+            )
+          }
+
           break
         }
       }

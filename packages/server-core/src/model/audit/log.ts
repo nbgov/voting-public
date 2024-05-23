@@ -4,11 +4,11 @@ import type { Config, Context } from '../../types'
 import { AuditOutcome, AuditStage, type AuditLogger, type AuditLoggerPayload, type AuditLoggerSendHandler } from './types'
 import { AUDIT_WORKER, QUEUE_AUDIT } from '../../queue/consts'
 import { stabWaitMethod } from '../../queue/utils'
-import { hash } from '@smartapps-poll/common'
+import { hash, randomToken } from '@smartapps-poll/common'
 import axios from 'axios'
 import { PROOFSPACE_AUDIT_MARKER, VERIFF_AUDIT_MARKER, apiAuditMarkers } from './const'
-import { VeriffHookRequest } from '../veriff/types'
-import { isVeriffDecision } from '../veriff/util'
+import type { VeriffHookRequest } from '../veriff/types'
+import { filterVeriffRecord, isVeriffDecision, isVeriffRecordSafe } from '../veriff/utils'
 import { buildStoreHelper } from '../redis'
 
 export const createAuditLogger = (config: Config): AuditLogger => {
@@ -91,6 +91,16 @@ export const createAuditLogger = (config: Config): AuditLogger => {
       )
     },
 
+    veriffRisk: (ip, source, payload, outcome = true, process = 'risk-check', stage = AuditStage.PROGRESS) => {
+      _logger.send(
+        { ip, host: source, path: '', permissions: 'veriff-risk-check' },
+        {
+          payload, process: `veriff:${process}`, stage, outcome: typeof outcome === 'boolean'
+            ? outcome ? AuditOutcome.RISK : AuditOutcome.ABUSE : outcome
+        }
+      )
+    },
+
     vocdoni: (req, process, outcome = false, stage = AuditStage.FINALIZATION) => {
       _logger.send(
         _logger.createMeta(req),
@@ -105,7 +115,7 @@ export const createAuditLogger = (config: Config): AuditLogger => {
       ip: req.ip ?? req.header('x-forwarded-for') ?? '',
       host: req.hostname,
       path: req.path,
-      permissions: req.user != null ? 'authenticated' : 'guest'
+      permissions: req.user != null && typeof req.user === 'object' ? 'authenticated' : 'guest'
     })
   }
 
@@ -122,7 +132,13 @@ export const buildAuditLoggerSendHandler: AuditLoggerSendHandler = ctx => ({
   handler: async job => {
     if (ctx.auditLogger.logger != null) {
       const ip = job.data.meta?.ip ?? 'unkown'
-      let ipProduct = hash(ctx.config.salt, ip).slice(-6)
+      const store = buildStoreHelper(ctx)
+      const ipSaltKey = 'ip-salt:' + ip
+      const ipSalt = await store.get(ipSaltKey) ?? randomToken().substring(0, Math.floor(Math.random() * 32))
+      if (!await store.has(ipSaltKey)) {
+        await store.set(ipSaltKey, ipSalt, 3600 * 12)
+      }
+      let ipProduct = hash(ctx.config.salt, ip + ipSalt).slice(-6)
 
       switch (job.data.meta?.host) {
         case PROOFSPACE_AUDIT_MARKER:
@@ -132,7 +148,6 @@ export const buildAuditLoggerSendHandler: AuditLoggerSendHandler = ctx => ({
       let country = ctx.config.ipWhiteList.includes(ip) ? 'secured' : 'unknown'
 
       if (!apiAuditMarkers.includes(job.data.meta?.host ?? '')) {
-        const store = buildStoreHelper(ctx)
         const key = 'ip-country:' + hash(ctx.config.salt, ip)
         const _country = await store.get<string>(key)
         if (_country != null) {
@@ -153,15 +168,19 @@ export const buildAuditLoggerSendHandler: AuditLoggerSendHandler = ctx => ({
         stage: job.data.stage,
         outcome: job.data.outcome
       }
-      // curl ipinfo.io/8.8.8.8/country?token=$TOKEN
       // https://docs.datadoghq.com/api/latest/logs/
-      const message = `User ${ipProduct} from ${country} in ${job.data.process} on ${job.data.stage}: ${job.data.outcome}`
+      let message = `User ${ipProduct} from ${country} with ${job.data.meta?.permissions ?? 'unknown'} permission`
+        + ` in ${job.data.process} on ${job.data.stage}: ${job.data.outcome}`
+      if (job.data.meta?.permissions === 'veriff-risk-check') {
+        message += `; decision: ${JSON.stringify(isVeriffRecordSafe(job.data.payload))} ${JSON.stringify(filterVeriffRecord(job.data.payload))}`
+      }
       ctx.auditLogger.logger.log(job.data.level, message, {
         ...data,
         hostname: job.data.meta?.host ?? 'newbelarus-voting',
         service: `${ctx.config.devMode ? 'test' : 'prod'}:nbpoll:vocdoni-${ctx.config.vocdoni.env}`,
-        path: job.data.meta?.path,
+        path: job.data.meta?.path ?? 'empty',
         ddsource: 'nbpoll_audit',
+        permission: job.data.meta?.permissions ?? 'unknown',
         ddtags: `${job.data.process},${ctx.config.workersOnly ? 'worker' : 'http'}`
       })
     }

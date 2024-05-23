@@ -48,9 +48,10 @@ export const newbelarusChallenge = {
         req.context.auditLogger.nb(_req, 'verify', AuditOutcome.ABUSE, AuditStage.INITIALIZATION)
         throw new AuthError()
       }
-      await buildNBVerifyHandler(req.context).wait(
-        { user: req.user, body: req.body, votingId: req.params.votingId }
-      )
+      await buildNBVerifyHandler(req.context).wait({ 
+        user: req.user, body: req.body, votingId: req.params.votingId, 
+        ip: req.ip ?? req.header('x-forwarded-for') ?? '' 
+      })
 
       res.send()
       req.context.auditLogger.nb(_req, 'verify', true)
@@ -72,7 +73,7 @@ export const newbelarusChallenge = {
         req.context.auditLogger.nb(_req, 'verify', AuditOutcome.ABUSE)
       } else {
         res.status(HTTP.HTTP_STATUS_INTERNAL_SERVER_ERROR)
-        req.context.auditLogger.nb(_req, 'verify', AuditOutcome.ERROR)
+        req.context.auditLogger.nb(_req, 'verify', req.context.config.earlyFailure ? AuditOutcome.ABUSE : AuditOutcome.ERROR)
       }
       res.send()
     }

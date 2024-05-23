@@ -345,6 +345,14 @@
         "vpn-mobile": "To proceed, install VPN on your mobile phone too. Also avoid getting authorization link on your phone via SMA.",
         "back": "Cancel"
       }
+    },
+    "vpn": {
+      "header": "VPN Consent",
+      "intro": "We care about your safety. So please make sure that you are in a safe country or connected to VPN",
+      "consent": "Clicking on the button below you confirm that you are in safety and allow to check you IP address to proceed.",
+      "skip": "Despite where you are, if you click on the button a few times it will allow you to proceed",
+      "try": "Confirm and try",
+      "check": "Checking your location..."
     }
   },
   "account": {
@@ -376,7 +384,11 @@
       },
       "webpass": {
         "title": "Physical Passport Authorization",
-        "info": "You may authorize your vote right here using web browser on your mobile phone. Please, proceed with voting to do it."
+        "info": "You may authorize your vote right here using web browser on your mobile phone. Please, proceed with voting to do it.",
+        "point-0": "Select list and click on it",
+        "point-1": "Proceed by clicking on \"Vote\" button",
+        "point-2": "Verify your identity fallowing guidelines on the screen",
+        "point-3": "Save voting key to check voting results later"
       },
       "actions": {
         "back": "Get back"

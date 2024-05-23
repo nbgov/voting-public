@@ -48,7 +48,9 @@ export const config: Config = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID ?? ''
   },
   geoCheckURL: process.env.REACT_APP_IPCHECK_URL,
-  apiOverrides: apiOverrides(noProxy)
+  apiOverrides: apiOverrides(noProxy),
+  forceVPN: (process.env.REACT_APP_FORCE_VPN ?? 'true') === 'true',
+  vpnCounter: process.env.REACT_APP_VPN_COUNTER === 'true'
 }
 
 Object.entries({

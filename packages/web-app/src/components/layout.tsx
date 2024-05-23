@@ -2,7 +2,7 @@ import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import Logo from '../assets/nb_new_logo.png'
+import Logo from '../assets/logo.png'
 import { type FC } from 'react'
 import { PollLogo } from '@smartapps-poll/web-common'
 import Typography from '@mui/material/Typography'
@@ -25,8 +25,9 @@ export const Layout: FC<LayoutProps> = ({ children, path }) => {
       : <>
         <AppBar position="fixed">
           <Toolbar>
-            <Avatar src={Logo} sx={{ width: 50, height: 50, mr: 1, cursor: 'pointer', pointerEvents: 'auto' }}
-              onClick={() => { navigate('/') }} />
+            <Avatar src={Logo} sx={{
+              width: 50, height: 50, mr: 1, cursor: 'pointer', pointerEvents: 'auto', bgcolor: '#fff'
+            }} onClick={() => { navigate('/') }} />
             <Avatar variant="square" sx={{
               width: 50, height: 50, mr: 1, bgcolor: 'primary.main', cursor: 'pointer', pointerEvents: 'auto'
             }} onClick={() => { navigate('/') }} >

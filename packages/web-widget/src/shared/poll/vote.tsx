@@ -3,13 +3,15 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import {
   LocalizedError, type Poll, type PollResult, VoteError, getEndDateInterval,
-  isAuthroizationRequired, NEWBELARUS_STRATEGY, prepareViewQustions, WEBPASS_STRATEGY
+  isAuthroizationRequired, NEWBELARUS_STRATEGY, prepareViewQustions, WEBPASS_STRATEGY,
+  RENDERER_PARTY
 } from '@smartapps-poll/common'
 import {
   Backdrop, ProgressButton, ProofspaceAuthChoiceAsync, AuthorizationChoice,
   ProofspaceIntegratedAuthAsync, ProofspaceIntegratedAuthorization, ResultBox,
   ResultBoxStatus, useToggle, buildPollHelper, buildStoreHelper, useTgAuthentication,
-  buildAnalytics, ConditionInfo, VeriffInitializationHandler, VeriffAuthorizationCom
+  buildAnalytics, ConditionInfo, VeriffInitializationHandler, VeriffAuthorizationCom,
+  isViewWrapped
 } from '@smartapps-poll/web-common'
 import { type FC, useEffect, useState, useMemo } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -26,10 +28,12 @@ import FormHelperText from '@mui/material/FormHelperText'
 import LinearProgress from '@mui/material/LinearProgress'
 import days from 'dayjs'
 import { PollViewVotedInfo } from './voted-info'
-import { assertProofspaceErrorAboutPossibleDuplication, filterAnswers, isViewWrapped } from './utils'
-import { useSmallPaddings, useSmallStyles } from '../helpers'
+import { assertProofspaceErrorAboutPossibleDuplication, filterAnswers } from './utils'
+import { useSmallPaddings, useSmallStyles, useSmalllUI } from '../helpers'
 import { PollQuestion } from './questions'
 import React from 'react'
+import { Guide } from './guide'
+import { DesktopAlert } from './desktop-alert'
 const VeriffAuthorization: VeriffAuthorizationCom = React.lazy(() => import('@smartapps-poll/web-common/dist/component/authorization/veriff-auth') as any)
 
 export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skipSuccess }) => {
@@ -106,7 +110,7 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
         if (strategy === WEBPASS_STRATEGY) {
           analytics.startVote(poll._id, strategy, 'try')
           setForm(data)
-          veriffHandler.trigger != null && void veriffHandler.trigger()
+          veriffHandler.trigger != null && await veriffHandler.trigger()
           return
         } else if (strategy === NEWBELARUS_STRATEGY) {
           analytics.startVote(poll._id, strategy, 'try')
@@ -225,6 +229,7 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
   const isInPast = days(endDate).isBefore(days())
 
   const backDropStyles = useSmallStyles({ maxWidth: '50%' }, { maxWidth: '100%', mx: 2, px: 1 })
+  const small = useSmalllUI()
 
   return <>
     {auth.opened
@@ -244,8 +249,8 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
         <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" columnSpacing={3}>
           <Grid item sm={8} xs={12} mb={1}>
             <FormProvider {...methods}>
-              <Typography variant={isWrapped ? "body2" : "body1"} gutterBottom mb={2}>{poll.description}</Typography>
-              <Box mb={2}>
+              {!small ? <Typography variant={isWrapped ? "body2" : "body1"} gutterBottom mb={0}>{poll.description}</Typography> : undefined}
+              <Box mb={0}>
                 {helper.hasGolos || isWrapped ? undefined : <ConditionInfo poll={poll} noBorder />}
               </Box>
               {/* <Paper sx={isWrapped ? { px: 0, border: 0 } : { px: 2 }}> */}
@@ -259,6 +264,7 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
             </FormProvider>
           </Grid>
           <Grid item sm={4} xs={12}>
+            {poll.uiType === RENDERER_PARTY ? <DesktopAlert /> : undefined}
             <Card sx={isWrapped ? { border: 0 } : {}}>
               {!isWrapped ? <CardHeader title={t('actions.title')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 'bold' }} /> : undefined}
@@ -276,13 +282,14 @@ export const PollViewVote: FC<PollViewVoteProps> = ({ poll, onVote, onInfo, skip
               </CardContent> : undefined}
               {auth.opened
                 ? undefined
-                : <CardActions sx={{ justifyContent: 'center', flexDirection: 'column', px: 0 }}>
+                : <CardActions sx={{ justifyContent: 'center', flexDirection: 'column', pl: 0, pr: 1 }}>
                   {!isWrapped ? <Button size="large" fullWidth onClick={() => { void onInfo() }}>{t('actions.check')}</Button> : undefined}
                   <ProgressButton size="large" fullWidth disabled={!ready} toggle={toggle} onClick={handleSubmit(tryVote)}>
                     {ready ? t('actions.vote') : t('actions.choose')}
                   </ProgressButton>
                 </CardActions>}
             </Card>
+            <Guide poll={poll} noBorder />
           </Grid>
         </Grid>
       </CardContent>

@@ -23,6 +23,7 @@ export const dockNBPasswportAction: DockActionTemplate = {
     'credentialSubject.personId', 
     'credentialSubject.dateOfBirth', 
     'credentialSubject.country', 
+    'credentialSubject.meta',
     'type', 'holder', 'issuer'
   ]],
   allowedIssuers: [] // Put issuers public keys here during app initialization

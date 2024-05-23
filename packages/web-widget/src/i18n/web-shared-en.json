@@ -129,6 +129,14 @@
         "backdrop": {
           "title": "Action is being performed...",
           "body": "Please, wait! Do not close or refresh the screen! Cryptographical and blockchain related operations can take time!"
+        },
+        "alert": {
+          "title": "Use only smartphone!",
+          "intro": "Use VPN and incognito mode in your browser even on smartphone. Read the guide using link: ",
+          "point-0": "Please, enable VPN",
+          "point-1": "Use browser in incognito mode",
+          "point-2": "Do not ask for any SMS during ID verificatio in Veriff!",
+          "warning": "Veriff will ask you to send sms or scan QR code when you use device without sim card! Choose QR code in any case for your safety."
         }
       }
     }

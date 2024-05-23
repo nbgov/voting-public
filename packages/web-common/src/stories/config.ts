@@ -14,5 +14,7 @@ export const debugConfig: Config = {
     env: process.env.VOCDONI_ENV as EnvOptions ?? "dev",
     fireproxy: false
   },
-  firebase: {}
+  firebase: {},
+  forceVPN: false,
+  vpnCounter: false
 }

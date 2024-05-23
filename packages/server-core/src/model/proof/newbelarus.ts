@@ -1,7 +1,7 @@
 import type { Context } from '../../types'
 import type { IntegrationService, NBServiceData, RequiredProof, TgProofMeta, NBTgSubject, PassportSubject } from '@smartapps-poll/common'
 import { ALLOWED_COUNTRIES, CRED_TYPE_NEWBELARUSPASSPORT, CRED_TYPE_NEWBELARUSTELEGRAM, NEWBELARUS_STRATEGY, TELEGRAM_STRATEGY } from '@smartapps-poll/common'
-import type { AuthorizeResourceHandler, ProofService } from '../../resources/types'
+import type { AuthorizeResourceHandler, ProofService } from './types'
 import type { PollResource } from '../../resources/poll'
 import { DEDUPLICATION_FIELD_VALUE } from '../../resources/consts'
 import type { ProofResouce } from '../../resources/proof'

@@ -10,6 +10,7 @@ import type { UserResource } from './user'
 import { AUTH_TOKEN, SALTED_AUTH_TYPE, type SaltedAuthenticationMethod } from '../auth/method/token'
 import { makeUserModel } from '../model/user'
 import { buildStoreHelper } from '../model/redis'
+import { EarlyFailureError } from '../model/errors'
 
 export const createAuthResource = (ctx: Context): Resource => createResourceBuilder('auth', ctx)
   .name('auth')
@@ -54,7 +55,7 @@ export interface AuthResourceService extends Record<string, unknown> {
   hash: (value: string) => string
   terminate: (token: string) => Promise<void>
   createToken: (user: User, token?: string, expiredAt?: Date | false) => Promise<[TokenAuthenticationMethod, string]>
-  createTmpToken: (token?: string, expiredAt?: Date | false, type?: AuthTmpTokenType, credentials?: Record<string, string>) => Promise<[TmpTokenAuthenticationMethod, string]>
+  createTmpToken: (token?: string, expiredAt?: Date | false, type?: AuthTmpTokenType, credentials?: Record<string, string | undefined>) => Promise<[TmpTokenAuthenticationMethod, string]>
   cleanTmpToken: (token: string) => Promise<void>
   createSaltedToken: (user: User, token: string) => Promise<SaltedAuthenticationMethod>
   createTmpSaltedToken: (token: string, expiredAt?: Date | false) => Promise<SaltedAuthenticationMethod>
@@ -184,7 +185,9 @@ export const buildAuthUtils: ResourceServiceBuilder = (res, ctx) => {
               console.log('hit the fan')
               return null
             } else {
-              console.log('smooth')
+              if (ctx.config.devMode) {
+                console.log('smooth')
+              }
             }
           }
           if (authObj.userId !== AUTH_ANONYMOUS) {
@@ -279,6 +282,9 @@ export const buildAuthUtils: ResourceServiceBuilder = (res, ctx) => {
         await _service.cleanupSaltedToken(token)
         if (pickup === TERMINATION_PAYLOAD) {
           await userModel.takeForUser(AUTH_PICKUP_KEY)
+          if (ctx.config.earlyFailure) {
+            throw new EarlyFailureError()
+          }
           return authWithUser
         }
         const payload: OneTimePayload = { externalId: pickup ?? 'unknown' }

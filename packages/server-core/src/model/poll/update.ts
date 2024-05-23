@@ -1,5 +1,5 @@
 import { type User, PollError, type PollInfo } from '@smartapps-poll/common'
-import { DB_WORKER, QUEUE_DB_SYNC } from '../../queue/consts'
+import { ADMIN_WORKER, QUEUE_ADMIN } from '../../queue/consts'
 import type { WorkerHandlerWithCtx } from '../../queue/types'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import { AuhtorizationError, MalformedError } from '../../routes/errors'
@@ -7,9 +7,9 @@ import type { MemberResource } from '../../resources/member'
 import { PollAuthorization, type PollResource } from '../../resources/poll'
 
 export const buildPollUpdateHandler: WorkerHandlerWithCtx<{ id: string, poll: PollInfo, user: User }, PollInfo> = ctx => ({
-  tags: [DB_WORKER],
+  tags: [ADMIN_WORKER],
 
-  queue: QUEUE_DB_SYNC,
+  queue: QUEUE_ADMIN,
 
   name: 'poll:update',
 
@@ -45,5 +45,5 @@ export const buildPollUpdateHandler: WorkerHandlerWithCtx<{ id: string, poll: Po
     }
   },
 
-  wait: makeWaitMethod(ctx, QUEUE_DB_SYNC, 'poll:update')
+  wait: makeWaitMethod(ctx, QUEUE_ADMIN, 'poll:update')
 })

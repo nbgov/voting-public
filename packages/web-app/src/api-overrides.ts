@@ -45,7 +45,7 @@ export const apiOverrides = (noProxy: boolean): APIConfigurationOverride[] => [
     url: 'https://dev/api',
     fireproxy: !noProxy,
     vocdoni: {
-      env: 'stg' as EnvOptions,
+      env: (process.env.REACT_APP_VOCDONI_ENV ?? 'stg') as EnvOptions,
       fireproxy: !noProxy
     },
     baseUrl: 'https://dev'

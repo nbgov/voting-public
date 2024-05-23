@@ -6,18 +6,6 @@ export interface QueueManager {
   get: <Type, Result = unknown>(queue: string) => QueueWrapper<Type, Result>
   listen: <Type, Result>(queue: string, job: string, listner: JobProcessor, opts?: Partial<WorkerOptions>) => Worker<Type, Result>
   removeRepeatable: (queue: string, job: string, opts: Partial<JobsOptions>) => Promise<void>
-  remote: {
-    get: <Type, Result = unknown>() => QueueWrapper<Type, Result>
-    listen: <Type, Result>(job: string, listner: JobProcessor) => Worker<Type, Result>
-  },
-  db: {
-    get: <Type, Result = unknown>() => QueueWrapper<Type, Result>
-    listen: <Type, Result>(job: string, listner: JobProcessor) => Worker<Type, Result>
-  },
-  algo: {
-    get: <Type, Result = unknown>() => QueueWrapper<Type, Result>
-    listen: <Type, Result>(job: string, listner: JobProcessor) => Worker<Type, Result>
-  },
 }
 
 export interface QueueWrapper<Type = any, Result = any> {

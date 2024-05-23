@@ -1,7 +1,10 @@
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import { prepareViewQustions, type ChoiceResult, type Poll, type PollRegistrationInfo, type PollResult, type VoteInfo } from '@smartapps-poll/common'
-import { type IQuestion, ProgressButton, ProofspaceAuthChoiceAsync, ProofspaceIntegratedAuthAsync, buildAnalytics, useToggle, buildStoreHelper } from '@smartapps-poll/web-common'
+import {
+  type IQuestion, ProgressButton, ProofspaceAuthChoiceAsync, ProofspaceIntegratedAuthAsync, buildAnalytics,
+  useToggle, buildStoreHelper, isViewWrapped
+} from '@smartapps-poll/web-common'
 import { useCtx } from '../context'
 import { type FunctionComponent, useEffect, useState, useMemo } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -16,7 +19,6 @@ import { PollViewVotedInfo } from './voted-info'
 import TextField from '@mui/material/TextField'
 import { isCspCensus } from '../../helpers'
 import { useSmallPaddings, useSmallStyles, useSmalllUI } from '../helpers'
-import { isViewWrapped } from './utils'
 import { PollQuestion } from './questions'
 
 export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll, voteId }) => {
@@ -106,6 +108,7 @@ export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll,
   }
 
   const smallVoteIdResult = useSmallStyles({}, { display: { xs: 'none' } })
+  const small = useSmalllUI()
 
   return <>
     {auth.opened
@@ -132,7 +135,7 @@ export const PollViewResults: FunctionComponent<PollViewResultsProps> = ({ poll,
             </Grid>
             : undefined}
           <Grid item sm={8} xs={12} mb={1}>
-            <Typography variant={isWrapped ? "body2" : "body1"} gutterBottom mb={2}>{poll.description}</Typography>
+            {!small ? <Typography variant={isWrapped ? "body2" : "body1"} gutterBottom mb={2}>{poll.description}</Typography> : undefined}
             <FormProvider {...methods}>
               {context.isAuthenticated() && regInfo != null
                 ? <PollViewCensusInfo status={regInfo} />

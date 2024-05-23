@@ -30,6 +30,7 @@ export const newBelarusPassportDockJsonSchema: Partial<IEmbeddedJsonSchema> = {
         country: { type: 'string' },
         authority: { type: 'string' },
         photo: { type: 'string' },
+        meta: { type: 'string' },
       }
     }
   }
@@ -48,5 +49,6 @@ export const mockNewBelarusPassportSubjectDock = {
   nationality: 'Belarus',
   country: 'BY',
   authority: 'IDK',
-  photo: ''
+  photo: '',
+  meta: ''
 }

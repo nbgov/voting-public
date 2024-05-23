@@ -3,8 +3,8 @@ import { CommonContext } from '../../context'
 
 let _shouldSkipGeo: boolean | undefined
 
-export const shouldSkipGeo = async (_ctx: CommonContext): Promise<boolean> => {
-  if (_shouldSkipGeo === undefined) {
+export const shouldSkipGeo = async (_ctx: CommonContext, force: boolean = false): Promise<boolean> => {
+  if (_shouldSkipGeo === undefined || force) {
     console.info('DANGEROUS COUNTRIES', DANGEROUS_COUNTRIES)
     _shouldSkipGeo = true
     if (_ctx.config.geoCheckURL != null) {

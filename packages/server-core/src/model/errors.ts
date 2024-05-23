@@ -46,3 +46,11 @@ export class TelegramError extends Error {
     super(message ?? 'telegram.error')
   }
 }
+
+export class EarlyFailureError extends Error {
+  constructor(message?: string) {
+    super(message ?? 'error.early')
+  }
+}
+
+export const ERROR_EARLY_FAILURE = 'early_failure'

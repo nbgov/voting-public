@@ -26,6 +26,7 @@ export interface PassportSubject extends Record<string, unknown> {
   personId: string
   dateOfBirth: string
   country: string
+  meta?: string
 }
 
 export interface NBTgSubject extends Record<string, unknown> {
@@ -39,3 +40,16 @@ export interface NBServiceData {
 }
 
 export interface DockActionToW3CReason extends Record<string, string> { }
+
+export interface NBRiskPayload {
+  risk?: {
+    score?: number
+    labels?: NBRiskLabel[]
+  }
+}
+
+export interface NBRiskLabel {
+  name: string
+  label?: string
+  category: string
+}

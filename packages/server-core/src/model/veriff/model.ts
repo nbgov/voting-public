@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Context } from '../../types'
-import { VeriffNewSession, VeriffService } from './types'
+import { VeriffHookDecision, VeriffNewSession, VeriffService } from './types'
 import { signVeriffPayload } from './hmac-sign'
 
 export const buildVeriffService: (ctx: Context) => VeriffService = ctx => ({
@@ -25,5 +25,16 @@ export const buildVeriffService: (ctx: Context) => VeriffService = ctx => ({
     }
 
     return (await axios.post<VeriffNewSession>(url, payload, { headers })).data
+  },
+
+  loadDecision: async (id, opts) => {
+    const url = `${ctx.config.veriff.url}/v1/sessions/${id}/decision`
+    const headers = {
+      'x-auth-client': opts?.key ?? ctx.config.veriff.key,
+      'x-hmac-signature': signVeriffPayload(opts?.secret ?? ctx.config.veriff.secret, id),
+      'content-type': 'application/json'
+    }
+
+    return (await axios.get<VeriffHookDecision>(url, { headers })).data
   }
 })

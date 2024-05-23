@@ -6,7 +6,7 @@ import CardHeader from '@mui/material/CardHeader'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { type PollInfo, PollStatus, POLL_QUESTION_MAX, type Poll, LocalizedError, isElectionEditable, CensusStatus, type Census, RENDERER_DEFAULT, prepareEmptyChoice, type RequiredProofAction } from '@smartapps-poll/common'
+import { type PollInfo, PollStatus, POLL_QUESTION_MAX, type Poll, LocalizedError, isElectionEditable, CensusStatus, type Census, RENDERER_DEFAULT, prepareEmptyChoice, type RequiredProofAction, VOCDONI_CSP_CENSUSES } from '@smartapps-poll/common'
 import { PollError, ProgressButton, ResultBox, ResultBoxStatus, useToggle } from '@smartapps-poll/web-common'
 import days from 'dayjs'
 import { type FunctionComponent, useEffect, useState } from 'react'
@@ -102,14 +102,13 @@ export const PollEdit: FunctionComponent<PollEditProps> = ({ id, onCancel, onSuc
           throw new PollError('account.balance.insufficient')
         }
       }
+      const unpublished = poll.status === PollStatus.UNPUBLISHED
+        || (VOCDONI_CSP_CENSUSES.includes(poll.census?.type ?? '')
+          && [PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll?.status))
       const dataUpdate: Partial<PollInfo> = {
-        ...(
-          [PollStatus.UNPUBLISHED].includes(poll.status)
-            ? {
-              ...Object.fromEntries(Object.entries(data).filter(([key]) => key in defaults))
-            }
-            : {}
-        ),
+        ...(unpublished ? {
+          ...Object.fromEntries(Object.entries(data).filter(([key]) => key in defaults))
+        } : {}),
         ...(status != null ? { status } : {}),
         census: { size: data.census?.size } as Census
       }

@@ -2,6 +2,8 @@ import type { AxiosPromise, InternalAxiosRequestConfig } from 'axios'
 import { getAdapter } from 'axios'
 import type { CommonContext } from '../context/types'
 import { shouldSkipGeo } from './fireproxy/geo-skip'
+import { makeVpnBlocker } from './vpn-check'
+import { isViewWrapped } from './utils'
 const { default: settle }: any = require('axios/unsafe/core/settle.js')
 
 const { chacha20 }: any = require('@fproxy/crypto-chacha20')
@@ -10,16 +12,30 @@ const { createFetch }: any = require('@fproxy/fetch')
 
 const skipPatterns: string[] = []
 
+export let skipAdditionalVpnChecks = false
+
 export const makeFireproxyAdapter = (ctx: CommonContext) => {
   const projectId = ctx.config.fireproxyProject
   const crypto = chacha20()
   const firestore = new FirestoreClient({ projectId })
   const fireFetch = createFetch({ crypto, transports: [firestore] })
 
+  let skipFireproxy: boolean | undefined = undefined
+  let forceVpn = ctx.config.forceVPN
   return async (config: InternalAxiosRequestConfig): AxiosPromise => {
-    const url = config.url?.startsWith('https://') ? config.url : (config.baseURL ?? '') + config.url
+    if (skipFireproxy === undefined && forceVpn && !isViewWrapped(ctx)) {
+      forceVpn = false
+      const outcome = await ctx.modal.request(makeVpnBlocker())
+      skipAdditionalVpnChecks = true
+      if (outcome === 'ok') {
+        skipFireproxy = true
+      } else {
+        skipFireproxy = false
+      }
+    }
 
-    if (skipPatterns.some(pattern => url.includes(pattern)) || await shouldSkipGeo(ctx)) {
+    const url = config.url?.startsWith('https://') ? config.url : (config.baseURL ?? '') + config.url
+    if (skipPatterns.some(pattern => url.includes(pattern)) || skipFireproxy || await shouldSkipGeo(ctx)) {
       const xhr = getAdapter('xhr')
       return xhr(config)
     }

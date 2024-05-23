@@ -8,6 +8,7 @@ import { buildStoreHelper } from '../redis'
 import { AuthenticationWithUser } from '../../auth/method/types'
 import days from 'dayjs'
 import { MalformedError } from '../../routes/errors'
+import { EarlyFailureError } from '../errors'
 
 export const buildUserTokenAuth: WorkerHandlerWithCtx<UserTokenAuthData, UserTokenAuthResult> = ctx => ({
   tags: [DB_WORKER, FREQUENT_WORKER],
@@ -45,7 +46,10 @@ export const buildUserTokenAuth: WorkerHandlerWithCtx<UserTokenAuthData, UserTok
         try {
           // console.log('start authentication with salt')
           auth = await authRes.service.authenticateSalted(token)
-        } catch {
+        } catch (e) {
+          if (e instanceof EarlyFailureError) {
+            throw Error()
+          }
         }
       }
 

@@ -1,6 +1,6 @@
 import { ALLOWED_COUNTRIES, WEBPASS_STRATEGY } from '@smartapps-poll/common'
 import { PollResource } from '../../resources/poll'
-import type { AuthorizeResourceHandler, ProofService } from '../../resources/types'
+import type { AuthorizeResourceHandler, ProofService } from './types'
 import type { Context } from '../../types'
 import { VeriffStatus, type VeriffHookDecision } from '../veriff/types'
 import { ProofError, ServiceError } from '../../resources/errors'

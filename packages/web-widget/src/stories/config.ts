@@ -18,7 +18,9 @@ export const debugConfig: Config = {
   hideWebPass: false,
   hiddenStrategies: [],
   firebase: {},
-  sharableBaseUrl: process.env.SHARABLE_BASE_URL ?? 'http://localhost:3000'
+  sharableBaseUrl: process.env.SHARABLE_BASE_URL ?? 'http://localhost:3000',
+  forceVPN: false,
+  vpnCounter: false
 }
 
 export const debugIntegration: IntegrationParams = {

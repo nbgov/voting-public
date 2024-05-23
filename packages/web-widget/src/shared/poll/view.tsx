@@ -4,7 +4,9 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { type Organization, type Poll, PollStatus } from '@smartapps-poll/common'
-import { useNavigation, Navigator, Screen, WebContext, buildStoreHelper, setError } from '@smartapps-poll/web-common'
+import {
+  useNavigation, Navigator, Screen, WebContext, buildStoreHelper, setError, isViewWrapped, type LoadableScreen
+} from '@smartapps-poll/web-common'
 import { type FunctionComponent, useEffect, useState } from 'react'
 import { useCtx } from '../context'
 import { type Context } from '../types'
@@ -20,13 +22,12 @@ import Avatar from '@mui/material/Avatar'
 import Grid from '@mui/material/Grid'
 import useTheme from '@mui/material/styles/useTheme'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useSmallPaddings } from '../helpers'
+import { shouldHideExtras, useSmallPaddings } from '../helpers'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
-import { isViewWrapped } from './utils'
 import { isCspCensus } from '../../helpers'
 
-export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
+export const PollView: FunctionComponent<PollViewProps & LoadableScreen> = ({ context, id, readyHandler }) => {
   const { t } = useTranslation()
   const _context = useCtx()
   const theme = useTheme()
@@ -43,6 +44,7 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
   const onRefresh = async () => {
     if (id != null) {
       const poll = await context?.web.polls.load(id)
+      readyHandler?.ready != null && readyHandler.ready()
       if (poll != null) {
         setVoteId(await buildStoreHelper(_context).loadVote(poll))
         setPoll(poll as Poll)
@@ -119,7 +121,7 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
     nav.go(pollResultsVote(voteId))
   }
 
-  const isCsp = useMemo(() => poll != null ? isCspCensus(poll)() : true,[poll?._id])
+  const isCsp = useMemo(() => poll != null ? isCspCensus(poll)() : true, [poll?._id])
 
   const startDate = new Date(isCsp && poll != null ? poll.startDate : poll?.createdAt ?? new Date())
   const endDate = new Date(
@@ -159,7 +161,7 @@ export const PollView: FunctionComponent<PollViewProps> = ({ context, id }) => {
               —
               {smallScreen ? endDate.toLocaleDateString() : endDate.toLocaleString()}
             </Typography>
-            {poll?.header != null && poll.header != '' && !isWrapped ? <Typography variant="subtitle2">{poll.header}</Typography> : undefined}
+            {poll?.header != null && poll.header != '' && !shouldHideExtras(poll, context) ? <Typography variant="subtitle2">{poll.header}</Typography> : undefined}
           </Box>}
         />
         <Navigator navigation={nav}>

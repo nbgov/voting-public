@@ -41,7 +41,7 @@ export const buildNBStartHandler: WorkerHandlerWithCtx<NBStartData, DockActionRe
       const actionRequests: (DockActionRequest | DockActionTemplate)[] = poll == null
         ? [] : prepareNewBelarusActionRequest(poll)
 
-      return actionRequests.map(
+      const result = actionRequests.map(
         request => ({
           ...request, challenge: nonce,
           allowedIssuers: request.credentialsRequired.map(
@@ -49,6 +49,8 @@ export const buildNBStartHandler: WorkerHandlerWithCtx<NBStartData, DockActionRe
           )
         })
       )
+
+      return result
     } catch (e) {
       serializeError(e)
       throw e

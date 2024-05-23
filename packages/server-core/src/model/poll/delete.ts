@@ -1,5 +1,5 @@
 import { type User, PollError } from '@smartapps-poll/common'
-import { DB_WORKER, QUEUE_DB_SYNC } from '../../queue/consts'
+import { ADMIN_WORKER, QUEUE_ADMIN } from '../../queue/consts'
 import type { WorkerHandlerWithCtx } from '../../queue/types'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import { AuhtorizationError, MalformedError } from '../../routes/errors'
@@ -7,9 +7,9 @@ import { MemberResource } from '../../resources/member'
 import { PollAuthorization, PollResource } from '../../resources/poll'
 
 export const buildPollDeleteHandler: WorkerHandlerWithCtx<{ id: string, user: User }, boolean> = ctx => ({
-  tags: [DB_WORKER],
+  tags: [ADMIN_WORKER],
 
-  queue: QUEUE_DB_SYNC,
+  queue: QUEUE_ADMIN,
 
   name: 'poll:delete',
 
@@ -41,5 +41,5 @@ export const buildPollDeleteHandler: WorkerHandlerWithCtx<{ id: string, user: Us
     }
   },
 
-  wait: makeWaitMethod(ctx, QUEUE_DB_SYNC, 'poll:delete')
+  wait: makeWaitMethod(ctx, ADMIN_WORKER, 'poll:delete')
 })

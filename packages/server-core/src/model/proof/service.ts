@@ -3,7 +3,7 @@ import type { PsActionTemplate, TelegramRequiredProof } from '@smartapps-poll/co
 import type { Context } from '../../types'
 import type { PollResource } from '../../resources/poll'
 import type { ProofResouce } from '../../resources/proof'
-import type { ProofService } from '../../resources/types'
+import type { ProofService } from './types'
 import { makeAuthorizePsResourceHandler } from './proofspace'
 import { makeAuthorizeNbResourceHandler } from './newbelarus'
 import { makeAuthorizeWpResourceHandler } from './webpass'

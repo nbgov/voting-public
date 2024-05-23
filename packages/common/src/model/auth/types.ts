@@ -14,7 +14,7 @@ export type TokenAuthenticationMethod = AuthenticationMethod<undefined> & {
   type: typeof AUTH_TYPE_TOKEN
 }
 
-export type TmpTokenAuthenticationMethod = AuthenticationMethod<Record<string, string>> & {
+export type TmpTokenAuthenticationMethod = AuthenticationMethod<Record<string, string | undefined>> & {
   type: AuthTmpTokenType
 }
 

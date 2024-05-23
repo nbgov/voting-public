@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
 export interface Toggleable {
   opened: boolean
@@ -24,4 +24,16 @@ export interface ModalBodyProps {
 
 export interface ModelManagerNotifier {
   (): void
+}
+
+export interface LoaderScreenProps extends PropsWithChildren {
+  hanlder: LoadableScreenHandler
+}
+
+export interface LoadableScreenHandler {
+  ready?: () => void
+}
+
+export interface LoadableScreen {
+  readyHandler?: LoadableScreenHandler
 }

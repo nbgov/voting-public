@@ -26,7 +26,10 @@
     "nth-check": "2.0.1",
     "glob-parent": "5.1.2",
     "@vocdoni/sdk/axios@npm:0.27.2": "1.6.8",
-    "axios": "1.6.8"
+    "axios": "1.6.8",
+    "postcss": "8.4.38",
+    "tar": "6.2.1",
+    "semver": "7.5.2"
   },
   "devDependencies": {
     "lerna": "^8.1.2"

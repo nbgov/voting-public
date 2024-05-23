@@ -5,8 +5,8 @@ import { buildVeriffInitHandler } from '../model/veriff/init'
 import { AxiosError } from 'axios'
 import { VeriffHookRequest } from '../model/veriff/types'
 import { buildVeriffHookHandler } from '../model/veriff/hook'
-import { verifyHookRequest } from '../model/veriff/util'
-import { AuthError, VeriffError } from '../model/errors'
+import { verifyHookRequest } from '../model/veriff/utils'
+import { AuthError, ERROR_EARLY_FAILURE, EarlyFailureError, VeriffError } from '../model/errors'
 import { buildStoreHelper } from '../model/redis'
 import { AuditOutcome, AuditStage } from '../model/audit/types'
 import { checkSchema } from 'express-validator'
@@ -68,6 +68,9 @@ export const veriff = {
       const store = buildStoreHelper(req.context)
       const pickup = await store.pick<VeriffFinalDecision>('veriff-pickup:' + token)
       if (pickup != null) {
+        if (pickup.status === ERROR_EARLY_FAILURE) {
+          throw new EarlyFailureError()
+        }
         res.send({ pickup })
         req.context.auditLogger.webPass(req, 'pickup', true)
         return
@@ -78,9 +81,14 @@ export const veriff = {
       if (req.context.config.devMode) {
         console.error(e)
       }
-      res.status(HTTP.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      if (e instanceof EarlyFailureError) {
+        res.status(HTTP.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+        req.context.auditLogger.webPass(req, 'pickup', AuditOutcome.ABUSE)
+      } else {
+        res.status(HTTP.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+        req.context.auditLogger.webPass(req, 'pickup')
+      }
       res.send()
-      req.context.auditLogger.webPass(req, 'pickup')
     }
   }) as RequestHandler<{}, { pickup: VeriffFinalDecision }>
 }

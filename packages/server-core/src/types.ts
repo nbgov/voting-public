@@ -51,7 +51,8 @@ export interface Config {
     url: string
     key: string
     secret: string
-  }
+  },
+  earlyFailure: boolean
 }
 
 export interface TelegramConfig {

@@ -136,7 +136,8 @@ export const config: Config = {
     url: process.env.VERIFF_API_URL ?? 'https://stationapi.veriff.com',
     key: _readConfig(process.env.VERIFF_API_KEY ?? ''),
     secret: _readConfig(process.env.VERIFF_API_SECRET ?? ''),
-  }
+  },
+  earlyFailure: !(process.env.SUPPRESS_EARLY_FAILURE === 'true')
 }
 
 console.log('Double check dev mode: ', config.devMode ? 'dev' : 'prod')

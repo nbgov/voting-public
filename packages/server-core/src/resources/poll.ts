@@ -1,4 +1,4 @@
-import { CensusStatus, checkRole, MemberRole, PollStatus, truncatePoll } from '@smartapps-poll/common'
+import { CensusStatus, checkRole, MemberRole, PollStatus, truncatePoll, VOCDONI_CSP_CENSUSES } from '@smartapps-poll/common'
 import type { Member, NewPoll, Pagination, Poll, PollInfo, User, Census } from '@smartapps-poll/common'
 import { createResourceBuilder } from '../db/resource'
 import { type Resource, type ResourceServiceBuilder } from '../db/types'
@@ -273,7 +273,11 @@ export const buildPollResourceService: ResourceServiceBuilder = (res, ctx) => {
         (poll.managerId != null && poll.managerId !== manager.externalId)) {
         throw new PollManagerError('poll.update.unautorized')
       }
-      machine: switch (poll.status) { // eslint-disable-line
+      const status = VOCDONI_CSP_CENSUSES.includes(poll.census?.type ?? '')
+        && poll.status === PollStatus.PUBLISHED
+        ? PollStatus.UNPUBLISHED
+        : poll.status
+      machine: switch (status) { // eslint-disable-line
         case PollStatus.UNPUBLISHED:
           const fieldsToUpdate = [
             'title', 'code', 'header', 'description', 'registrationEnd', 'startDate', 'endDate', 'questions'

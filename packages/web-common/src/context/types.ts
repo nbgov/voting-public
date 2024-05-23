@@ -45,6 +45,8 @@ export interface CommonConfig {
   hideWebPass: boolean
   hiddenStrategies: string[]
   geoCheckURL?: string
+  forceVPN: boolean
+  vpnCounter: boolean
 }
 
 export interface APIConfigurationOverride {

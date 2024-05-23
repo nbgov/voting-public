@@ -1,5 +1,5 @@
 import { type User, type Poll, PollError, VOCDONI_CENSUS_OFFCHAIN, type RequiredProof, type NewPoll } from '@smartapps-poll/common'
-import { DB_WORKER, QUEUE_DB_SYNC } from '../../queue/consts'
+import { ADMIN_WORKER, QUEUE_ADMIN } from '../../queue/consts'
 import type { WorkerHandlerWithCtx } from '../../queue/types'
 import { makeWaitMethod, serializeError } from '../../queue/utils'
 import { IntegrationError } from '../errors'
@@ -9,9 +9,9 @@ import type { PollResource } from '../../resources/poll'
 import { buildProofMeta } from '../proof'
 
 export const buildPollCreateHandler: WorkerHandlerWithCtx<{ poll: NewPoll, user: User }, Poll> = ctx => ({
-  tags: [DB_WORKER],
+  tags: [ADMIN_WORKER],
 
-  queue: QUEUE_DB_SYNC,
+  queue: QUEUE_ADMIN,
 
   name: 'poll:create',
 
@@ -52,5 +52,5 @@ export const buildPollCreateHandler: WorkerHandlerWithCtx<{ poll: NewPoll, user:
     }
   },
 
-  wait: makeWaitMethod(ctx, QUEUE_DB_SYNC, 'poll:create')
+  wait: makeWaitMethod(ctx, QUEUE_ADMIN, 'poll:create')
 })

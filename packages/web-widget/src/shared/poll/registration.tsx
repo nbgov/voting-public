@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import { type Poll, getRegistrationEndInterval, isProofRequired, getStartDateInterval, prepareViewQustions } from '@smartapps-poll/common'
 import {
   ConditionInfo, ProgressButton, ProofspaceAuthChoiceAsync, AuthorizationChoice, ProofspaceIntegratedAuthAsync,
-  ProofspaceIntegratedAuthorization, useTgAuthentication, useToggle
+  ProofspaceIntegratedAuthorization, useTgAuthentication, useToggle, isViewWrapped
 } from '@smartapps-poll/web-common'
 import { useMemo, type FC } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -21,8 +21,8 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Box from '@mui/material/Box'
 import { PollQuestion } from './questions'
 import { isCspCensus } from '../../helpers'
-import { useSmallPaddings } from '../helpers'
-import { isViewWrapped } from './utils'
+import { useSmallPaddings, useSmalllUI } from '../helpers'
+import { Guide } from './guide'
 
 export const PollViewRegistration: FC<PollViewRegistrationProps> = ({
   poll, status, onRegister, onRefresh
@@ -79,6 +79,8 @@ export const PollViewRegistration: FC<PollViewRegistrationProps> = ({
 
   const paddingStyle = useSmallPaddings()
 
+  const small = useSmalllUI()
+
   return <>
     {auth.opened
       ? <CardContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -96,8 +98,8 @@ export const PollViewRegistration: FC<PollViewRegistrationProps> = ({
         <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" columnSpacing={3}>
           <Grid item sm={8} xs={12} mb={1}>
             <FormProvider {...methods}>
-              <Typography variant="body1" gutterBottom mb={2}>{poll.description}</Typography>
-              <Box mb={2}>
+              {!small ? <Typography variant="body1" gutterBottom mb={0}>{poll.description}</Typography> : undefined}
+              <Box mb={0}>
                 {helper.hasGolos || isWrapped ? undefined : <ConditionInfo poll={poll} noBorder />}
               </Box>
               {questions.map(
@@ -145,6 +147,7 @@ export const PollViewRegistration: FC<PollViewRegistrationProps> = ({
                 }
               </CardActions>
             </Card>}
+            <Guide poll={poll} noBorder />
           </Grid>
         </Grid>
       </CardContent>

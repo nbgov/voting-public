@@ -6,6 +6,7 @@ export interface NBStartData {
 
 export interface NBVerifyData {
   votingId: string
+  ip: string
   user: User
   body: Record<string, unknown>[]
 }

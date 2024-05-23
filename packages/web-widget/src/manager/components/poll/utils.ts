@@ -69,6 +69,8 @@ export const makeCodeValidationRules = (t: TFunction) => ({
   pattern: { value: /^([A-Z]|[0-9]|[-:#])*$/, message: t('error.code') ?? '' }
 })
 
-export const isStatusEditable = (poll: PollInfo): boolean => isCspCensus(poll)
-  ? [PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll.status)
-  : PollStatus.UNPUBLISHED === poll.status
+export const isStatusEditable = (poll: PollInfo): boolean => !(
+  isCspCensus(poll)
+    ? [PollStatus.UNPUBLISHED, PollStatus.PUBLISHED].includes(poll.status)
+    : PollStatus.UNPUBLISHED === poll.status
+)

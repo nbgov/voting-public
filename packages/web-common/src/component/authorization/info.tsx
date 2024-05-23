@@ -21,13 +21,14 @@ export const ConditionInfo: FC<ConditionInfoProps> = ({ poll, back, noBorder }) 
   const { t } = useTranslation(undefined, { keyPrefix: 'condition.info' })
 
   const open = (url?: string) => () => window.open(url, '_blank')
-
+  noBorder = noBorder != null && noBorder
   const guideUrl = poll?.requiredProofs?.find(proof => proof.guideUrl != null)?.guideUrl
-  return <Card style={noBorder != null && noBorder ? { border: "none", boxShadow: "none" } : {}}>
-    <CardHeader title={t('title')} />
-    <CardContent>
-      <Typography>{t('guide')}</Typography>
-      <Button onClick={open(guideUrl)} variant="contained" startIcon={<ContactSupportIcon />}>{t('guideUrl')}</Button>
+  return <Card sx={noBorder ? { border: "none", boxShadow: "none", px: 0, mx: 0 } : {}}>
+    {!noBorder ? <CardHeader titleTypographyProps={{ variant: 'h6' }} title={t('title')} /> : undefined}
+    <CardContent sx={noBorder ? { px: 0, mx: 0, pt: 0 } : {}}>
+      {!noBorder ? <Typography>{t('guide')}</Typography> : undefined}
+      {!noBorder ? <Button onClick={open(guideUrl)} variant="text"
+        startIcon={<ContactSupportIcon />}>{t('guideUrl')}</Button> : undefined}
       {
         poll?.requiredProofs?.map(proof => {
           if (ctx.config.hideProofspace && proof.type === PROOFSPACE_STRATEGY) {
@@ -43,8 +44,10 @@ export const ConditionInfo: FC<ConditionInfoProps> = ({ poll, back, noBorder }) 
             return
           }
 
-          return <Box key={proof.type} mt={2}>
-            <Typography variant="h5">{t(`${proof.type}.title`)}</Typography>
+          return <Box key={proof.type} mt={0}>
+            {proof.type !== WEBPASS_STRATEGY
+              ? <Typography variant="h5">{t(`${proof.type}.title`)}</Typography>
+              : undefined}
             {(() => {
               switch (proof.type) {
                 case PROOFSPACE_STRATEGY:
@@ -71,9 +74,10 @@ export const ConditionInfo: FC<ConditionInfoProps> = ({ poll, back, noBorder }) 
                       variant="contained" sx={{ mt: 1 }}>{t('telegram.bot')}</Button>
                   </>
                 case WEBPASS_STRATEGY:
-                  return <>
-                    <Typography>{t('webpass.info')}</Typography>
-                  </>
+                  // return <>
+                  //   <Typography>{t('webpass.info')}</Typography>
+                  // </>
+                  return <ol>{[0, 1, 2, 3].map(n => <li key={`li-${n}`}><Typography>{t(`webpass.point-${n.toString()}`)}</Typography></li>)}</ol>
               }
             })()}
           </Box>

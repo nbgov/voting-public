@@ -1,7 +1,7 @@
 import { Queue, QueueEvents, Worker } from 'bullmq'
 import type { Context } from '../types'
 import type { JobProcessor, QueueManager, QueueWrapper } from './types'
-import { ALGO_CONCURENCY, DB_CONCURRENCY, PREFIX, QUEUE_ALGO_SYNC, QUEUE_DB_SYNC, QUEUE_REMOTE_SYNC, REMOTE_CONCURRENCY } from './consts'
+import { PREFIX, queueOptions } from './consts'
 import { createRedis } from '../model/redis'
 
 export const createQueue = (context: Context): QueueManager => {
@@ -54,7 +54,7 @@ export const createQueue = (context: Context): QueueManager => {
         _workers[queue] = new Worker(_qn(queue), async job => {
           context.config.devMode && console.log(`Try: ${queue}:${job.name}`)
           return _listeneres[queue][job.name](job)
-        }, { connection, prefix: _perfix(queue), ...opts })
+        }, { connection, prefix: _perfix(queue), ...(queueOptions[queue] ?? {}), ...opts })
         _listeneres[queue] = {}
       }
       _listeneres[queue][job] = listner
@@ -66,21 +66,6 @@ export const createQueue = (context: Context): QueueManager => {
       _manager.get(queue)
       await _queues[queue].client
       await _queues[queue].removeRepeatable(job, opts)
-    },
-
-    remote: {
-      get: () => _manager.get(QUEUE_REMOTE_SYNC),
-      listen: (job, listener) => _manager.listen(QUEUE_REMOTE_SYNC, job, listener, { concurrency: REMOTE_CONCURRENCY })
-    },
-
-    db: {
-      get: () => _manager.get(QUEUE_DB_SYNC),
-      listen: (job, listener) => _manager.listen(QUEUE_DB_SYNC, job, listener, { concurrency: DB_CONCURRENCY })
-    },
-
-    algo: {
-      get: () => _manager.get(QUEUE_ALGO_SYNC),
-      listen: (job, listener) => _manager.listen(QUEUE_ALGO_SYNC, job, listener, { concurrency: ALGO_CONCURENCY })
     }
   }
 

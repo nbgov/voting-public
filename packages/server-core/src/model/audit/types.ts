@@ -2,6 +2,7 @@ import type { Request } from 'express'
 import type { WorkerHandler } from '../../queue/types'
 import type { Context } from '../../types'
 import type { Logger } from 'winston'
+import type { VeriffRiskPart } from '../veriff/types'
 
 export interface AuditLogger {
   logger?: Logger
@@ -11,6 +12,7 @@ export interface AuditLogger {
   proofspace: (did: string, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
   nb: (req: Request, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
   webPass: (req: Request, process: string, outcome?: AuditOutcome | boolean, stage?: AuditStage) => void
+  veriffRisk: (ip: string, source: string, payload: VeriffRiskPart, outcome?: AuditOutcome | boolean, process?: string, stage?: AuditStage) => void
   vocdoni: (req: Request, process: string, outcome?: AuditOutcome | boolean,  stage?: AuditStage) => void
   createMeta: (req: Request) => AuditLoggerMeta
   setContext: (ctx: Context) => void
@@ -20,6 +22,7 @@ export interface AuditLoggerMessageParams {
   process: string
   stage: AuditStage
   outcome: AuditOutcome
+  payload?: any
 }
 
 export interface AuditLoggerMessageData extends AuditLoggerMessageParams {

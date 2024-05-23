@@ -35,10 +35,22 @@ export interface VeriffHookDecision {
       country: string
       type: string
     }
-  }
+  } & VeriffRiskPart
   technicalData: {
     ip: string
   }
+}
+
+export interface VeriffRiskPart {
+  riskScore?: {
+    score: number
+  }
+  riskLabels?: VeriffRiskLabel[]
+}
+
+export interface VeriffRiskLabel {
+  label: string
+  category: string
 }
 
 export interface PollVerification {
@@ -71,4 +83,10 @@ export enum VeriffActions {
 export interface VeriffService {
   deleteSession: (id: string) => Promise<boolean> 
   createSession: (customData: string) => Promise<VeriffNewSession>
+  loadDecision: (id: string, options?: VeriffCallOptions) => Promise<VeriffHookDecision|undefined>
+}
+
+export interface VeriffCallOptions {
+  key?: string
+  secret?: string
 }
